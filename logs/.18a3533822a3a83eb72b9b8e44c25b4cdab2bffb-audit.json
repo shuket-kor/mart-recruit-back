@@ -1,0 +1,14 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "D:\\Project\\mart-recruit\\mart-recruit-back\\logs\\.18a3533822a3a83eb72b9b8e44c25b4cdab2bffb-audit.json",
+    "files": [
+        {
+            "date": 1618899002399,
+            "name": "D:\\Project\\mart-recruit\\mart-recruit-back\\logs\\error-2021-04-20.log",
+            "hash": "d2f18ad44e5edb7f6c157d0274b8173b"
+        }
+    ]
+}
