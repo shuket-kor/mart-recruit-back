@@ -1,0 +1,67 @@
+<%- contentFor('css') %>
+
+<%- contentFor('content') %>
+<div class="content">
+    <div class="container">
+
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <ol class="breadcrumb pull-right">
+                        <li><a href="#">Home</a></li>
+                        <li class="active">마트관리</li>
+                    </ol>
+                    <h4 class="page-title">마트관리</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-body">aaa</div>
+        </div>
+        <div class="panel">
+            <div class="panel-body">
+                <table class="table table-striped" id="datatable-editable">
+                    <thead>
+                        <tr>
+                            <th>마트명</th>
+                            <th>마트로고</th>
+                            <th>사업자등록번호</th>
+                            <th>주소</th>
+                            <th>연락처</th>
+                            <th>생성일</th>                            
+                            <th>수정일</th>
+                            <th>인사담당자</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>                       
+                        <tr class="gradeA">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="actions">
+                                <a href="#" class="on-default edit-row" onclick="javascript:editMart(76);"><i class="fa fa-pencil"></i></a>
+                                <a href="#" class="on-default remove-row" onclick="javascript:removeMart(76);"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>                                                                 
+                    </tbody>
+                </table>
+                <div class="row" style="text-align: center;">
+                    <ul class="pagination pagination-split" id="users-page"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end container -->
+</div>
+
+
+<%- contentFor('script') %>

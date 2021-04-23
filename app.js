@@ -24,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/assets', express.static(path.join(__dirname, '/assets/')));
 app.use('/', express.static(path.join(__dirname, '/')));
 
+app.set('baseTitle', '마트협회구인구직');
 if (process.env.NODE_ENV == 'develope') {
   app.set('mediaPath', 'http://localhost:3000/pdsData/media');
   app.set('hostName', 'http://localhost:3000');
@@ -33,6 +34,7 @@ if (process.env.NODE_ENV == 'develope') {
 }
 
 app.use('/', require('./routes/index'));
+app.use('/mart', require('./routes/mart'));
 
 app.use(
   morgan('combined', 
