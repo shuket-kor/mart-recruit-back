@@ -1,14 +1,185 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <%-style %>
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <%-content %>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
+        <meta name="author" content="Coderthemes">
 
-    <%-script %>
-  </body>
+        <link rel="shortcut icon" href="/assets/images/favicon_1.ico">
+
+        <title><%= title %></title>
+
+        <!-- <link href="/plugins/switchery/switchery.min.css" rel="stylesheet" /> -->
+        <link href="/plugins/bootstrap-sweetalert/sweet-alert.css" rel="stylesheet" type="text/css" />
+        <link href="/plugins/switchery/switchery.min.css" rel="stylesheet" />
+
+        <%-css %>        
+
+        <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="/assets/css/core.css" rel="stylesheet" type="text/css">
+        <link href="/assets/css/icons.css" rel="stylesheet" type="text/css">
+        <link href="/assets/css/components.css" rel="stylesheet" type="text/css">
+        <link href="/assets/css/pages.css" rel="stylesheet" type="text/css">
+        <link href="/assets/css/menu.css" rel="stylesheet" type="text/css">
+        <link href="/assets/css/responsive.css" rel="stylesheet" type="text/css">
+
+        <script src="/assets/js/modernizr.min.js"></script>     
+
+        <script>
+            var hostName = '<%=hostName %>';
+        </script>
+    </head>
+
+    <body class="fixed-left">
+        
+        <!-- Begin page -->
+        <div id="wrapper">
+        
+            <!-- Top Bar Start -->
+            <div class="topbar">
+
+                <!-- LOGO -->
+                <div class="topbar-left">
+                    <div class="text-center">
+                        <a href="/" class="logo"><i class="md md-business"></i> <span>[구인구직관리자]]</span> </a>
+                    </div>
+                </div>
+
+                <!-- Navbar -->
+                <div class="navbar navbar-default" role="navigation">
+                    <div class="container">
+                        <div class="">
+                            <div class="pull-left">
+                                <button class="button-menu-mobile open-left waves-effect">
+                                    <i class="md md-menu"></i>
+                                </button>
+                                <span class="clearfix"></span>
+                            </div>
+                        </div>
+                        <!--/.nav-collapse -->
+                    </div>
+                </div>
+            </div>
+            <!-- Top Bar End -->
+
+
+            <!-- ========== Left Sidebar Start ========== -->
+            <div class="left side-menu">
+                <div class="sidebar-inner slimscrollleft">
+
+                    <div id="sidebar-menu">
+                        <ul>
+                            <li class="menu-title"></li>
+
+                            <li>
+                                <a href="/" class="waves-effect waves-primary"><i class="ti-home"></i><span> Dashboard </span></a>
+                            </li>
+                            <li class="menu-title">Communication</li>
+                            <li>
+                                <a href="/notice" class="waves-effect waves-primary"><i class="md md-messenger"></i><span> 공지사항</span>
+                                    <span class="badge badge-pink pull-right" id="notice-all-count"><%=unreadNoticeCount %></span></a>
+                            </li>
+                            <li class="menu-title">Manage</li>
+                            <li>
+                                <a href="/user/list" class="waves-effect waves-primary"><i class="md md-business"></i><span> 사용자 관리 </span></a>
+                            </li>
+
+                            <li class="menu-title">Contents</li>
+                            <li>
+                                <a href="/mart/list" class="waves-effect waves-primary"><i class="md md-local-library"></i><span> 마트 관리 </span></a>
+                            </li>
+                            <li>
+                                <a href="/resume/list" class="waves-effect waves-primary"><i class="md md-hearing"></i><span> 이력서 관리 </span></a>
+                            </li>
+                            <li>
+                                <a href="/resume/certificate" class="waves-effect waves-primary"><i class="md md-share"></i><span> 이력서 인증 관리 </span></a>
+                            </li>
+
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="user-detail">
+                    <div class="dropup">
+                        <a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true">
+                            <img src="/assets/images/avatar.jpg" class="img-circle" alt="profile-image">
+                            <span class="user-info-span">
+                                <h5 class="m-t-0 m-b-0" id="login-name"></h5>
+                                <p class="text-muted m-b-0">
+                                    <small><i class="fa fa-circle text-success"></i> <span>Online</span></small>
+                                </p>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/auth/logout"><i class="md md-settings-power"></i> Logout</a></li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Left Sidebar End --> 
+
+
+
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->                      
+            <div class="content-page">
+
+                <%-content %>
+
+
+
+                <footer class="footer text-right">
+                    2020 © mbk
+                </footer>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- END wrapper -->
+
+
+    
+        <script>
+            var resizefunc = [];
+        </script>
+
+        <!-- Plugins  -->
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="/assets/js/bootstrap.min.js"></script>
+        <script src="/assets/js/detect.js"></script>
+        <script src="/assets/js/fastclick.js"></script>
+        <script src="/assets/js/jquery.slimscroll.js"></script>
+        <script src="/assets/js/jquery.blockUI.js"></script>
+        <script src="/assets/js/waves.js"></script>
+        <script src="/assets/js/wow.min.js"></script>
+        <script src="/assets/js/jquery.nicescroll.js"></script>
+        <script src="/assets/js/jquery.scrollTo.min.js"></script>
+        <script src="/plugins/switchery/switchery.min.js"></script>
+        
+        <script src="/plugins/bootstrap-sweetalert/sweet-alert.min.js"></script>
+        <script src="/assets/pages/jquery.sweet-alert.init.js"></script>
+        <!-- Custom main Js -->
+        <script src="/assets/js/jquery.core.js"></script>
+        <script src="/assets/js/jquery.app.js"></script>
+
+        <script src="/assets/js/common.js"></script>
+
+        <%-script %>
+        
+        <script type="text/javascript">
+            $(document).ready(function($) {
+
+                // $('#login-name').html(nick + '(' + name + ')');
+            });
+
+        </script>        
+    </body>
 </html>

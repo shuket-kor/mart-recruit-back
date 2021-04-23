@@ -1,0 +1,32 @@
+.recent_heading {float: left; width:40%;}
+.srch_bar {
+  display: inline-block;
+  text-align: right;
+  width: 60%; 
+}
+
+.headind_srch{overflow:none}
+.srch_bar input{ border:1px solid #cdcdcd; border-width:0 0 1px 0; width:80%; padding:2px 0 4px 6px; background:none;}
+.srch_bar .input-group-addon-chat button {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: medium none;
+  padding: 0;
+  color: #707070;
+  font-size: 18px;
+}
+.srch_bar .input-group-addon-chat { margin: 0 0 0 -27px;}
+
+.conversation-list {
+  min-height: 330px !important;
+  max-height: 330px !important;
+}
+
+.conversation-list .chat-time i {
+  font-size: 12px;
+  font-style: normal;
+}
+
+.btn-send {
+  background-color: #ffeb34 !important;
+  border: 1px solid #cccccc !important;
+}

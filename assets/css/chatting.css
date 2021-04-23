@@ -1,0 +1,177 @@
+.recent_heading {float: left; width:40%;}
+.srch_bar {
+  display: inline-block;
+  text-align: right;
+  width: 60%; 
+}
+
+.headind_srch{overflow:none}
+.srch_bar input{ border:1px solid #cdcdcd; border-width:0 0 1px 0; width:80%; padding:2px 0 4px 6px; background:none;}
+.srch_bar .input-group-addon-chat button {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: medium none;
+  padding: 0;
+  color: #707070;
+  font-size: 18px;
+}
+.srch_bar .input-group-addon-chat { margin: 0 0 0 -27px;}
+
+.conversation-list {
+  /* min-height: 330px; */
+}
+
+.conversation-list .chat-time i {
+  font-size: 12px;
+  font-style: normal;
+}
+
+html {
+  background: #ffffff;
+}
+.card-box {
+  border: 0px;
+  margin-bottom: 0px;
+}
+.container {
+  padding-top: 15px;
+}
+.card-box {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.mx-box {
+  max-height: max-content !important;
+}
+.nav.nav-tabs + .tab-content {
+  padding: 5px !important;
+}
+.inbox-widget .inbox-item .inbox-item-img {
+  margin-left: 15px;
+}   
+.inbox-widget .inbox-item img {
+  width: 40px;
+  height: 40px;
+}
+.img-circle {
+  border-radius: 40%;
+}
+.inbox-widget .inbox-item {
+  border-bottom: 0px;
+}
+.inbox-widget .inbox-item .inbox-item-author {
+  font-weight: 700;
+}
+.inbox-widget .inbox-item .inbox-item-date {
+  top: 10px;
+}
+.unreadCount {
+  position: absolute;
+  right: 7px;
+  top: 30px;
+}
+.card-box {
+  border: 0px;
+  margin-bottom: 0px;
+}
+.container {
+  padding-top: 15px;
+}
+.card-box {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.widget-user {
+  min-height: 60px;
+  padding: 15px;
+  background-color:#63758c;
+}
+.widget-user img {
+  width: 40px;
+  height: 40px;
+  float: left;
+  border-radius: 40%;
+}
+.widget-user .wid-u-info {
+  margin-left: 50px;
+}
+.wid-u-info small {
+  color: #a0abc7;
+}
+#chatroom {
+  padding-top: 5px;
+}
+.chat-avatar img {
+  width: 40px;
+  height: 40px;
+  border-radius: 40% !important;
+}
+.chat-conversation {
+  overflow: auto;
+  background-color:#677bad;
+}
+.conversation-list {
+  padding: 0px 10px;
+  height: 100%vh;
+}
+.conversation-list .ctext-wrap {
+  background: #ffffff;
+}
+.conversation-list .odd .ctext-wrap {
+  background-color:#ffeb34 !important;
+  text-align: left;
+}
+.conversation-list .odd .ctext-wrap:after {
+  border-color: rgba(255, 235, 52, 0) !important;
+  border-left-color: #ffeb34 !important;
+}
+.chat-sender {
+  margin-bottom: 5px;
+}
+.input-area {
+  padding: 10px 5px 5px 10px;
+}
+.chat-time {
+  color:#eeeeee;
+}
+.chat-input-area {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  background-color: #ffffff;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.inputWrapper {
+  height: 32px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  /*Using a background color, but you can use a background image to represent a button*/
+}
+.fileInput {
+  cursor: pointer;
+  height: 100%;
+  position:absolute;
+  top: 0;
+  right: 0;
+  z-index: 99;
+  /*This makes the button huge. If you want a bigger button, increase the font size*/
+  font-size:50px;
+  /*Opacity settings for all browsers*/
+  opacity: 0;
+  -moz-opacity: 0;
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0)
+}
+.btn-send {
+  background-color: #ffeb34 !important;
+  border: 1px solid #cccccc !important;
+}
+.writeMessage-base {
+  height: 36px !important;
+}
+.writeMessage-ext {
+  height: 100px !important;
+}

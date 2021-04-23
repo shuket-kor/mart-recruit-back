@@ -1,8 +1,9 @@
 // process.env.NODE_ENV = "production";
-process.env.NODE_ENV = "develope";
+process.env.NODE_ENV = 'develope';
 
 var createError = require('http-errors');
 var express = require('express');
+var expressLayouts = require('express-ejs-layouts');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 const morgan = require('morgan');
@@ -15,10 +16,21 @@ app.set('views', path.join(__dirname, './app/views'));
 app.set('view engine', 'ejs');
 
 app.use(morgan('dev'));
+app.use(expressLayouts);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/assets', express.static(path.join(__dirname, '/assets/')));
+app.use('/', express.static(path.join(__dirname, '/')));
+
+if (process.env.NODE_ENV == 'develope') {
+  app.set('mediaPath', 'http://localhost:3000/pdsData/media');
+  app.set('hostName', 'http://localhost:3000');
+} else {
+  app.set('mediaPath', 'http://192.168.1.28:3000/pdsData/media');
+  app.set('hostName', 'http://210.116.118.230:3000');
+}
 
 app.use('/', require('./routes/index'));
 
