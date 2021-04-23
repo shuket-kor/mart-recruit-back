@@ -6,6 +6,7 @@
 
 2021-04-23 10:32:07 info: ::1 - - [23/Apr/2021:01:32:07 +0000] "GET /pdsData/media/avatar/avatar-1.jpg HTTP/1.1" 404 1531 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36"
 
+<<<<<<< HEAD
 2021-04-23 11:25:53 info: ::1 - - [23/Apr/2021:02:25:53 +0000] "GET /notice HTTP/1.1" 404 1630 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36"
 
 2021-04-23 11:25:53 info: ::1 - - [23/Apr/2021:02:25:53 +0000] "GET /favicon.ico HTTP/1.1" 404 1630 "http://localhost:8080/notice" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36"
@@ -245,4 +246,7 @@
 2021-04-23 16:54:21 info: ::1 - - [23/Apr/2021:07:54:21 +0000] "GET /assets/css/bootstrap.min.css.map HTTP/1.1" 404 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36"
 
 2021-04-23 16:55:41 info: ::1 - - [23/Apr/2021:07:55:41 +0000] "GET /assets/css/bootstrap.min.css.map HTTP/1.1" 404 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36"
+=======
+2021-04-23 15:58:38 info: ::1 - - [23/Apr/2021:06:58:38 +0000] "GET /mart HTTP/1.1" 404 1531 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36"
+>>>>>>> 4a5e4fab5f0b20f380d7fb1f7e9dc996aff285e2
 
