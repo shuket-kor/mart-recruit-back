@@ -85,6 +85,7 @@ module.exports = class userService {
             });
             if (body.result === "success") {
                 console.log("body.result === success");
+                console.log(body.data);
                 return body.data;
             } else {
                 //실패
@@ -100,8 +101,8 @@ module.exports = class userService {
         try {
             console.log("paging Service 들어옴");
             var apiURL = "";
-            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users";
-            else apiURL = `http://localhost:3000/api/users`;
+            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/paging/:currentPage";
+            else apiURL = `http://localhost:3000/api/users/paging/:currentPage`;
 
             var {body} = await got.get(apiURL, {
                 headers: {
