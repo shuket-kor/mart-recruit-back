@@ -13,7 +13,7 @@ module.exports = {
     //         info: userInfo,
     //     });
     // },
-    
+
     // // 유저 조회
     // async getuser(req, res, next) {
     //     let token = req.cookies.xToken;
@@ -33,39 +33,35 @@ module.exports = {
         // console.log(getuser.data[0].LOGINID)
         // console.log(getuser.data);
         // console.log(getuser)
-        res.render('userlist', { 
-            layout: 'layouts/default',
-            title : 'test',
-            hostName: req.app.get('host_name'),
-            mediaPath: req.app.get('mediaPath'),
+        res.render("userlist", {
+            layout: "layouts/default",
+            title: "test",
+            hostName: req.app.get("host_name"),
+            mediaPath: req.app.get("mediaPath"),
             unreadNoticeCount: 0,
             // id:getuser.data[i].LOGINID,
             // usertype:getuser.data[i].USERTYPE,
             // list: JSON.stringify(getuser.data)
-            list: getUserList
-          });
+            list: getUserList,
+        });
     },
     async paging(req, res, next) {
-        // let token = req.cookies.xToken;
-        // console.log("token ? ? " + token);
+        // let cnt = await userService.userCount();
         let page = await userService.paging();
-
-        // console.log(getuser.data[0].LOGINID)
-        // console.log(getuser.data);
-        // console.log(getuser)
-        res.render('userlist', { 
-            layout: 'layouts/default',
-            title : 'test',
-            hostName: req.app.get('host_name'),
-            mediaPath: req.app.get('mediaPath'),
+        console.log("페이징 진입")
+        res.render("userlist", {
+            layout: "layouts/default",
+            title: "test",
+            hostName: req.app.get("host_name"),
+            mediaPath: req.app.get("mediaPath"),
             unreadNoticeCount: 0,
             // id:getuser.data[i].LOGINID,
             // usertype:getuser.data[i].USERTYPE,
             // list: JSON.stringify(getuser.data)
-            list: page
-          });
+            list: page,
+        });
     },
-    
+
     // // 유저 생성
     // async create(req, res, next) {
     //     const body = req.body;
@@ -87,7 +83,7 @@ module.exports = {
     //         info: userUpdate,
     //     });
     // },
-    
+
     // // 유저 삭제
     // async delete(req, res, next) {
     //     const body = req.body;
