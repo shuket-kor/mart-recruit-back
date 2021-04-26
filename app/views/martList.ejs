@@ -10,18 +10,43 @@
                 <div class="page-title-box">
                     <ol class="breadcrumb pull-right">
                         <li><a href="#">Home</a></li>
-                        <li class="active">마트관리</li>
+                        <li class="active">마트 관리</li>
                     </ol>
-                    <h4 class="page-title">마트관리</h4>
+                    <h4 class="page-title">마트 관리</h4>
                 </div>
             </div>
         </div>
 
         <div class="panel">
-            <div class="panel-body">aaa</div>
+            <div class="panel-body">
+                <div class="row">
+                    <label class="col-md-2 col-form-label" for="simpleinput">지역</label>
+                    <div class="col-md-10">
+                <% if (regionList) {
+                    regionList.forEach(region => {%>
+                    <div class="m-r-10 pull-left"> 
+                        <input id="region_<%=region.SEQ %>" type="checkbox" class="m-r-5" <%=(region.SEQ == 18) ? 'checked' : '' %>> <%=region.NAME %>
+                    </div>
+                <%}) 
+                } %>
+                    </div>
+                </div>
+                <div class="m-b-10 m-t-10 row">
+                    <label class="col-md-2 col-form-label" for="simpleinput">마트명</label>
+                    <div class="col-md-10">
+                        <input type="text" id="simpleinput" class="form-control" value="검색할 마트명의 일부를 입력하세요">
+                    </div>
+                </div>
+                <div class="m-b-10 m-t-10 row">
+                    <div class="col-md-10 col-md-offset-2">
+                        <button type="button" class="btn btn-inverse waves-effect waves-light btn-md" id="addNew">검색 <i class="fa fa-search"></i></button>        
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="panel">
-            <div class="panel-body">
+            <div class="panel-body table-responsive">
+                <button type="button" class="btn btn-primary waves-effect waves-light m-l-10 btn-md pull-right" id="addNew">마트 추가 <i class="fa fa-plus"></i></button>
                 <table class="table table-striped" id="datatable-editable">
                     <thead>
                         <tr>
@@ -38,7 +63,7 @@
                     </thead>
                     <tbody>                       
                         <tr class="gradeA">
-                            <td></td>
+                            <td><% %></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -62,6 +87,5 @@
     </div>
     <!-- end container -->
 </div>
-
 
 <%- contentFor('script') %>

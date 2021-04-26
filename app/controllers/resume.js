@@ -6,9 +6,9 @@ module.exports = {
         // 지역 리스트를 얻는다
         const regionList = await commonService.getWorkingRegion();
 
-        res.render('martList', { 
+        res.render('resumeList', { 
             layout: 'layouts/default',
-            title : req.app.get('baseTitle') + ' 마트관리',
+            title : req.app.get('baseTitle') + ' 이력서 관리',
             hostName: req.app.get('hostName'),
             mediaPath: req.app.get('mediaPath'),
             unreadNoticeCount: 0,

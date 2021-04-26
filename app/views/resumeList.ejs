@@ -1,0 +1,100 @@
+<%- contentFor('css') %>
+
+<%- contentFor('content') %>
+<div class="content">
+    <div class="container">
+
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <ol class="breadcrumb pull-right">
+                        <li><a href="#">Home</a></li>
+                        <li class="active">이력서 관리</li>
+                    </ol>
+                    <h4 class="page-title">이력서 관리</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-body">
+                <div class="row">
+                    <label class="col-md-2 col-form-label" for="simpleinput">지역</label>
+                    <div class="col-md-10">
+                <% if (regionList) {
+                    regionList.forEach(region => {%>
+                    <div class="m-r-10 pull-left"> 
+                        <input id="region_<%=region.SEQ %>" type="checkbox" class="m-r-5" <%=(region.SEQ == 18) ? 'checked' : '' %>> <%=region.NAME %>
+                    </div>
+                <%}) 
+                } %>
+                    </div>
+                </div>
+                <div class="m-b-10 m-t-10 row">
+                    <label class="col-md-2 col-form-label" for="simpleinput">이름</label>
+                    <div class="col-md-10">
+                        <input type="text" id="simpleinput" class="form-control" value="검색할 이력서의 이름 일부를 입력하세요">
+                    </div>
+                </div>
+                <div class="m-b-10 m-t-10 row">
+                    <label class="col-md-2 col-form-label" for="simpleinput">인증여부</label>
+                    <div class="col-md-10">
+                        <select class="form-control" id="examClassList">                           
+                            <option value="378" selected="">전체</option>                       
+                            <option value="379">인증 완료</option>
+                            <option value="379">인증 대기</option>
+                            <option value="379">자료 없음</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="m-b-10 m-t-10 row">
+                    <div class="col-md-10 col-md-offset-2">
+                        <button type="button" class="btn btn-inverse waves-effect waves-light btn-md" id="addNew">검색 <i class="fa fa-search"></i></button>        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-body table-responsive">
+                <table class="table table-striped" id="datatable-editable">
+                    <thead>
+                        <tr>
+                            <th>이름</th>
+                            <th>연락처</th>
+                            <th>경력</th>
+                            <th>희망지역</th>
+                            <th>직종</th>
+                            <th>인증</th>                            
+                            <th>수정일</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>                       
+                        <tr class="gradeA">
+                            <td><% %></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="actions">
+                                <a href="#" class="on-default edit-row" onclick="javascript:certificateResume(76);"><i class="fa fa-pencil"></i></a>
+                                <a href="#" class="on-default remove-row" onclick="javascript:removeResume(76);"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>                                                                 
+                    </tbody>
+                </table>
+                <div class="row" style="text-align: center;">
+                    <ul class="pagination pagination-split" id="users-page"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end container -->
+</div>
+
+<%- contentFor('script') %>
