@@ -50,20 +50,40 @@
             <% }) %>
         </table>
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12" style="float: right;">
                 <%
-                if (currentPage > 1) {
-                %> 
-                    <a href='/list/<%=model.currentPage-1%>'>이전</a> 
-                <%    
-                }
-                if (currentPage < lastPage) {
-                %>        
-                    <a href='/list/<%=model.currentPage+1%>'>다음</a>   
-                <%    
-                }
-                %> 
-
+                var curSet = curSet
+                var endPage = pnEnd
+                var startPage = pntStart
+                var totalPage = pnTotal
+                var page_list_size = pnSize
+                var page_size = showUser
+                var curPage = pageNum
+                var TotalNum = TotalNum
+                %>
+                <div class="paging">
+                    <% if(curPage > page_list_size){ %>
+                        [<a href='1'>처음으로</a>]
+                        [<a href='<%= startPage %>'>이전</a>]
+                    <% } else {%>
+                        [<span>처음으로</span>]
+                        [<span>이전</span>]
+                    <% } %>
+                    <% for(var i = startPage; i <= endPage ; i++) { %>
+                        <% if(i == curPage){ %>
+                            [<%= i %>]
+                        <% } else { %>
+                            [<a href="<%= i%>"><%= i%></a>]
+                        <% } %>
+                    <% } %>
+                    <% if(endPage < totalPage){ %>
+                        [<a href="<%= endPage %>">다음</a>]
+                        [<a href="<%= totalPage %>">끝으로</a>]
+                    <% } else { %>
+                        [<span>다음</span>]
+                        [<span>끝으로</span>]
+                    <% } %>
+                </div>
             </div>
         </div>
     </div>

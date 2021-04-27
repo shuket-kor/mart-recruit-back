@@ -84,25 +84,22 @@ module.exports = class userService {
                 responseType: 'json'
             });
             if (body.result === "success") {
-                console.log("body.result === success");
-                console.log(body.data);
                 return body.data;
             } else {
                 //실패
-                console.log("userlist 불러오기 실패.");
-                logger.writeLog("error", `services/getUserService/userlist: ${userList.body.data}`);
+                logger.writeLog("error", `services/getUser/userlist: ${userList.body.data}`);
                 return null
             }
         } catch (error) {
-            logger.writeLog("error", `services/getUserService/userlist: ${error}`);
+            logger.writeLog("error", `services/getUser/userlist: ${error}`);
         }
     }
-    static async paging() {
+    static async paging(pageNumber) {
         try {
             console.log("paging Service 들어옴");
             var apiURL = "";
-            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/paging/:currentPage";
-            else apiURL = `http://localhost:3000/api/users/paging/:currentPage`;
+            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/paging/"+pageNumber;
+            else apiURL = `http://localhost:3000/api/users/paging/`+pageNumber;
 
             var {body} = await got.get(apiURL, {
                 headers: {
@@ -114,15 +111,15 @@ module.exports = class userService {
             });
             if (body.result === "success") {
                 console.log("body.result === success");
-                return body.data;
+                console.log(body);
+                return body;
             } else {
                 //실패
-                console.log("paging 불러오기 실패.");
-                logger.writeLog("error", `services/getUserService/userlist: ${userList.body.data}`);
+                logger.writeLog("error", `back - services/paging ${userList.body.data}`);
                 return null
             }
         } catch (error) {
-            logger.writeLog("error", `services/getUserService/userlist: ${error}`);
+            logger.writeLog("error", `back - services/paging: ${error}`);
         }
     }
     

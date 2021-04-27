@@ -30,9 +30,6 @@ module.exports = {
         // console.log("token ? ? " + token);
         let getUserList = await userService.getuser();
 
-        // console.log(getuser.data[0].LOGINID)
-        // console.log(getuser.data);
-        // console.log(getuser)
         res.render("userlist", {
             layout: "layouts/default",
             title: "test",
@@ -46,9 +43,11 @@ module.exports = {
         });
     },
     async paging(req, res, next) {
-        // let cnt = await userService.userCount();
-        let page = await userService.paging();
+        let pageNumber = req.params.page
+        console.log("현제 페이지의 넘버 ? "+pageNumber);
+        let page = await userService.paging(pageNumber);
         console.log("페이징 진입")
+        console.log(JSON.stringify(page))
         res.render("userlist", {
             layout: "layouts/default",
             title: "test",
@@ -58,7 +57,16 @@ module.exports = {
             // id:getuser.data[i].LOGINID,
             // usertype:getuser.data[i].USERTYPE,
             // list: JSON.stringify(getuser.data)
-            list: page,
+            list: page.data,
+            pnTotal: page.pnTotal,
+            pnEnd: page.pnEnd,
+            pnSize: page.pnSize,
+            pageNum: page.pageNum,
+            TotalNum : page.TotalNum,
+            showUser: page.showUser,
+            totalSet: page.totalSet,
+            curSet : page.curSet,
+            pntStart : page.pntStart
         });
     },
 
