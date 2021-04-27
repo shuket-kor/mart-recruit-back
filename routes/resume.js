@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const { list } = require('../app/controllers/recruit.js');
+const { list } = require('../app/controllers/resume.js');
 
 router.get('/list', list);
 

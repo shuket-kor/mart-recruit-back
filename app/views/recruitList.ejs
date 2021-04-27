@@ -1,0 +1,94 @@
+<%- contentFor('css') %>
+
+<%- contentFor('content') %>
+<div class="content">
+    <div class="container">
+
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <ol class="breadcrumb pull-right">
+                        <li><a href="#">Home</a></li>
+                        <li class="active">공고 관리</li>
+                    </ol>
+                    <h4 class="page-title">공고 관리</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-body">
+                <div class="row">
+                    <label class="col-md-2 col-form-label" for="simpleinput">지역</label>
+                    <div class="col-md-10">
+                <% if (regionList) {
+                    regionList.forEach(region => {%>
+                    <div class="m-r-10 pull-left"> 
+                        <input id="region_<%=region.SEQ %>" type="checkbox" class="m-r-5" <%=(region.SEQ == 18) ? 'checked' : '' %>> <%=region.NAME %>
+                    </div>
+                <%}) 
+                } %>
+                    </div>
+                </div>
+                <div class="m-b-10 m-t-10 row">
+                    <label class="col-md-2 col-form-label" for="simpleinput">마트명</label>
+                    <div class="col-md-10">
+                        <input type="text" id="simpleinput" class="form-control" value="검색할 마트의 이름 전체 또는 일부를 입력하세요">
+                    </div>
+                </div>
+                <div class="m-b-10 m-t-10 row">
+                    <label class="col-md-2 col-form-label" for="simpleinput">공고 제목</label>
+                    <div class="col-md-10">
+                        <input type="text" id="simpleinput" class="form-control" value="검색할 공고의 제목 일부를 입력하세요">
+                    </div>
+                </div>
+                <div class="m-b-10 m-t-10 row">
+                    <div class="col-md-10 col-md-offset-2">
+                        <button type="button" class="btn btn-inverse waves-effect waves-light btn-md" id="addNew">검색 <i class="fa fa-search"></i></button>        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-body table-responsive">
+                <table class="table table-striped" id="datatable-editable">
+                    <thead>
+                        <tr>
+                            <th>마트이름</th>
+                            <th>공고제목</th>
+                            <th>직종</th>
+                            <th>희망지역</th>
+                            <th>기간</th>
+                            <th>담당자정보</th>                            
+                            <th>수정일</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>                       
+                        <tr class="gradeA">
+                            <td><% %></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="actions">
+                                <a href="#" class="on-default edit-row" onclick="javascript:certificateResume(76);"><i class="fa fa-pencil"></i></a>
+                                <a href="#" class="on-default remove-row" onclick="javascript:removeResume(76);"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>                                                                 
+                    </tbody>
+                </table>
+                <div class="row" style="text-align: center;">
+                    <ul class="pagination pagination-split" id="users-page"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end container -->
+</div>
+
+<%- contentFor('script') %>

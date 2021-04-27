@@ -9,7 +9,7 @@ module.exports = {
         res.render('resumeList', { 
             layout: 'layouts/default',
             title : req.app.get('baseTitle') + ' 이력서 관리',
-            hostName: req.app.get('hostName'),
+            hostName: req.app.get('apiHost'),
             mediaPath: req.app.get('mediaPath'),
             unreadNoticeCount: 0,
             regionList: regionList

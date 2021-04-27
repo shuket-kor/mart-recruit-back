@@ -27,13 +27,14 @@ app.use('/', express.static(path.join(__dirname, '/')));
 app.set('baseTitle', '마트협회구인구직');
 if (process.env.NODE_ENV == 'develope') {
   app.set('mediaPath', 'http://localhost:3000/pdsData/media');
-  app.set('hostName', 'http://localhost:3000');
+  process.env.APIHOST = 'http://localhost:3000';
 } else {
   app.set('mediaPath', 'http://192.168.1.28:3000/pdsData/media');
-  app.set('hostName', 'http://210.116.118.230:3000');
+  process.env.APIHOST = 'http://localhost:3000';
 }
 
 app.use('/', require('./routes/index'));
+app.use('/auth', require('./routes/auth'));
 app.use('/user', require('./routes/users'));
 app.use('/mart', require('./routes/mart'));
 app.use('/recruit', require('./routes/recruit'));

@@ -19,22 +19,10 @@
 
         <div class="panel">
             <div class="panel-body">
-                <div class="row">
-                    <label class="col-md-2 col-form-label" for="simpleinput">지역</label>
-                    <div class="col-md-10">
-                <% if (regionList) {
-                    regionList.forEach(region => {%>
-                    <div class="m-r-10 pull-left"> 
-                        <input id="region_<%=region.SEQ %>" type="checkbox" class="m-r-5" <%=(region.SEQ == 18) ? 'checked' : '' %>> <%=region.NAME %>
-                    </div>
-                <%}) 
-                } %>
-                    </div>
-                </div>
-                <div class="m-b-10 m-t-10 row">
+                <div class="m-b-10 row">
                     <label class="col-md-2 col-form-label" for="simpleinput">마트명</label>
                     <div class="col-md-10">
-                        <input type="text" id="simpleinput" class="form-control" value="검색할 마트명의 일부를 입력하세요">
+                        <input type="text" id="name" class="form-control" placeholder="검색할 마트명의 일부 또는 전부를 입력하세요" value="<%=searchName %>">
                     </div>
                 </div>
                 <div class="m-b-10 m-t-10 row">
@@ -57,30 +45,29 @@
                             <th>연락처</th>
                             <th>생성일</th>                            
                             <th>수정일</th>
-                            <th>인사담당자</th>
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>                       
+                    <tbody>
+                        <% list.forEach(item => { %> 
                         <tr class="gradeA">
-                            <td><% %></td>
+                            <td><%=item.NAME %></td>
                             <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td><%=item.REGNO %></td>
+                            <td>(<%=item.POSTCODE %>) <%=item.ADDRESS %> <%=item.ADDRESSEXTRA %></td>
+                            <td><%=item.CONTACT %></td>
+                            <td><%= moment(item.CREATED).format('YYYY-MM-DD hh:mm:ss') %></td>
+                            <td><%= moment(item.MODIFIED).format('YYYY-MM-DD hh:mm:ss') %></td>
                             <td class="actions">
-                                <a href="#" class="on-default edit-row" onclick="javascript:editMart(76);"><i class="fa fa-pencil"></i></a>
-                                <a href="#" class="on-default remove-row" onclick="javascript:removeMart(76);"><i class="fa fa-trash-o"></i></a>
+                                <a href="#" class="on-default edit-row" onclick="javascript:editMart(<%=item.SEQ %>);"><i class="fa fa-pencil"></i></a>
+                                <a href="#" class="on-default remove-row" onclick="javascript:removeMart(<%=item.SEQ %>);"><i class="fa fa-trash-o"></i></a>
                             </td>
-                        </tr>                                                                 
+                        </tr>
+                        <%}) %>                                        
                     </tbody>
                 </table>
                 <div class="row" style="text-align: center;">
-                    <ul class="pagination pagination-split" id="users-page"></ul>
+                    <ul class="pagination pagination-split" id="mart-page"></ul>
                 </div>
             </div>
         </div>
@@ -89,3 +76,18 @@
 </div>
 
 <%- contentFor('script') %>
+<script>
+    var totalCount =<%=totalCount %>; 
+    var page = <%=page %>;
+    var rowCount = <%=rowCount %>;   
+
+    $(document).ready(function() {
+        // 페이저 만들기
+        if (totalCount <= rowCount) {
+            $('#mart-page').hide();
+        } else {
+            createPager('mart-page', totalCount, rowCount, page, 5, `/mart/list?name=${$('#name').val()}`);
+        }
+    });
+
+</script>

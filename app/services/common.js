@@ -4,11 +4,7 @@ const got = require('got');
 module.exports = class commonService {
     static async getWorkingRegion() {
         try {
-            var apiURL = '';
-            if (process.env.NODE_ENV == 'develope')
-                apiURL = `http://localhost:3000/api/workingRegion/list`;
-            else
-                apiURL = `http://localhost:3000/api/workingRegion/list`;
+            var apiURL = `${process.env.APIHOST}/api/workingRegion/list`;
 
             const {body} = await got.get(apiURL, {responseType: 'json'});
             if (body.result === 'success') {

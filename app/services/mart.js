@@ -1,15 +1,12 @@
 const logger = require('../config/logger.js');
-const commonService = require('common.js');
 const got = require('got');
 
 module.exports = class martService {
-    static async list(token, page, rowCount) {
+    static async list(token, name, page, rowCount) {
         try {
-            var apiURL = "";
-            if (process.env.NODE_ENV == "develope")
-                apiURL = "http://localhost:3000/sample/get/" + code;
-            else
-                apiURL = `http://localhost:3000/sample/get/${code}`;
+            name = (name) ? name : '';
+
+            var apiURL = `${process.env.APIHOST}/api/mart/list`;
 
             const {body} = await got.post(apiURL, {
                 headers: {
@@ -19,19 +16,21 @@ module.exports = class martService {
                     'Authorization': token
                 }, 
                 json: {
-                    code: code
+                    name: name,
+                    page: page,
+                    rowCount: rowCount
                 },
                 responseType: 'json'
             });
             if (body.result === 'success') {
-                return body.resultData;
+                return body.data;
             } else {
                 //실패
-                logger.writeLog('error', `services/sampleService/getFromUrl: ${body.result}`);           
-                return body.resultData;
+                logger.writeLog('error', `services/martService/list: ${body.result}`);           
+                return null;
             }
         } catch (error) {
-            logger.writeLog('error', `services/sampleService/getFromUrl: ${error}`);
+            logger.writeLog('error', `services/martService/list: ${error}`);
         }
     }  
 
