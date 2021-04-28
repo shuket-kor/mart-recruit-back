@@ -1,7 +1,6 @@
 const logger = require("../config/logger.js");
 const got = require("got");
-const { json } = require("express");
-const { listen } = require("../../app.js");
+
 
 module.exports = class userService {
     // 유저 로그인
@@ -68,60 +67,69 @@ module.exports = class userService {
     //         logger.writeLog("error", `services/getUserService/login: ${error}`);
     //     }
     // }
-    static async getuser() {
-        try {
-            // console.log("getUser Service 들어옴"+token)
-            var apiURL = "";
-            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users";
-            else apiURL = `http://localhost:3000/api/users`;
 
-            var {body} = await got.get(apiURL, {
+        static async list(name, page, rowCount) {
+        try {
+            name = (name) ? name : '';
+            var apiURL = "";
+            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/list";
+            else apiURL = `http://localhost:3000/api/users/list`;
+
+            var {body} = await got.post(apiURL, {
                 headers: {
                     contentType: "application/json",
                     "User-Agent": "DEVICE-AGENT",
                     userAgent: "DEVICE-AGENT"
+                    // 'Authorization': token
+                },
+                json: {
+                    name: name,
+                    page: page,
+                    rowCount: rowCount
                 },
                 responseType: 'json'
             });
             if (body.result === "success") {
-                return body.data;
-            } else {
-                //실패
-                logger.writeLog("error", `services/getUser/userlist: ${userList.body.data}`);
-                return null
-            }
-        } catch (error) {
-            logger.writeLog("error", `services/getUser/userlist: ${error}`);
-        }
-    }
-    static async paging(pageNumber) {
-        try {
-            console.log("paging Service 들어옴");
-            var apiURL = "";
-            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/paging/"+pageNumber;
-            else apiURL = `http://localhost:3000/api/users/paging/`+pageNumber;
-
-            var {body} = await got.get(apiURL, {
-                headers: {
-                    contentType: "application/json",
-                    "User-Agent": "DEVICE-AGENT",
-                    userAgent: "DEVICE-AGENT"
-                },
-                responseType: 'json'
-            });
-            if (body.result === "success") {
-                console.log("body.result === success");
-                console.log(body);
                 return body;
             } else {
                 //실패
-                logger.writeLog("error", `back - services/paging ${userList.body.data}`);
+                logger.writeLog("error", `back - services/getUser/userlist: ${userList.body.data}`);
                 return null
             }
         } catch (error) {
-            logger.writeLog("error", `back - services/paging: ${error}`);
+            logger.writeLog("error", `back - services/getUser/userlist: ${error}`);
         }
     }
+
+    // static async paging(pageNumber) {
+    //     try {
+    //         console.log("paging Service 들어옴");
+    //         var apiURL = "";
+    //         if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/paging/"+pageNumber;
+    //         else apiURL = `http://localhost:3000/api/users/paging/`+pageNumber;
+
+    //         var {body} = await got.get(apiURL, {
+    //             headers: {
+    //                 contentType: "application/json",
+    //                 "User-Agent": "DEVICE-AGENT",
+    //                 userAgent: "DEVICE-AGENT",
+    //                 'Authorization': token
+    //             },
+    //             responseType: 'json'
+    //         });
+    //         if (body.result === "success") {
+    //             console.log("body.result === success");
+    //             console.log(body);
+    //             return body;
+    //         } else {
+    //             //실패
+    //             logger.writeLog("error", `back - services/paging ${userList.body.data}`);
+    //             return null
+    //         }
+    //     } catch (error) {
+    //         logger.writeLog("error", `back - services/paging: ${error}`);
+    //     }
+    // }
     
     // // 유저 생성
     // static async userCreate(body) {

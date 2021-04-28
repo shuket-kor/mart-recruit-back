@@ -18,15 +18,47 @@
                 </div>
             </div>
         </div>
-        <table class="table table-hover" style = "background-color:#EEE">
-            <tr style = "background-color:#fff">
-                <td><font size=2pt><strong><center>SEQ</center></strong></font></td>
-                <td><font size=2pt><strong><center>USER_TYPE</center></strong></font></td>
-                <td><font size=2pt><strong><center>LOGIN_ID</center></strong></font></td>
-                <td><font size=2pt><strong><center>ACTIVE</center></strong></font></td>
-                <td><font size=2pt><strong><center>CREATED</center></strong></font></td>
-                <td><font size=2pt><strong><center>MODIFED</center></strong></font></td>
-                <td><font size=2pt><strong><center>ETC</center></strong></font></td>
+        <!-- 사용자 추가 버튼 -->
+        <button type="button" class="btn btn-primary waves-effect waves-light m-l-10 btn-md pull-right" id="addUser">사용자 추가 <i class="fa fa-plus"></i></button>
+
+        <!-- 유저리스트 테이블 -->
+        <table class="table table-hover" style="background-color: #eee">
+            <tr style="background-color: #fff">
+                <td>
+                    <font size="2pt"
+                        ><strong><center>SEQ</center></strong></font
+                    >
+                </td>
+                <td>
+                    <font size="2pt"
+                        ><strong><center>USER_TYPE</center></strong></font
+                    >
+                </td>
+                <td>
+                    <font size="2pt"
+                        ><strong><center>LOGIN_ID</center></strong></font
+                    >
+                </td>
+                <td>
+                    <font size="2pt"
+                        ><strong><center>ACTIVE</center></strong></font
+                    >
+                </td>
+                <td>
+                    <font size="2pt"
+                        ><strong><center>CREATED</center></strong></font
+                    >
+                </td>
+                <td>
+                    <font size="2pt"
+                        ><strong><center>MODIFED</center></strong></font
+                    >
+                </td>
+                <td>
+                    <font size="2pt"
+                        ><strong><center>ETC</center></strong></font
+                    >
+                </td>
             </tr>
             <% list.forEach(item => { %>
             <tr>
@@ -34,56 +66,19 @@
                 <td><%= item.USERTYPE %></td>
                 <td><%= item.LOGINID %></td>
                 <td><%= item.ACTIVE %></td>
-                <td><%= item.CRATED %></td>
-                <td><%= item.MODIFED %></td>
-                <td style="">
-                </li>
-                <ul class="list-inline table-action m-0">
-                    <a href="#" class="action-icon"><span class="iconify" data-icon="mdi-square-edit-outline" data-inline="false"></span></a>
-                    <li class="list-inline-item"> 
-                        <li class="list-inline-item"> 
-                            <a href="#" class="action-icon"> <span class="iconify" data-icon="fluent:delete-off-20-regular" data-inline="false"></span></a>
-                        </ul>
-                    </li>
+                <td><%= item.CREATED %></td>
+                <td><%= item.MODIFIED %></td>
+                <td class="actions">
+                    <a href="#" class="on-default edit-row" onclick="javascript:editUser(<%=item.SEQ %>);"><i class="fa fa-pencil"></i></a>
+                    <a href="#" class="on-default remove-row" onclick="javascript:removeUser(<%=item.SEQ %>);"><i class="fa fa-trash-o"></i></a>
                 </td>
             </tr>
             <% }) %>
         </table>
+        <!-- 페이지네이션 -->
         <div class="row">
-            <div class="col-lg-12" style="float: right;">
-                <%
-                var curSet = curSet
-                var endPage = pnEnd
-                var startPage = pntStart
-                var totalPage = pnTotal
-                var page_list_size = pnSize
-                var page_size = showUser
-                var curPage = pageNum
-                var TotalNum = TotalNum
-                %>
-                <div class="paging">
-                    <% if(curPage > page_list_size){ %>
-                        [<a href='1'>처음으로</a>]
-                        [<a href='<%= startPage %>'>이전</a>]
-                    <% } else {%>
-                        [<span>처음으로</span>]
-                        [<span>이전</span>]
-                    <% } %>
-                    <% for(var i = startPage; i <= endPage ; i++) { %>
-                        <% if(i == curPage){ %>
-                            [<%= i %>]
-                        <% } else { %>
-                            [<a href="<%= i%>"><%= i%></a>]
-                        <% } %>
-                    <% } %>
-                    <% if(endPage < totalPage){ %>
-                        [<a href="<%= endPage %>">다음</a>]
-                        [<a href="<%= totalPage %>">끝으로</a>]
-                    <% } else { %>
-                        [<span>다음</span>]
-                        [<span>끝으로</span>]
-                    <% } %>
-                </div>
+            <div class="row" style="text-align: center">
+                <ul class="pagination pagination-split" id="users-page"></ul>
             </div>
         </div>
     </div>
@@ -92,15 +87,19 @@
 <!-- end content -->
 
 <%- contentFor('script') %>
-<!-- Counter Up  -->
-<script src="/plugins/waypoints/lib/jquery.waypoints.js"></script>
-<script src="/plugins/counterup/jquery.counterup.min.js"></script>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(".counter").counterUp({
-            delay: 100,
-            time: 1200,
-        });
+<script>
+    var totalCount =<%=totalCount %>;
+    var page = <%=page %>;
+    var rowCount = <%=rowCount %>;
+
+    $(document).ready(function() {
+        // 페이저 만들기
+        console.log("토탈 카운트 ? ? ? " + totalCount);
+        if (totalCount <= rowCount) {
+            $('#users-page').hide();
+        } else {
+            createPager('users-page', totalCount, rowCount, page, 5, `/user/list?name=${$('#name').val()}`);
+        }
     });
 </script>

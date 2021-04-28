@@ -1,6 +1,6 @@
 // const numeral = require('numeral');
 const userService = require("../services/users.js");
-
+const rowCount = 10;
 module.exports = {
     //  // 유저 로그인
     // async login(req, res, next) {
@@ -25,48 +25,25 @@ module.exports = {
     //         info: getuser,
     //     });
     // },
-    async getuser(req, res, next) {
+    async list(req, res, next) {
         // let token = req.cookies.xToken;
         // console.log("token ? ? " + token);
-        let getUserList = await userService.getuser();
+        const currentPage = (req.query.page) ? req.query.page : 1;
 
+        // const returnData = await userService.list(req.cookies.xToken, req.query.name, currentPage, rowCount);
+        const returnData = await userService.list(req.query.name, currentPage, rowCount);
+        // console.log(returnData.totalCount);
         res.render("userlist", {
             layout: "layouts/default",
-            title: "test",
+            title: "유저 관리",
             hostName: req.app.get("host_name"),
             mediaPath: req.app.get("mediaPath"),
             unreadNoticeCount: 0,
-            // id:getuser.data[i].LOGINID,
-            // usertype:getuser.data[i].USERTYPE,
-            // list: JSON.stringify(getuser.data)
-            list: getUserList,
-        });
-    },
-    async paging(req, res, next) {
-        let pageNumber = req.params.page
-        console.log("현제 페이지의 넘버 ? "+pageNumber);
-        let page = await userService.paging(pageNumber);
-        console.log("페이징 진입")
-        console.log(JSON.stringify(page))
-        res.render("userlist", {
-            layout: "layouts/default",
-            title: "test",
-            hostName: req.app.get("host_name"),
-            mediaPath: req.app.get("mediaPath"),
-            unreadNoticeCount: 0,
-            // id:getuser.data[i].LOGINID,
-            // usertype:getuser.data[i].USERTYPE,
-            // list: JSON.stringify(getuser.data)
-            list: page.data,
-            pnTotal: page.pnTotal,
-            pnEnd: page.pnEnd,
-            pnSize: page.pnSize,
-            pageNum: page.pageNum,
-            TotalNum : page.TotalNum,
-            showUser: page.showUser,
-            totalSet: page.totalSet,
-            curSet : page.curSet,
-            pntStart : page.pntStart
+            list: returnData.data,
+            searchName: req.query.name,
+            totalCount: returnData.totalCount,
+            rowCount: rowCount,
+            page: currentPage,
         });
     },
 
