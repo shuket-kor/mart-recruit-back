@@ -1,4 +1,5 @@
 const logger = require('../config/logger.js');
+const secretKey = require('../config/secretKey').secretKey;
 const got = require("got");
 
 module.exports = class authService {
@@ -31,9 +32,18 @@ module.exports = class authService {
 
     static async verify(req) {
         try {
-            var apiURL = `${process.env.APIHOST}/api/auth?token=${req.cookies.xToken}`;
+            var apiURL = `${process.env.APIHOST}/api/auth`;
 
-            const {body} = await got(apiURL, {
+            const {body} = await got.post(apiURL, {
+                headers: {
+                    'contentType': 'application/json',
+                    'User-Agent': 'DEVICE-AGENT',
+                    'userAgent': 'DEVICE-AGENT',
+                    'Authorization': req.cookies.xToken
+                },
+                json: {
+                    secretKey: secretKey,
+                },
                 responseType: "json",
             });
 
