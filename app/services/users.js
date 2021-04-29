@@ -68,36 +68,38 @@ module.exports = class userService {
     //     }
     // }
 
-        static async list(name, page, rowCount) {
+        static async list(secretKey, token, name, page, rowCount) {
         try {
             name = (name) ? name : '';
             var apiURL = "";
             if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/list";
             else apiURL = `http://localhost:3000/api/users/list`;
-
-            var {body} = await got.post(apiURL, {
+            console.log(token);
+            const { body } = await got.post(apiURL, {
                 headers: {
-                    contentType: "application/json",
-                    "User-Agent": "DEVICE-AGENT",
-                    userAgent: "DEVICE-AGENT"
-                    // 'Authorization': token
+                    'contentType': 'application/json',
+                    'User-Agent': 'DEVICE-AGENT',
+                    'userAgent': 'DEVICE-AGENT',
+                    'Authorization': token
                 },
                 json: {
                     name: name,
                     page: page,
-                    rowCount: rowCount
+                    rowCount: rowCount,
+                    key:secretKey
                 },
                 responseType: 'json'
             });
+
             if (body.result === "success") {
                 return body;
             } else {
                 //실패
-                logger.writeLog("error", `back - services/getUser/userlist: ${userList.body.data}`);
+                logger.writeLog("error", `back - services/userlist: ${body}`);
                 return null
             }
         } catch (error) {
-            logger.writeLog("error", `back - services/getUser/userlist: ${error}`);
+            logger.writeLog("error", `back - services/userlist: ${error}`);
         }
     }
 
@@ -193,20 +195,27 @@ module.exports = class userService {
     //     }
     // }
     // 유저 삭제
-    static async remove(userseq) {
+    static async remove(token, userseq) {
         try {
+            
             var apiURL = "";
             if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/remove/"+ userseq;
             else apiURL = `http://localhost:3000/api/users/remove/` + userseq;
-
+            console.log(apiURL);
             const {body} = await got.patch(apiURL, {
-                json: {
-                    seq: userseq,
+                headers: {
+                    contentType: "application/json",
+                    "User-Agent": "DEVICE-AGENT",
+                    userAgent: "DEVICE-AGENT",
+                    'Authorization': token
                 },
-                responseType: "json",
+                json: {
+                    seq: userseq
+                },
+                responseType: "json"
             });
-            console.log("deleteUser.body ? ? ? " + body);
-            if (deleteUser.body.result === "success") {
+            console.log(body);
+            if (body.result === "success") {
                 console.log("body.result === success");
                 return body.data;
             } else {

@@ -26,12 +26,12 @@ module.exports = {
     //     });
     // },
     async list(req, res, next) {
-        // let token = req.cookies.xToken;
+        let token = req.cookies.xToken;
         // console.log("token ? ? " + token);
         const currentPage = (req.query.page) ? req.query.page : 1;
-
-        // const returnData = await userService.list(req.cookies.xToken, req.query.name, currentPage, rowCount);
-        const returnData = await userService.list(req.query.name, currentPage, rowCount);
+        let secretKey = require("../config/secretKey").secretKey;
+        const returnData = await userService.list(secretKey, token, req.query.name, currentPage, rowCount);
+        // const returnData = await userService.list(req.query.name, currentPage, rowCount);
         // console.log(returnData.totalCount);
         res.render("userlist", {
             layout: "layouts/default",
@@ -71,13 +71,13 @@ module.exports = {
 
     // 유저 삭제
     async remove(req, res, next) {
-        let userseq = req.query.userseq;
-        console.log(userseq);
-        let userDelete = await userService.remove(userseq);
-        // console.log("완료 이다음 렌더 해야함.");
-        res.render("userdelete", {
-            layout: "layouts/default",
-            info: userDelete,
-        });
+        let userseq = req.params.userseq;
+        let userDelete = await userService.remove(req.cookies.xToken, userseq);
+
+        res.redirect('/user/list')
+        // res.render("userlist", {
+        //     layout: "layouts/default",
+        //     info: userDelete,
+        // });
     },
 };
