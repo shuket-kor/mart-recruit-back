@@ -75,6 +75,12 @@
             </tr>
             <% }) %>
         </table>
+        <div>
+            <div class="col-lg-3 col-md-3">
+                <input type="text" id="simpleinput" class="form-control" placeholder="유저 검색">
+            </div>
+        </div>
+            <!-- </div> -->
         <!-- 페이지네이션 -->
         <div class="row">
             <div class="row" style="text-align: center">
@@ -93,13 +99,30 @@
     var page = <%=page %>;
     var rowCount = <%=rowCount %>;
 
+    // 유저 삭제
+    function removeUser(userseq) {
+        // console.log(userseq);
+        self.location = `/user/remove/`+userseq;
+    };
+    // 유저 수정
+    // function updateUser(userseq) {
+
+    
+    // };
+
+    // 유저 생성
+    // function updateUser() {
+
+    
+    // };
+
     $(document).ready(function() {
         // 페이저 만들기
-        console.log("토탈 카운트 ? ? ? " + totalCount);
         if (totalCount <= rowCount) {
             $('#users-page').hide();
         } else {
             createPager('users-page', totalCount, rowCount, page, 5, `/user/list?name=${$('#name').val()}`);
         }
+    
     });
 </script>
