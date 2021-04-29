@@ -69,14 +69,15 @@ module.exports = {
     //     });
     // },
 
-    // // 유저 삭제
-    // async delete(req, res, next) {
-    //     const body = req.body;
-    //     let userDelete = await userService.userDelete(body);
-    //     // console.log("완료 이다음 렌더 해야함.");
-    //     res.render("userdelete", {
-    //         layout: "layouts/default",
-    //         info: userDelete,
-    //     });
-    // },
+    // 유저 삭제
+    async remove(req, res, next) {
+        let userseq = req.query.userseq;
+        console.log(userseq);
+        let userDelete = await userService.remove(userseq);
+        // console.log("완료 이다음 렌더 해야함.");
+        res.render("userdelete", {
+            layout: "layouts/default",
+            info: userDelete,
+        });
+    },
 };

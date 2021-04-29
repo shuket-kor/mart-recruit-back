@@ -8,7 +8,7 @@ module.exports = class authService {
 
             const {body} = await got.post(apiURL, {
                 json: {
-                    user_id: userId,
+                    userid: userId,
                     password: password,
                 },
                 responseType: "json",

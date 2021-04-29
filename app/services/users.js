@@ -192,30 +192,30 @@ module.exports = class userService {
     //         logger.writeLog("error", `services/getUserService/update: ${error}`);
     //     }
     // }
-    // // 유저 삭제
-    // static async userDelete(body) {
-    //     try {
-    //         var apiURL = "";
-    //         if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/delete";
-    //         else apiURL = `http://localhost:3000/api/users/delete`;
+    // 유저 삭제
+    static async remove(userseq) {
+        try {
+            var apiURL = "";
+            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/remove/"+ userseq;
+            else apiURL = `http://localhost:3000/api/users/remove/` + userseq;
 
-    //         const deleteUser = await got.patch(apiURL, {
-    //             json: {
-    //                 seq: body.seq,
-    //             },
-    //             responseType: "json",
-    //         });
-    //         console.log("deleteUser.body ? ? ? " + deleteUser.body);
-    //         if (deleteUser.body.result === "success") {
-    //             console.log("body.result === success");
-    //             return deleteUser.body.data;
-    //         } else {
-    //             //실패
-    //             logger.writeLog("error", `services/getUserService/delete: ${deleteUser.body.result}`);
-    //             return deleteUser.body;
-    //         }
-    //     } catch (error) {
-    //         logger.writeLog("error", `services/getUserService/delete: ${error}`);
-    //     }
-    // }
+            const {body} = await got.patch(apiURL, {
+                json: {
+                    seq: userseq,
+                },
+                responseType: "json",
+            });
+            console.log("deleteUser.body ? ? ? " + body);
+            if (deleteUser.body.result === "success") {
+                console.log("body.result === success");
+                return body.data;
+            } else {
+                //실패
+                logger.writeLog("error", `services/removeUserService/delete: ${body.result}`);
+                return body;
+            }
+        } catch (error) {
+            logger.writeLog("error", `services/removeService/delete: ${error}`);
+        }   
+    }
 };
