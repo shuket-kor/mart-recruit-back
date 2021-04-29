@@ -78,17 +78,17 @@ function doGetCall(url, data) { // here the data and url are not hardcoded anymo
         $("#" + pagerId).append('<li class="disabled"><a href="#"><i class="fa fa-angle-right"></i></a></li>');
 }
 
-getMemberGrade = function(grade) {
-    //사용자 구분\n0: 전체 관리자\n1: 학원 관리자\n2: 강사\n3: 부모\n4: 학원생
-    switch (grade)
-    {
-        case 0: return "Supervisor";
-        case 1: return "Academy Admin";
-        case 2: return "Teacher";
-        case 3: return "School Parent";
-        case 4: return "Student";
-    }
-}
+// getMemberGrade = function(grade) {
+//     //사용자 구분\n0: 전체 관리자\n1: 학원 관리자\n2: 강사\n3: 부모\n4: 학원생
+//     switch (grade)
+//     {
+//         case 0: return "Supervisor";
+//         case 1: return "Academy Admin";
+//         case 2: return "Teacher";
+//         case 3: return "School Parent";
+//         case 4: return "Student";
+//     }
+// }
 
 dateFormat = function (date) {
     var year = date.getFullYear();

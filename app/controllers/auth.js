@@ -37,5 +37,11 @@ module.exports = {
       }        
       else
         res.redirect("/auth/login");
+    },
+
+    async logout(req, res, next) {
+      res.cookie('xToken', {expires: 0});
+
+      res.redirect("/");
     }
 }
