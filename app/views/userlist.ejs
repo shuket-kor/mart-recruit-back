@@ -6,7 +6,7 @@
 <!-- Start content -->
 <div class="content">
     <div class="container">
-        <!-- Page-Title -->
+        <!-- 페이지 타이틀 -->
         <div class="row">
             <div class="col-sm-12">
                 <div class="page-title-box">
@@ -18,111 +18,248 @@
                 </div>
             </div>
         </div>
-        <!-- 사용자 추가 버튼 -->
-        <button type="button" class="btn btn-primary waves-effect waves-light m-l-10 btn-md pull-right" id="addUser">사용자 추가 <i class="fa fa-plus"></i></button>
 
-        <!-- 유저리스트 테이블 -->
-        <table class="table table-hover" style="background-color: #eee">
-            <tr style="background-color: #fff">
-                <td>
-                    <font size="2pt"
-                        ><strong><center>SEQ</center></strong></font
-                    >
-                </td>
-                <td>
-                    <font size="2pt"
-                        ><strong><center>USER_TYPE</center></strong></font
-                    >
-                </td>
-                <td>
-                    <font size="2pt"
-                        ><strong><center>LOGIN_ID</center></strong></font
-                    >
-                </td>
-                <td>
-                    <font size="2pt"
-                        ><strong><center>ACTIVE</center></strong></font
-                    >
-                </td>
-                <td>
-                    <font size="2pt"
-                        ><strong><center>CREATED</center></strong></font
-                    >
-                </td>
-                <td>
-                    <font size="2pt"
-                        ><strong><center>MODIFED</center></strong></font
-                    >
-                </td>
-                <td>
-                    <font size="2pt"
-                        ><strong><center>ETC</center></strong></font
-                    >
-                </td>
-            </tr>
-            <% list.forEach(item => { %>
-            <tr>
-                <td><%= item.SEQ %></td>
-                <td><%= item.USERTYPE %></td>
-                <td><%= item.LOGINID %></td>
-                <td><%= item.ACTIVE %></td>
-                <td><%= item.CREATED %></td>
-                <td><%= item.MODIFIED %></td>
-                <td class="actions">
-                    <a href="#" class="on-default edit-row" onclick="javascript:editUser(<%=item.SEQ %>);"><i class="fa fa-pencil"></i></a>
-                    <a href="#" class="on-default remove-row" onclick="javascript:removeUser(<%=item.SEQ %>);"><i class="fa fa-trash-o"></i></a>
-                </td>
-            </tr>
-            <% }) %>
-        </table>
-        <div>
-            <div class="col-lg-3 col-md-3">
-                <input type="text" id="simpleinput" class="form-control" placeholder="유저 검색">
-            </div>
-        </div>
-            <!-- </div> -->
-        <!-- 페이지네이션 -->
         <div class="row">
-            <div class="row" style="text-align: center">
-                <ul class="pagination pagination-split" id="users-page"></ul>
+            <div class="col-lg-4">
+                <ul class="nav nav-tabs navtab-custom">
+                    <li class='tab'>
+                        <a href="/user/list?usertype=A">관리자 관리</a>
+                    </li>
+                    <li class='tab'>
+                        <a href="/user/list?usertype=U" >유저 관리</a>
+                    </li>
+                    <li class='tab'>
+                        <a href="/user/list?usertype=M" >마트유저 관리</a>
+                    </li>
+                </ul>
+                </div>
+                
+                <div class="col-lg-12">
+                <div class="tab-content">
+                    <div class="tab-pane active">
+                        <!-- 관리자 사용자 추가 버튼 -->
+                        <button type="button" class="btn btn-primary waves-effect waves-light m-l-10 btn-md pull-right" id="addUser">사용자 추가 <i class="fa fa-plus"></i></button>
+                        <!-- 관리자 검색 -->
+                        <div class="input-group">
+                            <input type="text" id="example-input1-group2" name="example-input1-group2" class="form-control" placeholder="Search"><span class="input-group-btn">
+                            <button type="button" class="btn waves-effect waves-light btn-primary"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                        <!-- 관리자 리스트 테이블 -->
+                        <table class="table table-hover" style="background-color: #eee">
+                            <tr style="background-color: #fff">
+                                <td>
+                                    <font size="2pt"
+                                        ><strong><center>번호</center></strong></font
+                                    >
+                                </td>
+                                <td>
+                                    <font size="2pt"
+                                        ><strong><center>구분</center></strong></font
+                                    >
+                                </td>
+                                <td>
+                                    <font size="2pt"
+                                        ><strong><center>아이디</center></strong></font
+                                    >
+                                </td>
+                                <td>
+                                    <font size="2pt"
+                                        ><strong><center>활성상태</center></strong></font
+                                    >
+                                </td>
+                                <td>
+                                    <font size="2pt"
+                                        ><strong><center>생성일</center></strong></font
+                                    >
+                                </td>
+                                <td>
+                                    <font size="2pt"
+                                        ><strong><center>수정일</center></strong></font
+                                    >
+                                </td>
+                                <td>
+                                    <font size="2pt"
+                                        ><strong><center>ETC</center></strong></font
+                                    >
+                                </td>
+                            </tr>
+                            <% list.forEach(item => { %>
+                            <tr>
+                                <td><%= item.SEQ %></td>
+                                <td><%= item.USERTYPE %></td>
+                                <td><%= item.LOGINID %></td>
+                                <td><%= item.ACTIVE %></td>
+                                <td><%= moment(item.CREATED).format('YYYY-MM-DD hh:mm:ss') %></td>
+                                <td><%= moment(item.MODIFIED).format('YYYY-MM-DD hh:mm:ss') %></td>
+                                <td class="actions">
+                                    <a href="#" class="on-default edit-row" onclick="javascript:editUser(<%=item.SEQ %>);"><i class="fa fa-pencil"></i></a>
+                                    <a href="#" class="on-default remove-row" onclick="javascript:removeUser(<%=item.SEQ %>);"><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>
+                            <% }) %>
+                        </table>
+                        <!-- 유저 페이지네이션 -->
+                        <div class="row">
+                            <div class="row" style="text-align: center">
+                                <ul class="pagination pagination-split" id="users-page"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
+        
     </div>
     <!-- end container -->
 </div>
 <!-- end content -->
 
+<input type="hidden" id="saveType" />
+<input type="hidden" id="SEQ" />
+<div id="userEditModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="martEditModal" aria-hidden="true" style="display: none">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="userEditModal-Title"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="name" class="control-label">#</label>
+                            <input type="text" class="form-control" id="USERSEQ" readonly />
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="display: none;">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="name" class="control-label">password</label>
+                            <input type="text" class="form-control" id="PASSWORD" readonly />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="name" class="control-label">구분</label>
+                            <input type="text" class="form-control" id="USERTYPE" placeholder="'U' OR 'M'" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="address" class="control-label">아이디</label>
+                            <input type="text" class="form-control" id="LOGINID" placeholder="LOGIN ID" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="address" class="control-label">활성상태</label>
+                            <input type="text" class="form-control" id="ACTIVE" placeholder="'Y' OR 'N'" />
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-info waves-effect waves-light" id="button-actionSave">저장</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.martEditModal -->
 <%- contentFor('script') %>
 
 <script>
-    var totalCount =<%=totalCount %>;
-    var page = <%=page %>;
-    var rowCount = <%=rowCount %>;
+        var totalCount =<%=totalCount %>;
+        var page = <%=page %>;
+        var rowCount = <%=rowCount %>;
+        $(document).ready(function() {
+            // 탭 상태에 따라 유저타입 결정 디폴트: A
+            // $(".tab").click(function(e){
+            //     let el = $(e.target).closest('li')
+            //     el.siblings('li').removeClass("active");
+            //     el.addClass("active");
+            // });   
+            // 페이저 만들기
+            if (totalCount <= rowCount) {
+                $('#users-page').hide();
+            } else {
+                createPager('users-page', totalCount, rowCount, page, 5, `/user/list?loginid=${$('#loginid').val()}`);
+            }
 
-    // 유저 삭제
-    function removeUser(userseq) {
-        console.log(userseq);
-        self.location = `/user/remove/`+userseq;
+            $("#button-actionSave").click(function() { saveUser(); });
+            // $('#admintab').click(function(){
+            //     // $(this).addClass("active");
+            //     self.location.href=('/user/list?usertype=A')
+            // });
+            // $('#usertab').click(function(){
+            //     // $(this).addClass("active");
+            //     self.location.href=('/user/list?usertype=U')
+            // });
+            // $('#marttab').click(function(){
+            //     // $(this).addClass("active");
+            //     self.location.href=('/user/list?usertype=M')
+            // });
+
+        });
+        // 유저 삭제
+        function removeUser(userseq) {
+            console.log(userseq);
+            self.location = `/user/remove/`+userseq;
+        };
+        // 유저 수정
+        function editUser(userseq) {
+            $('#userEditModal-Title').html("유저 정보 변경");
+            $("#saveType").val("edit");
+
+            doGetCallSync("/user/get/" + userseq)
+            .success(function(json){
+                if (json.result == "success") {
+                    $("#USERSEQ").val(json.data.SEQ);
+                    $("#USERTYPE").val(json.data.USERTYPE);
+                    $("#LOGINID").val(json.data.LOGINID);
+                    $("#ACTIVE").val(json.data.ACTIVE);
+                    $("#PASSWORD").val(json.data.PWD);
+                    $('#userEditModal').modal();
+                }
+            })
+            .fail(function(sender, message, details){
+                alert("유저정보를 가져오는 도중에 오류가 발생했습니다.");
+                return false;
+            });
+            
+            
+        };
+        function saveUser() {
+            var userseq = $("#USERSEQ").val();
+            console.log(userseq);
+        doPostCallSync("/user/update", {
+            userseq: $("#USERSEQ").val(),
+            usertype: $("#USERTYPE").val(),
+            loginid: $("#LOGINID").val(),
+            active: $("#ACTIVE").val(),
+            password: $("#PASSWORD").val()
+        })
+        .success(function(json){
+            if (json.result == "success") location.reload();
+        })
+        .fail(function(sender, message, details){
+            alert("유저 업데이트 오류 발생..");
+            return false;
+        });        
     };
-    // 유저 수정
-    // function updateUser(userseq) {
-
-    
-    // };
-
-    // 유저 생성
-    // function updateUser() {
-
-    
-    // };
-
-    $(document).ready(function() {
-        // 페이저 만들기
-        if (totalCount <= rowCount) {
-            $('#users-page').hide();
-        } else {
-            createPager('users-page', totalCount, rowCount, page, 5, `/user/list?name=${$('#name').val()}`);
-        }
-    
-    });
+        
+        // 유저 생성
+        // function updateUser() {
+        // };
+        
 </script>

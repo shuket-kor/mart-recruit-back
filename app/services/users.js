@@ -35,45 +35,12 @@ module.exports = class userService {
     //         logger.writeLog("error", `services/tokenService/login: ${error}`);
     //     }
     // }
-    // // 유저 조회
-    // static async getuser(token) {
-    //     try {
-    //         // console.log("getUser Service 들어옴"+token)
-    //         var apiURL = "";
-    //         if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users";
-    //         else apiURL = `http://localhost:3000/api/users`;
-
-    //         const getUser = await got.get(apiURL, {
-    //             headers: {
-    //                 contentType: "application/json",
-    //                 "User-Agent": "DEVICE-AGENT",
-    //                 userAgent: "DEVICE-AGENT",
-    //                 Authorization: token,
-    //             }
-    //         });
-    //         console.log(getUser.body);
-    //         let userList = JSON.parse(getUser.body);
-    //         console.log(typeof userList);
-    //         if (userList.result === "success") {
-    //             console.log("body.result === success");
-    //             return userList;
-    //         } else {
-    //             //실패
-    //             console.log("실패~~~~~~~~~~~~~~~~~~");
-    //             logger.writeLog("error", `services/getUserService/login: ${getUser.body.result}`);
-    //             return body.resultData;
-    //         }
-    //     } catch (error) {
-    //         logger.writeLog("error", `services/getUserService/login: ${error}`);
-    //     }
-    // }
-
-        static async list(secretKey, token, name, page, rowCount) {
+    // 유저 한명조회
+    static async get(secretKey, token, seq) {
         try {
-            name = (name) ? name : '';
             var apiURL = "";
-            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/list";
-            else apiURL = `http://localhost:3000/api/users/list`;
+            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/get/"+seq;
+            else apiURL = `http://localhost:3000/api/users/get/`+seq;
             console.log(token);
             const { body } = await got.post(apiURL, {
                 headers: {
@@ -83,10 +50,46 @@ module.exports = class userService {
                     'Authorization': token
                 },
                 json: {
-                    name: name,
-                    page: page,
-                    rowCount: rowCount,
                     key:secretKey
+                },
+                responseType: 'json'
+            });
+
+            if (body.result === "success") {
+                return body;
+            } else {
+                //실패
+                logger.writeLog("error", `back - services/userGet: ${body}`);
+                return null
+            }
+        } catch (error) {
+            logger.writeLog("error", `back - services/userGet: ${error}`);
+        }
+    }
+    // 유저 조회
+        static async list(secretKey, token, userType, userLoginId, currentPage, rowCount) {
+        try {
+            
+            userLoginId = (userLoginId) ? userLoginId : '';
+            userType = (userType) ? userType : 'A';
+            var apiURL = "";
+            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/list";
+            else apiURL = `http://localhost:3000/api/users/list`;
+            console.log(token);
+            console.log(currentPage)
+            const { body } = await got.post(apiURL, {
+                headers: {
+                    'contentType': 'application/json',
+                    'User-Agent': 'DEVICE-AGENT',
+                    'userAgent': 'DEVICE-AGENT',
+                    'Authorization': token
+                },
+                json: {
+                    userLoginId: userLoginId,
+                    page: currentPage,
+                    rowCount: rowCount,
+                    key:secretKey,
+                    userType: userType
                 },
                 responseType: 'json'
             });
@@ -103,36 +106,6 @@ module.exports = class userService {
         }
     }
 
-    // static async paging(pageNumber) {
-    //     try {
-    //         console.log("paging Service 들어옴");
-    //         var apiURL = "";
-    //         if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/paging/"+pageNumber;
-    //         else apiURL = `http://localhost:3000/api/users/paging/`+pageNumber;
-
-    //         var {body} = await got.get(apiURL, {
-    //             headers: {
-    //                 contentType: "application/json",
-    //                 "User-Agent": "DEVICE-AGENT",
-    //                 userAgent: "DEVICE-AGENT",
-    //                 'Authorization': token
-    //             },
-    //             responseType: 'json'
-    //         });
-    //         if (body.result === "success") {
-    //             console.log("body.result === success");
-    //             console.log(body);
-    //             return body;
-    //         } else {
-    //             //실패
-    //             logger.writeLog("error", `back - services/paging ${userList.body.data}`);
-    //             return null
-    //         }
-    //     } catch (error) {
-    //         logger.writeLog("error", `back - services/paging: ${error}`);
-    //     }
-    // }
-    
     // // 유저 생성
     // static async userCreate(body) {
     //     try {
@@ -164,36 +137,43 @@ module.exports = class userService {
     //         logger.writeLog("error", `services/getUserService/create: ${error}`);
     //     }
     // }
-    // // 유저 수정
-    // static async userUpdate(body) {
-    //     try {
-    //         var apiURL = "";
-    //         if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/update";
-    //         else apiURL = `http://localhost:3000/api/users/update`;
 
-    //         const updateUser = await got.patch(apiURL, {
-    //             json: {
-    //                 user_id: body.user_id,
-    //                 password: body.password,
-    //                 usertype: body.user_type,
-    //                 active: body.active,
-    //                 seq: body.seq,
-    //             },
-    //             responseType: "json",
-    //         });
-    //         console.log("updateUser.body ? ? ? " + updateUser.body);
-    //         if (updateUser.body.result === "success") {
-    //             console.log("body.result === success");
-    //             return updateUser.body.data;
-    //         } else {
-    //             //실패
-    //             logger.writeLog("error", `services/getUserService/update: ${getUser.body.result}`);
-    //             return createUser.body;
-    //         }
-    //     } catch (error) {
-    //         logger.writeLog("error", `services/getUserService/update: ${error}`);
-    //     }
-    // }
+    // 유저 수정
+    static async update(secretKey, token, userseq,password, active, loginid, usertype) {
+        try {
+            var apiURL = "";
+            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/update";
+            else apiURL = `http://localhost:3000/api/users/update`;
+
+            const {body} = await got.patch(apiURL, {
+                headers: {
+                    contentType: "application/json",
+                    "User-Agent": "DEVICE-AGENT",
+                    userAgent: "DEVICE-AGENT",
+                    'Authorization': token
+                },
+                json: {
+                    active: active,
+                    loginid: loginid,
+                    usertype: usertype,
+                    seq: userseq,
+                    key: secretKey,
+                    password:password
+                },
+                responseType: "json",
+            });
+            if (body.result === "success") {
+                console.log("body.result === success");
+                return body.data;
+            } else {
+                //실패
+                logger.writeLog("error", `back - services/UserService/update: ${body.result}`);
+                return null;
+            }
+        } catch (error) {
+            logger.writeLog("error", `back - services/userService/update: ${error}`);
+        }
+    }
     // 유저 삭제
     static async remove(secretKey, token, userseq) {
         try {
