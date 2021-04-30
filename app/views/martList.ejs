@@ -52,7 +52,7 @@
                             list.forEach(item => { %> 
                         <tr class="gradeA">
                             <td><%=item.NAME %></td>
-                            <td><% if (item.LOGOFILE) {%><button class="btn btn-icon btn-xs waves-effect waves-light btn-default logoView" code="<%=item.SEQ %>" image="<%=item.LOGOFILE %>"> <i class="ti ti-zoom-in"></i> </button> <span><%=item.LOGOFILE %></span><% } %></td>
+                            <td><% if (item.LOGOFILE) {%><img src='<%=hostName %>/api/files/get/<%=item.LOGOFILE %>'><% } %></td>
                             <td><%=item.REGNO %></td>
                             <td>(<%=item.POSTCODE %>) <%=item.ADDRESS %> <%=item.ADDRESSEXTRA %></td>
                             <td><%=item.CONTACT %></td>
@@ -174,16 +174,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="LOGOFILE" class="control-label">로고 이미지 파일</label>
-                                <input type="file" class="form-control" id="LOGOFILE" placeholder="로고 이미지" accept=".jpg">
-                                <input type="hidden" class="form-control" id="LOGOFILE_Name">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" id="logoImageSavedRow">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="LOGOFILE" class="control-label">기존 등록된 이미지</label>
-                                <div id="LOGOFILE_Saved" class="bootstrap-tagsinput"></div>
+                                <input type="file" class="form-control" id="LOGOFILE" placeholder="로고 이미지" accept=".jpg,.png">
                             </div>
                         </div>
                     </div>
@@ -295,15 +286,7 @@
         .success(function(json){
             if (json.result == "success") {
                 $("#SEQ").val(json.data.SEQ);
-                
-                $("#LOGOFILE_Name").val('');
-                if (json.data.LOGOFILE && json.data.LOGOFILE != "") {
-                    $("#LOGOFILE_SavedRow").show();
-                    $("#LOGOFILE_Saved").html('<span class="tag label label-info">' + json.data.LOGOFILE + '<span data-role="remove" onclick="removeLogoImage()"></span></span>');
-                    $("#LOGOFILE_Name").val(json.data.LOGOFILE);
-                } else {
-                    $("#LOGOFILE_SavedRow").hide();
-                }
+                $("#LOGOFILE").val('');
 
                 $('#martUpdateImageModal').modal();
             }
@@ -320,20 +303,22 @@
         // 파일이 있으면 먼저 업로드한다 
         if ($("#LOGOFILE").val() != "") {
             var formData = new FormData();
-            formData.append("SEQ", $("#SEQ").val());
-            formData.append("LOGOFILE", $('#LOGOFILE')[0].files[0]);
+            formData.append("location", 'martlogo');
+            formData.append("uploadFile", $('#LOGOFILE')[0].files[0]);
             $.ajax({
-                url: '/mart/uploadlogo',  
+                url: hostName + '/api/files/uploadSingle',  
                 type: 'POST',
                 dataType: "json",
                 data: formData,
                 async: false,
                 success:function(json){
+                    // 업로드가 성공했으면 정보를 업데이트
                     if (json.result == "success") {
                     logoImage = json.data.filename;
                     doPostCallSync("/mart/updatelogo", {
-                        code: $("#code").val(),
-                        logoImage: logoImage
+                        SEQ: $("#SEQ").val(),
+                        location: 'martlogo',
+                        LOGOFILE: logoImage
                     })
                     .success(function(json){
                         if (json.result == "success") location.reload();
@@ -349,7 +334,7 @@
             }); 
         }
 
-        location.reload()
+        // location.reload()
     }
 
 </script>

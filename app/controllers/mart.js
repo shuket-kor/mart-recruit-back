@@ -1,6 +1,7 @@
 const numeral = require('numeral');
 const moment = require('moment');
 const martService = require('../services/mart.js');
+const { path } = require('app-root-path');
 const rowCount = 5;
 
 module.exports = {
@@ -34,6 +35,19 @@ module.exports = {
         });
     },
 
+    async updateLogo(req, res, next) {
+        const SEQ = req.body.SEQ;
+        const location = req.body.location;
+        const LOGOFILE = location + "/" + req.body.LOGOFILE;
+        
+        const returnData = await martService.updateLogo(req.cookies.xToken, SEQ, LOGOFILE);
+        res.json({
+            result: (returnData == null) ? 'fail' : 'success',
+            data: returnData
+        });
+    },
+
+
     async list(req, res, next) {
         // 지역 리스트를 얻는다
         const currentPage = (req.query.page) ? req.query.page : 1;
@@ -45,7 +59,7 @@ module.exports = {
             layout: 'layouts/default',
             moment: moment,
             title : req.app.get('baseTitle') + ' 마트관리',
-            hostName: req.app.get('apiHost'),
+            hostName: process.env.APIHOST,
             mediaPath: req.app.get('mediaPath'),
             unreadNoticeCount: 0,
             searchName: req.query.name,

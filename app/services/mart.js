@@ -63,6 +63,34 @@ module.exports = class martService {
         }
     }  
 
+    static async updateLogo(token, SEQ, LOGOFILE) {
+        try {
+            var apiURL = `${process.env.APIHOST}/api/mart/updateLogo`;
+
+            const {body} = await got.post(apiURL, {
+                headers: {
+                    'contentType': 'application/json',
+                    'User-Agent': 'DEVICE-AGENT',
+                    'userAgent': 'DEVICE-AGENT',
+                    'Authorization': token
+                }, json: {
+                    SEQ: SEQ,
+                    LOGOFILE: LOGOFILE
+                },
+                responseType: 'json'
+            });
+            if (body.result === 'success') {
+                return body.data;
+            } else {
+                //실패
+                logger.writeLog('error', `services/martService/updateLogo: 마트 로고 파일 업데이트 실패 SEQ: ${SEQ}`);           
+                return null;
+            }
+        } catch (error) {
+            logger.writeLog('error', `services/martService/updateLogo: ${error}`);
+        }
+    }  
+
     static async remove(token, SEQ, page) {
         try {
             var apiURL = `${process.env.APIHOST}/api/mart/remove?seq=${SEQ}`;
