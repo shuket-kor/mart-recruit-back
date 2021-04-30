@@ -195,7 +195,7 @@ module.exports = class userService {
     //     }
     // }
     // 유저 삭제
-    static async remove(token, userseq) {
+    static async remove(secretKey, token, userseq) {
         try {
             
             var apiURL = "";
@@ -210,7 +210,8 @@ module.exports = class userService {
                     'Authorization': token
                 },
                 json: {
-                    seq: userseq
+                    seq: userseq,
+                    key: secretKey
                 },
                 responseType: "json"
             });

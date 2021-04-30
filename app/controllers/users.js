@@ -1,5 +1,6 @@
 // const numeral = require('numeral');
 const userService = require("../services/users.js");
+const secretKey = require("../config/secretKey").secretKey;
 const rowCount = 10;
 module.exports = {
     //  // 유저 로그인
@@ -29,7 +30,7 @@ module.exports = {
         let token = req.cookies.xToken;
         // console.log("token ? ? " + token);
         const currentPage = (req.query.page) ? req.query.page : 1;
-        let secretKey = require("../config/secretKey").secretKey;
+        
         const returnData = await userService.list(secretKey, token, req.query.name, currentPage, rowCount);
         // const returnData = await userService.list(req.query.name, currentPage, rowCount);
         // console.log(returnData.totalCount);
@@ -72,7 +73,8 @@ module.exports = {
     // 유저 삭제
     async remove(req, res, next) {
         let userseq = req.params.userseq;
-        let userDelete = await userService.remove(req.cookies.xToken, userseq);
+        let token = req.cookies.xToken;
+        let userDelete = await userService.remove(secretKey, token, userseq);
 
         res.redirect('/user/list')
         // res.render("userlist", {
