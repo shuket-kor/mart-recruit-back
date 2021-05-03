@@ -19,13 +19,12 @@ module.exports = {
     // 유저 조회
     async list(req, res, next) {
         let token = req.cookies.xToken;
-        const userLoginId = req.query.loginId
+        console.log(req.query.loginid);
+        const userLoginId = req.query.loginid
         const userType = (req.query.usertype) ? req.query.usertype : "A";
         const currentPage = (req.query.page) ? req.query.page : 1;
-
-        console.log(currentPage)
         const returnData = await userService.list(secretKey, token, userType, userLoginId, currentPage, rowCount);
-        
+        console.log("유저타입은 ? ? ? ? " + userType)
         res.render("userlist", {
             layout: "layouts/default",
             title: "유저 관리",
@@ -34,8 +33,8 @@ module.exports = {
             unreadNoticeCount: 0,
             list: returnData.data,
             moment: moment,
-            searchId: req.query.loginId,
-            userType: req.query.userType,
+            searchId: userLoginId,
+            userType: userType,
             totalCount: returnData.totalCount,
             rowCount: rowCount,
             page: currentPage,
@@ -54,26 +53,35 @@ module.exports = {
     },
 
     // // 유저 생성
-    // async create(req, res, next) {
-    //     const body = req.body;
-    //     let userCreate = await userService.userCreate(body);
-    //     // console.log("완료 이다음 렌더 해야함.");
-    //     res.render("user", {
-    //         layout: "layouts/default",
-    //         info: userCreate,
-    //     });
-    // },
+    async create(req, res, next) {
+        let loginid = req.body.loginid;
+        let active = req.body.active;
+        let usertype = req.body.usertype;
+        let password = req.body.password;
+
+        let userCreate = await userService.userCreate( password,  active, loginid, usertype);
+        console.log("@@@@@@@@@");
+        console.log(userCreate);
+        res.json({
+            result: (userCreate == null) ? 'fail' : 'success',
+            data: userCreate
+        });
+    },
 
     // // 유저 수정
     async update(req, res, next) {
-        let userseq = req.params.userseq;
-        let loginid = req.params.loginid;
-        let active = req.params.active;
-        let usertype = req.params.usertype;
+        let userseq = req.body.userseq;
+        let loginid = req.body.loginid;
+        let active = req.body.active;
+        let usertype = req.body.usertype;
         let token = req.cookies.xToken;
-        let password = req.params.password;
-        console.log(password);
+        let password = req.body.password;
+        // console.log("백오피스 컨트롤러 토큰 ? ? "+token);
         let userUpdate = await userService.update(secretKey, token, userseq, password,  active, loginid, usertype);
+        res.json({
+            result: (userUpdate == null) ? 'fail' : 'success',
+            data: userUpdate.data
+        });
         res.redirect('/user/list')
     },
 

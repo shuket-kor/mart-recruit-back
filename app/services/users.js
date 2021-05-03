@@ -75,8 +75,6 @@ module.exports = class userService {
             var apiURL = "";
             if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/list";
             else apiURL = `http://localhost:3000/api/users/list`;
-            console.log(token);
-            console.log(currentPage)
             const { body } = await got.post(apiURL, {
                 headers: {
                     'contentType': 'application/json',
@@ -106,44 +104,41 @@ module.exports = class userService {
         }
     }
 
-    // // 유저 생성
-    // static async userCreate(body) {
-    //     try {
-    //         var apiURL = "";
-    //         if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users";
-    //         else apiURL = `http://localhost:3000/api/users`;
-
-    //         const createUser = await got.post(apiURL, {
-    //             json: {
-    //                 user_id: body.user_id,
-    //                 password: body.password,
-    //                 usertype: body.user_type,
-    //                 active: body.active,
-    //             },
-    //             responseType: "json",
-    //         });
-    //         console.log("createUser.body ? ? ? " + createUser.body);
-    //         // let userList = JSON.parse(createUser.body);
-    //         console.log(typeof createUser);
-    //         if (createUser.body.result === "success") {
-    //             console.log("body.result === success");
-    //             return createUser.body.data;
-    //         } else {
-    //             //실패
-    //             logger.writeLog("error", `services/getUserService/create: ${getUser.body.result}`);
-    //             return createUser.body;
-    //         }
-    //     } catch (error) {
-    //         logger.writeLog("error", `services/getUserService/create: ${error}`);
-    //     }
-    // }
-
-    // 유저 수정
-    static async update(secretKey, token, userseq,password, active, loginid, usertype) {
+    // 유저 생성
+    static async userCreate( password, active, loginid, usertype) {
         try {
             var apiURL = "";
-            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/update";
-            else apiURL = `http://localhost:3000/api/users/update`;
+            loginid = (loginid) ? loginid : '';
+            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/create";
+            else apiURL = `http://localhost:3000/api/users/create`;
+            const {body} = await got.post(apiURL, {
+                json: {
+                    active: active,
+                    userId: loginid,
+                    userType: usertype,
+                    password:password
+                },
+                responseType: "json",
+            });
+            if (body.result === "success") {
+                console.log("body.result === success");
+                return body.data;
+            } else {
+                //실패
+                logger.writeLog("error", `back -services/userService/create: ${getUser.body.result}`);
+                return null;
+            }
+        } catch (error) {
+            logger.writeLog("error", `back catch - services/userService/create: ${error}`);
+        }
+    }
+
+    // 유저 수정
+    static async update(secretKey, token, userseq, password, active, loginid, usertype) {
+        try {
+            var apiURL = "";
+            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/update/"+userseq;
+            else apiURL = `http://localhost:3000/api/users/update/`+userseq;
 
             const {body} = await got.patch(apiURL, {
                 headers: {
@@ -154,8 +149,8 @@ module.exports = class userService {
                 },
                 json: {
                     active: active,
-                    loginid: loginid,
-                    usertype: usertype,
+                    userId: loginid,
+                    userType: usertype,
                     seq: userseq,
                     key: secretKey,
                     password:password
