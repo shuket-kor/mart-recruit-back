@@ -1,7 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
-const { list } = require('../app/controllers/recruit.js');
+const { get, remove, list } = require('../app/controllers/recruit.js');
+
+router.get('/get', get);
+
+router.get('/remove', remove);
 
 router.get('/list', list);
 

@@ -1,7 +1,5 @@
-const numeral = require('numeral');
 const moment = require('moment');
 const martService = require('../services/mart.js');
-const { path } = require('app-root-path');
 const rowCount = 5;
 
 module.exports = {
@@ -49,7 +47,6 @@ module.exports = {
 
 
     async list(req, res, next) {
-        // 지역 리스트를 얻는다
         const currentPage = (req.query.page) ? req.query.page : 1;
         const message = (req.query.message) ? req.query.message : 0;
         

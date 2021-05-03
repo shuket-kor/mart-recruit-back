@@ -16,16 +16,16 @@
                 </div>
             </div>
         </div>
-
         <div class="panel">
             <div class="panel-body">
                 <div class="row">
                     <label class="col-md-2 col-form-label" for="simpleinput">지역</label>
                     <div class="col-md-10">
-                <% if (regionList) {
+                <% 
+                    if (regionList) {
                     regionList.forEach(region => {%>
                     <div class="m-r-10 pull-left"> 
-                        <input id="region_<%=region.SEQ %>" type="checkbox" class="m-r-5" <%=(region.SEQ == 18) ? 'checked' : '' %>> <%=region.NAME %>
+                        <input name="workingRegion" value="<%=region.SEQ %>" id="workingRegion_<%=region.SEQ %>" type="checkbox" class="workingRegion m-r-5"> <%=region.NAME %>
                     </div>
                 <%}) 
                 } %>
@@ -34,18 +34,13 @@
                 <div class="m-b-10 m-t-10 row">
                     <label class="col-md-2 col-form-label" for="simpleinput">마트명</label>
                     <div class="col-md-10">
-                        <input type="text" id="simpleinput" class="form-control" value="검색할 마트의 이름 전체 또는 일부를 입력하세요">
-                    </div>
-                </div>
-                <div class="m-b-10 m-t-10 row">
-                    <label class="col-md-2 col-form-label" for="simpleinput">공고 제목</label>
-                    <div class="col-md-10">
-                        <input type="text" id="simpleinput" class="form-control" value="검색할 공고의 제목 일부를 입력하세요">
+                        <input type="text" id="name" class="form-control" placeholder="검색할 마트의 이름 전체 또는 일부를 입력하세요" value="<%=name %>">
                     </div>
                 </div>
                 <div class="m-b-10 m-t-10 row">
                     <div class="col-md-10 col-md-offset-2">
-                        <button type="button" class="btn btn-inverse waves-effect waves-light btn-md" id="addNew">검색 <i class="fa fa-search"></i></button>        
+                        <button type="button" class="btn btn-inverse waves-effect waves-light btn-md" id="button-search">검색 <i class="fa fa-search"></i></button>        
+                        <button type="button" class="btn btn-default waves-effect waves-light btn-md" id="button-search-reset">조건 리셋 <i class="fa fa-search"></i></button>        
                     </div>
                 </div>
             </div>
@@ -57,33 +52,40 @@
                     <thead>
                         <tr>
                             <th>마트이름</th>
-                            <th>공고제목</th>
+                            <th>공고</th>
                             <th>직종</th>
+                            <th>직급</th>
+                            <th>근무형태</th>
                             <th>희망지역</th>
                             <th>기간</th>
-                            <th>담당자정보</th>                            
+                            <th>지원자</th>
                             <th>수정일</th>
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>                       
+                    <tbody>
+                    <% if (list) {
+                        list.forEach(item => { %> 
                         <tr class="gradeA">
-                            <td><% %></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td><%=item.NAME %></td>
+                            <td><a href='#' onclick="javascript:managePost(<%=item.SEQ %>);"><%=item.SUBJECT %></a></td>
+                            <td><%=item.JOBKIND_NAME %></td>
+                            <td><%=item.JOBRANK %></td>
+                            <td><%=item.WORKINGTYPE_NAMES %></td>
+                            <td><%=item.WORKREGION_NAME %></td>
+                            <td><%=moment(item.STARTDATE).format('YYYY-MM-DD') %> ~ <%=moment(item.ENDDATE).format('YYYY-MM-DD') %></td>
+                            <td><%=item.APPLYCOUNT %></td>
+                            <td><%= moment(item.MODIFIED).format('YYYY-MM-DD hh:mm:ss') %></td>
                             <td class="actions">
-                                <a href="#" class="on-default edit-row" onclick="javascript:certificateResume(76);"><i class="fa fa-pencil"></i></a>
-                                <a href="#" class="on-default remove-row" onclick="javascript:removeResume(76);"><i class="fa fa-trash-o"></i></a>
+                                <a href="#" class="text-danger" onclick="javascript:managePost(<%=item.SEQ %>);"><i class="fa fa-pencil fa-sm"></i></a>
                             </td>
                         </tr>                                                                 
+                        <%})
+                    } %>
                     </tbody>
                 </table>
                 <div class="row" style="text-align: center;">
-                    <ul class="pagination pagination-split" id="users-page"></ul>
+                    <ul class="pagination pagination-split" id="recruit-page"></ul>
                 </div>
             </div>
         </div>
@@ -92,3 +94,53 @@
 </div>
 
 <%- contentFor('script') %>
+<script>
+    let totalCount =<%=totalCount %>; 
+    let page = <%=page %>;
+    let rowCount = <%=rowCount %>;
+    let regions = [<%=regions %>];
+    let name = '<%=name %>';
+
+    $(document).ready(function() {
+        // 페이저 만들기
+        if (totalCount <= rowCount) {
+            $('#recruit-page').hide();
+        } else {
+            createPager('recruit-page', totalCount, rowCount, page, 5, `/recruit/list?regions=${regions}&name=${name}`);
+        }
+        $("#name").keypress(function(e) {
+            if (e.keyCode == 13 && $(this).val().length > 0) search();
+        });
+        regions.forEach(item => {
+            $('input:checkbox[id="workingRegion_' + item + '"]').prop("checked", true);
+        });
+        $("#name").keypress(function(e) {
+            if (e.keyCode == 13 && $(this).val().length > 0) search();
+        });
+        $("#button-search").click(function() { search(); })
+        $("#button-search-reset").click(function() {
+            $('input:checkbox[name="workingRegion"]').prop("checked", false);
+            $('#name').val('');
+        })
+    });
+
+    function getRegions() {
+        var checkRegion = "";
+        $('input:checkbox[name="workingRegion"]').each(function() {
+            if(this.checked){
+                checkRegion += this.value + ","; 
+            }
+        });
+        if (checkRegion.length > 0) checkRegion = checkRegion.substring(0, checkRegion.length - 1);
+        return checkRegion;
+    }
+
+    function search() {
+        let regions = getRegions();
+        self.location = `/recruit/list?regions=${regions}&name=${$('#name').val()}`;
+    }
+
+    function managePost(seq) {
+        self.location = `/recruit/get?seq=${seq}&regions=${regions}&name=${name}&page=${page}`;
+    }
+</script>

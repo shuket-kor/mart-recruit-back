@@ -1,18 +1,80 @@
-const numeral = require('numeral');
+const { response } = require('express');
+const moment = require('moment');
 const commonService = require('../services/common.js');
+const martService = require('../services/mart.js');
+const recruitService = require('../services/recruit.js');
+const resumeService = require('../services/resume.js');
+const rowCount = 5;
 
 module.exports = {
-    async list(req, res, next) {
-        // 지역 리스트를 얻는다
-        const regionList = await commonService.getWorkingRegion();
-
-        res.render('recruitList', { 
+    async get(req, res, next) {
+        const seq = (req.query.seq) ? req.query.seq : null;
+        const currentPage = (req.query.page) ? req.query.page : 1;
+        const regions = (req.query.regions) ? req.query.regions : '';
+        const name = (req.query.name) ? req.query.name : '';
+       
+        const recruitInfo = (seq) ? await recruitService.get(req.cookies.xToken, seq) : null;
+        const resumeList = (recruitInfo) ? await resumeService.listPerRecruit(req.cookies.xToken, seq) : null;
+        const martInfo = (recruitInfo) ? await martService.get(req.cookies.xToken, recruitInfo.MART_SEQ) : null;
+        // console.log(martInfo);
+        // console.log(recruitInfo);
+        // console.log(resumeList);
+        res.render('recruitView', { 
             layout: 'layouts/default',
-            title : req.app.get('baseTitle') + ' 구인공고 관리',
-            hostName: req.app.get('apiHost'),
+            moment: moment,
+            title : req.app.get('baseTitle') + ' 구인공고 상세',
+            hostName: process.env.APIHOST,
             mediaPath: req.app.get('mediaPath'),
             unreadNoticeCount: 0,
-            regionList: regionList
+            regions: regions,
+            name: name,
+            page: currentPage,
+            martInfo: martInfo,
+            recruitInfo: recruitInfo,
+            resumeList: resumeList
+          });
+    },
+
+    async remove(req, res, next) {
+        const seq = (req.query.seq) ? req.query.seq : null;
+       
+        const returnData = await recruitService.remove(req.cookies.xToken, seq);
+
+        if (returnData) {           
+            res.status(200).json({
+                result: 'success',
+                data: seq
+            });
+        } else {
+            res.status(200).json({
+                result: 'fail',
+                data: seq
+            });            
+        }
+    },
+
+    async list(req, res, next) {
+        const currentPage = (req.query.page) ? req.query.page : 1;
+        const regions = (req.query.regions) ? req.query.regions : '';
+        const name = (req.query.name) ? req.query.name : '';
+
+        // 지역 리스트를 얻는다
+        const regionList = await commonService.getWorkingRegion();       
+        const returnData = await recruitService.list(req.cookies.xToken, regions, name, currentPage, rowCount);
+        res.render('recruitList', { 
+            layout: 'layouts/default',
+            moment: moment,
+            title : req.app.get('baseTitle') + ' 구인공고 관리',
+            hostName: process.env.APIHOST,
+            mediaPath: req.app.get('mediaPath'),
+            unreadNoticeCount: 0,
+            regionList: regionList,
+            regions: regions,
+            name: name,
+            totalCount: returnData.totalCount,
+            rowCount: rowCount,
+            page: currentPage,
+            list: returnData.list
           });
     }
 }

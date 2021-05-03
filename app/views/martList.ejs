@@ -27,7 +27,8 @@
                 </div>
                 <div class="m-b-10 m-t-10 row">
                     <div class="col-md-10 col-md-offset-2">
-                        <button type="button" class="btn btn-inverse waves-effect waves-light btn-md" id="btnSearch">검색 <i class="fa fa-search"></i></button>        
+                        <button type="button" class="btn btn-inverse waves-effect waves-light btn-md" id="button-search">검색 <i class="fa fa-search"></i></button>        
+                        <button type="button" class="btn btn-default waves-effect waves-light btn-md" id="button-search-reset">조건 리셋 <i class="fa fa-search"></i></button>        
                     </div>
                 </div>
             </div>
@@ -59,9 +60,9 @@
                             <td><%= moment(item.CREATED).format('YYYY-MM-DD hh:mm:ss') %></td>
                             <td><%= moment(item.MODIFIED).format('YYYY-MM-DD hh:mm:ss') %></td>
                             <td class="actions">
-                                <a href="#" class="on-default edit-row" onclick="javascript:editMart(<%=item.SEQ %>);"><i class="fa fa-pencil"></i></a>
-                                <a href="#" class="on-default edit-row" onclick='javascript:editMartImage(<%=item.SEQ %>);'><i class="fa fa-picture-o"></i></a>
-                                <a href="#" class="on-default remove-row" onclick="javascript:removeMart(<%=item.SEQ %>);"><i class="fa fa-trash-o"></i></a>
+                                <a href="#" class="on-default edit-row" onclick="javascript:editMart(<%=item.SEQ %>);"><i class="fa fa-pencil fa-sm"></i></a>
+                                <a href="#" class="on-default edit-row" onclick='javascript:editMartImage(<%=item.SEQ %>);'><i class="fa fa-picture-o fa-sm"></i></a>
+                                <a href="#" class="on-default remove-row" onclick="javascript:removeMart(<%=item.SEQ %>);"><i class="fa fa-trash-o fa-sm"></i></a>
                             </td>
                         </tr>
                         <%})
@@ -207,7 +208,10 @@
         $("#name").keypress(function(e) {
             if (e.keyCode == 13 && $(this).val().length > 0) search();
         });
-        $("#btnSearch").click(function() { search(); })
+        $("#button-search").click(function() { search(); })
+        $("#button-search-reset").click(function() {
+            $('#name').val('');
+        })
         $("#button-actionSave").click(function() { saveMart(); });
         $("#button-actionSaveImage").click(function() { uploadLogo(); })
 
