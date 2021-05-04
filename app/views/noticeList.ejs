@@ -1,0 +1,229 @@
+<%- contentFor('css') %>
+
+<%- contentFor('content') %>
+<div class="content">
+    <div class="container">
+        <!-- page title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <ol class="breadcrumb pull-right">
+                    <li><a href="#">Home</a></li>
+                    <li class="active">공지사항 관리</li>
+                </ol>
+                <h4 class="page-title">공지사항 관리</h4>
+            </div>
+        </div><!-- page title /end -->
+
+        <div class="panel">
+            <div class="panel-body table-responsive">
+                <button type="button" class="btn btn-primary waves-effect waves-light m-l-10 btn-md pull-right" data-toggle="modal" data-target="#noticeCreateModal" id="addNew">공지사항 추가 <i class="fa fa-plus"></i></button>
+                <table class="table table-striped" id="datatable-editable">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>제목</th>
+                            
+                            <th>작성자</th>
+                            <th>작성일</th>
+                            <th>수정일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--  data-toggle="modal" data-target="#noticeViewModal" style="cursor: pointer;" -->
+                        <% list.forEach(item => { %> 
+                            
+                                <tr>
+                                    <td></td>
+                                    <td data-toggle="modal" data-target="#noticeViewModal" style="cursor: pointer;"><a href="javascript:void(0);" onclick="getModalData('<%=item.SEQ%>', 'dt');" id="getMethod"><%=item.SUBJECT %></a></td><!-- 모달버튼 -->
+                                    <td><%=item.USER_SEQ %></td>
+                                    <td><%=item.CREATED %></td>
+                                    <td><%=item.MODIFIED %></td>
+                                    <td class="actions">
+                                        <a href="javascript:void(0);" onclick="getModalData('<%=item.SEQ %>', 'md');" class="on-default edit-row" id="updata-button" ><i class="fa fa-pencil" data-toggle="modal" data-target="#noticeEditModal"></i></a>
+                                        <a href="#" class="on-default remove-row" onclick="javascript:removeNotice('<%=item.SEQ %>');"  ><i class="fa fa-trash-o"></i></a>
+                                    </td>
+                                </tr>
+                            
+                            <%}) %> 
+                    </tbody>
+                </table>
+                <div class="row" style="text-align: center;">
+                    <ul class="pagination pagination-split" id="mart-page"></ul>
+                </div>
+            </div>
+        </div><!--panel-->
+    </div>
+        <!-- 생성 모달 -->
+        <div id="noticeCreateModal" class="modal fade" tabindex="-1" aria-labelledby="noticeCreateModal" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="noticeCreateModal-Title">공지사항 추가</h4>
+                </div>
+                <form action="create" method="POST">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="title" class="control-label">제목</label>
+                                <input type="text" class="form-control" name="subject" placeholder="제목을 입력하세요.">
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="content" class="control-label" >공지사항 내용</label>
+                            <textarea type="text" class="form-control" name="content" placeholder="내용을 입력하세요"></textarea>
+                        </div>
+                    </div>
+                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">닫기</button>
+                        <button type="submit" id="button-createSave" class="btn btn-info waves-effect waves-light" onclick="noticeCreate()">저장</button>
+                    </div>
+                </form>
+              </div><!--modal-content-->
+            </div><!--modal-dialog-->
+        </div><!--noticeCreateModal 생성 모달 끝 -->
+
+
+        <!-- 자세히  모달 시작 -->
+        <div id="noticeViewModal" class="modal fade" tabindex="-1" aria-labelledby="noticeViewModal" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="noticeViewModal-Title">공지사항</h4>
+                </div>
+                
+                    <form>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <p>제목</p>
+                                    <p id="dt-subject"></p>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p>내용</p>
+                                <p id="dt-content"></p>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">닫기</button>
+                        </div>
+                    </form>
+                    
+              </div><!--modal-content-->
+            </div><!--modal-dialog-->
+        </div><!--noticeCreateModal 자세히 모달 끝 -->
+
+        <!-- 수정 모달 시작 -->
+        
+        <div id="noticeEditModal" class="modal fade" tabindex="-1" aria-labelledby="noticeEditModal" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="noticeEditModal-Title">공지사항 수정</h4>
+                </div>
+                    <form action="update" method="POST">
+                        <input type="hidden" name="mdSeq" id="mdSeq" value="">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="title" class="control-label">제목</label>
+                                        <input type="text" class="form-control" name="mdSubject" id="mdSubject" placeholder="제목을 입력하세요.">
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="content" class="control-label" >공지사항 내용</label>
+                                    <textarea type="text" class="form-control" name="mdContent" id="mdContent" placeholder="내용을 입력하세요"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">닫기</button>
+                                <button type="submit" id="button-createSave" class="btn btn-info waves-effect waves-light" >수정 완료</button>
+                            </div>
+                    </form>
+              </div><!--modal-content-->
+            </div><!--modal-dialog-->
+        </div><!--noticeCreateModal 수정 모달 끝 -->
+
+
+    
+</div>
+
+<%- contentFor('script') %>
+
+<script>
+    var totalCount = <%= totalCount %>; 
+    var page = <%= page %>;
+    var rowCount = <%= rowCount %>;   
+
+    $(document).ready(function() {
+        // 페이저 만들기
+        if (totalCount <= rowCount) {
+            $('#mart-page').hide();
+        } else {
+            createPager('mart-page', totalCount, rowCount, page, 5, `/notice/list?`);
+
+        }
+        
+        
+    });
+
+
+    // get 자세히 보기 모달
+    function getModalData(seq, type) {
+        console.log(seq);
+        console.log(type);
+        $("#subject").text();
+        $.get(`/notice/view?seq=${seq}`, function(res) {
+            var data = res.data;
+           
+            if (type == 'dt') {
+                $("#dt-subject").text(data.SUBJECT);
+                $("#dt-content").text(data.CONTENT); 
+            }else if(type == 'md'){
+                $("#mdSeq").val(seq);
+                $("#mdSubject").val(data.SUBJECT);
+                $("#mdContent").val(data.CONTENT);
+            }
+            
+        });  
+
+    }
+
+   
+
+    // 공지사항 삭제
+    function removeNotice(seq) {
+            self.location = `/notice/remove?seq=${seq}`;
+    };
+
+
+    
+
+    
+    
+
+
+    
+    
+    
+
+
+</script>
