@@ -19,23 +19,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="panel">
-                <div class="panel-body">
-                    <div class="col-lg-4">
-                        <ul class="nav nav-tabs navtab-custom">
-                            <li class='tab'>
-                                <a href="/user/list?usertype=A">관리자 관리</a>
-                            </li>
-                            <li class='tab'>
-                                <a href="/user/list?usertype=U" >유저 관리</a>
-                            </li>
-                            <li class='tab'>
-                                <a href="/user/list?usertype=M" >마트유저 관리</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            <!-- <div class="panel">
+                <div class="panel-body"> -->
+
+                <!-- </div>
+            </div> -->
         </div>
         <div class="panel">
             <div class="panel-body">
@@ -69,9 +57,26 @@
                                 </div>
                             </div>
                         </div> -->
-
                         <!-- 관리자 리스트 테이블 -->
+
                         <table class="table table-hover" style="background-color: #eee">
+                            <div class="panel">
+                                <div class="panel-body">
+                                        <div class="col-lg-4">
+                                            <ul class="nav nav-tabs navtab-custom">
+                                                <li class='tab'>
+                                                    <a href="/user/list?usertype=A">관리자 관리</a>
+                                                </li>
+                                                <li class='tab'>
+                                                    <a href="/user/list?usertype=U" >유저 관리</a>
+                                                </li>
+                                                <li class='tab'>
+                                                    <a href="/user/list?usertype=M" >마트유저 관리</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             <tr style="background-color: #fff">
                                 <td>
                                     <font size="2pt"
@@ -299,11 +304,11 @@
             doGetCallSync("/user/get/" + userseq)
             .success(function(json){
                 if (json.result == "success") {
-                    $("#USERSEQ").val(json.data.SEQ);
-                    $("#USERTYPE").val(json.data.USERTYPE);
-                    $("#LOGINID").val(json.data.LOGINID);
-                    $("#ACTIVE").val(json.data.ACTIVE);
-                    $("#PASSWORD").val(json.data.PWD);
+                    $("#edit-userseq").val(json.data.SEQ);
+                    $("#edit-usertype").val(json.data.USERTYPE);
+                    $("#edit-loginid").val(json.data.LOGINID);
+                    $("#edit-active").val(json.data.ACTIVE);
+                    $("#edit-password").val(json.data.PWD);
                     $('#userEditModal').modal();
                 }
             })
