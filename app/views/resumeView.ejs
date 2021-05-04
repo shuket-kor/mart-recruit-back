@@ -1,0 +1,250 @@
+<%- contentFor('css') %>
+
+<%- contentFor('content') %>
+<div class="content">
+    <div class="container">
+
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <ol class="breadcrumb pull-right">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="list?regions=<%=regions %>&name=<%=name %>&certificate=<%=certificate %>&jobKinds=<%=jobKinds %>&page=<%=page %>">이력서 관리</a></li>
+                        <li class="active">이력서 상세</li>
+                    </ol>
+                    <h4 class="page-title">이력서 상세</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-8 col-lg-9">
+                <ul class="nav nav-tabs navtab-custom">
+                    <li class="active">
+                        <a href="#details" data-toggle="tab" aria-expanded="true">
+                            <span class="visible-xs"><i class="fa fa-user"></i></span>
+                            <span class="hidden-xs">이력서 내용</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#resumes" data-toggle="tab" aria-expanded="false">
+                            <span class="visible-xs"><i class="fa fa-photo"></i></span>
+                            <span class="hidden-xs">경력 사항</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="details">
+                        <div class="m-t-30">
+                            <div class="row">
+                                <div class="p-t-10 col-md-6">
+                                    <h4><%=resumeInfo.SUBJECT %></h4>
+                                </div>
+                                <div class="p-t-10 col-md-6">
+                                    <% if (resumeInfo.CERTIFICATE == 'Y') { %>
+                                    <div class="widget-bg-color-icon card-box">
+                                        <div class="bg-icon bg-icon-success pull-left">
+                                            <i class="fa fa-check"></i>
+                                        </div>
+                                        <div class="text-center">
+                                            <h3 class="text-dark"><b>CERTIFICATED</b></h3>
+                                            <p class="text-muted"><%=moment(resumeInfo.CERTIFICATEDATE).format('YYYY-MM-DD') %></p>
+                                            <p><button type="button" class="btn btn-warning waves-effect w-md waves-light m-t-5" id="button-certificate-cancel">검증 취소</button></p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <% } %>
+                                    <% if (resumeInfo.CERTIFICATE == 'N' && resumeInfo.CAREERCERTIFICATE) { %>
+                                    <div class="widget-bg-color-icon card-box">
+                                        <div class="bg-icon bg-icon-success pull-left">
+                                            <i class="fa fa-gear fa-spin"></i>
+                                        </div>
+                                        <div class="text-center">
+                                            <h3 class="text-dark"><b>WAIT</b></h3>
+                                            <p class="text-muted">아직 검증되지 않았습니다</p>
+                                            <p><button type="button" class="btn btn-success waves-effect w-md waves-light m-t-5" id="button-certificate">검증 완료</button></p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <% } %>                                                
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="p-t-10 col-md-6">
+                                    <h5 class="text-primary m-b-10">학력 사항</h5>
+                                    <p><b>학력: </b><%=resumeInfo.EDUCATION %></p>
+                                    <p><b>최종 학교: </b><%=resumeInfo.EDUCATIONSCHOOL %></p>
+                                </div>
+                                <div class="p-t-10 col-md-6">
+                                    <h5 class="text-primary m-b-10">보유 기술 및 능력</h5>
+                                    <p><b>보유 기술: </b><%=resumeInfo.TECHNICAL %></p>
+                                    <p><b>자격증: </b><%=resumeInfo.LICENSE %></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="p-t-10  col-md-6">
+                                    <h5 class="text-primary m-b-10">취업 우대 사항</h5>
+                                    <p><b>보훈 대상: </b><%=resumeInfo.ISWELFARE %></p>
+                                    <p><b>병역: </b><%=resumeInfo.ISMILITALY %></p>
+                                </div>
+                                <div class="p-t-10 col-md-6">
+                                    <h5 class="text-primary m-b-10">희망 근무 조건</h5>
+                                    <p><b>근무형태: </b><%=resumeInfo.WORKINGTYPE_NAMES %></p>
+                                    <p><b>연봉: </b><%=resumeInfo.SALARY %></p>
+                                    <p><b>지역: </b><%=resumeInfo.WORKREGION_NAME %></p>
+                                    <p><b>직종: </b><%=resumeInfo.JOBKIND_NAME %></p>
+                                </div>
+                            </div>
+                            <%
+                            if (resumeInfo.CAREERCERTIFICATE) {%> 
+                            <div class="row">
+                                <div class="p-t-10  col-md-12">
+                                    <h5 class="text-primary m-b-10">
+                                        <a href='<%=hostName %>/api/files/get/<%=resumeInfo.CAREERCERTIFICATE %>' target="_blank"><i class="fa fa-file-text-o"></i> 경력 인증문서 다운받기</a></h5>
+                                </div>
+                            </div>
+                            <%} %>
+                            <hr>
+                            <div class="row">
+                                <div class="p-t-10  col-md-12">
+                                    <h5 class="text-primary m-b-10">자기소개서</h5>
+                                    <div>
+                                        <%=resumeInfo.INTRODUCE %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="resumes">
+                        <div class="m-t-30">
+                            <table class="table table-striped" id="datatable-editable">
+                                <thead>
+                                    <tr>
+                                        <th>근무처</th>
+                                        <th>근무기간</th>
+                                        <th>직급직책</th>
+                                        <th>직종</th>
+                                        <th>근무지역</th>
+                                        <th>담당업무</th>                            
+                                        <th>최종연봉</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (careerList) {
+                                        careerList.forEach(item => { %> 
+                                    <tr class="gradeA">
+                                        <td><%=item.COMPANY %></td>
+                                        <td><%=moment(item.WOKSTART).format('YYYY-MM-DD') %> ~ <%=(item.WORKEND) ? moment(item.WORKEND).format('YYYY-MM-DD') : '재직 중' %></td>
+                                        <td><%=item.POSITION %></td>
+                                        <td><%=item.JOBTYPE %></td>
+                                        <td><%=item.WORKREGION %></td>
+                                        <td><%=item.CHARGE %></td>
+                                        <td><%=item.SALARY %></td>
+                                    </tr>                                                                 
+                                    <%})
+                                } %>
+                                </tbody>
+                            </table>                    
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+
+            <div class="col-lg-3 col-md-4">
+                <div class="text-center card-box">
+                    <div class="member-card">
+                        <div class="thumb-xl member-thumb m-b-10 center-block">
+                            <% if (resumeInfo.PHOTO) {%>
+                                <img src='<%=hostName %>/api/files/get/<%=resumeInfo.PHOTO %>' class="img-thumbnail" alt="profile-image">
+                            <% } else {%> 
+                                <h3><%=resumeInfo.NAME %></h3>
+                            <% }%>                            
+                        </div>
+
+                        <div class="text-left m-t-40">
+                            <p class="text-muted font-13"><strong>이름 :</strong> <span class="m-l-15"><%=resumeInfo.NAME %></span></p>
+                            <p class="text-muted font-13"><strong>나이 :</strong> <span class="m-l-15"><%=resumeInfo.BIRTHYEAR %> (<%=(resumeInfo.BIRTHYEAR) ? ((new Date()).getFullYear() - resumeInfo.BIRTHYEAR) : ''%>)</span></p>
+                            <p class="text-muted font-13"><strong>성별 :</strong><span class="m-l-15"><%=resumeInfo.GENDER %></span></p>
+                        </div>
+
+                        <div class="text-left m-t-40">
+                            <p class="text-muted font-13"><strong>우편번호 :</strong><span class="m-l-15"><%=resumeInfo.POSTCODE %></span></p>
+                            <p class="text-muted font-13"><strong>주소 :</strong> <span class="m-l-15"><%=resumeInfo.ADDRESS %> <%=resumeInfo.ADDRESSEXTRA %></span></p>
+                            <p class="text-muted font-13"><strong>연락처 :</strong> <span class="m-l-15"><%=resumeInfo.CONTACT %></span></p>
+                            <p class="text-muted font-13"><strong>이메일 :</strong> <span class="m-l-15"><%=resumeInfo.EMAIL %></span></p>
+                        </div>
+
+                        <div class="text-left m-t-40">
+                            <p class="text-muted font-13"><strong>등록일 :</strong> <span class="m-l-15"><%=moment(resumeInfo.CREATED).format('YYYY-MM-DD hh:mm:ss') %></span></p>
+                            <p class="text-muted font-13"><strong>수정일 :</strong> <span class="m-l-15"><%=moment(resumeInfo.MODIFIED).format('YYYY-MM-DD hh:mm:ss') %></span></p>
+                            <p class="text-muted font-13"><strong>상태 :</strong> <span class="m-l-15"><%=(resumeInfo.ACTIVE == 'Y') ? '게시 중' : '게시 중단' %></span></p>
+                        </div>
+                    </div>
+
+                </div> <!-- end card-box -->
+
+                <button type="button" class="btn btn-danger waves-effect w-md waves-light m-b-5 btn-block" id="button-close">게시 중단</button>
+                <button type="button" class="btn btn-default waves-effect w-md waves-light m-b-5 btn-block" id="button-list">목록</button>
+            </div> <!-- end col -->
+
+            
+        </div>
+
+
+    </div>
+    <!-- end container -->
+</div>
+
+<%- contentFor('script') %>
+<script>
+    $(document).ready(function() {
+        $("#button-list").click(function() {
+            self.location = "list?regions=<%=regions %>&name=<%=name %>&jobKinds=<%=jobKinds %>&certificate=<%=certificate %>&page=<%=page %>";
+        })
+        $("#button-close").click(function() {
+            if (confirm("게시중인 이력서를 게시 중단하시겠습니까? 중단된 이력서는 다시 게시할 수 없습니다. 이 작업은 되돌릴 수 없습니다."))
+            {
+                if (confirm("다시 한 번 확인합니다. 정말로 게시 중단하겠습니까?")) {
+                    doGetCallSync(`/resume/remove?seq=${<%=resumeInfo.SEQ %>}`)
+                    .success(function(json){
+                        if (json.result == "success") 
+                            self.location = "list?regions=<%=regions %>&name=<%=name %>&jobKinds=<%=jobKinds %>&certificate=<%=certificate %>&page=<%=page %>";
+                        else
+                            alert("이력서를 게시 중단하는 도중에 오류가 발생했습니다.");
+                    })
+                    .fail(function(sender, message, details){
+                        alert("이력서를 게시 중단하는 도중에 오류가 발생했습니다.");
+                    });
+                }
+            }
+            return false;
+        });
+        $("#button-certificate").click(function() {
+            doGetCallSync(`/resume/certificate?seq=${<%=resumeInfo.SEQ %>}`)
+            .success(function(json){
+                if (json.result == "success") 
+                    location.reload();
+                else
+                    alert("이력서를 인증하는 도중에 오류가 발생했습니다.");
+            })
+            .fail(function(sender, message, details){
+                alert("이력서를 인증하는 도중에 오류가 발생했습니다.");
+            });
+        })
+        $("#button-certificate-cancel").click(function() {
+            doGetCallSync(`/resume/clearCertificate?seq=${<%=resumeInfo.SEQ %>}`)
+            .success(function(json){
+                if (json.result == "success") 
+                    location.reload();
+                else
+                    alert("이력서를 인증 취소하는 도중에 오류가 발생했습니다.");
+            })
+            .fail(function(sender, message, details){
+                alert("이력서를 인증 취소하는 도중에 오류가 발생했습니다.");
+            });
+        })
+    });
+
+</script>

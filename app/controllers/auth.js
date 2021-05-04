@@ -32,7 +32,7 @@ module.exports = {
       const userSeq = await authService.verify(req);
       if (userSeq) {
         // 사용자 정보를 얻어서 보관
-        req.userSeq = userSeq;
+        req.userSeq = userSeq[0];
         next();
       }        
       else

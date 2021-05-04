@@ -60,8 +60,6 @@ module.exports = {
         let password = req.body.password;
 
         let userCreate = await userService.userCreate( password,  active, loginid, usertype);
-        console.log("@@@@@@@@@");
-        console.log(userCreate);
         res.json({
             result: (userCreate == null) ? 'fail' : 'success',
             data: userCreate

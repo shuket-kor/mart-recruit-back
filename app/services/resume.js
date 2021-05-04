@@ -1,17 +1,20 @@
 const logger = require('../config/logger.js');
 const got = require('got');
+const secretKey = require('../config/secretKey').secretKey;
 
 module.exports = class resumeService {
     static async get(token, seq) {
         try {
-            var apiURL = `${process.env.APIHOST}/api/recruit/get?seq=${seq}`;
+            var apiURL = `${process.env.APIHOST}/api/resume/get`;
 
-            const {body} = await got.get(apiURL, {
+            const {body} = await got.post(apiURL, {
                 headers: {
                     'contentType': 'application/json',
                     'User-Agent': 'DEVICE-AGENT',
                     'userAgent': 'DEVICE-AGENT',
                     'Authorization': token
+                }, json : {
+                    seq: seq
                 },
                 responseType: 'json'
             });
@@ -27,18 +30,25 @@ module.exports = class resumeService {
         }
     } 
 
-    static async list(token, regions, name, page, rowCount) {
+    static async list(token, regions, name, jobKinds, certificate, page, rowCount) {
         try {
-            name = (name) ? name : '';
 
-            var apiURL = `${process.env.APIHOST}/api/recruit/listForAdmin?regions=${regions}&name=${name}&page=${page}&rowCount=${rowCount}`;
+            var apiURL = `${process.env.APIHOST}/api/resume/list`;
 
-            const {body} = await got.get(apiURL, {
+            const {body} = await got.post(apiURL, {
                 headers: {
                     'contentType': 'application/json',
                     'User-Agent': 'DEVICE-AGENT',
                     'userAgent': 'DEVICE-AGENT',
                     'Authorization': token
+                }, json : {
+                    regions: regions,
+                    name: name,
+                    jobKinds: jobKinds,
+                    certificate: certificate,
+                    page: page,
+                    rowCount: rowCount,
+                    key: secretKey
                 },
                 responseType: 'json'
             });
@@ -56,14 +66,16 @@ module.exports = class resumeService {
  
     static async listPerRecruit(token, recruitSeq) {
         try {
-            var apiURL = `${process.env.APIHOST}/api/resume/listPerRecruit?recruitSeq=${recruitSeq}`;
+            var apiURL = `${process.env.APIHOST}/api/resume/listPerRecruit`;
 
-            const {body} = await got.get(apiURL, {
+            const {body} = await got.post(apiURL, {
                 headers: {
                     'contentType': 'application/json',
                     'User-Agent': 'DEVICE-AGENT',
                     'userAgent': 'DEVICE-AGENT',
                     'Authorization': token
+                }, json : {
+                    recruitSeq: recruitSeq
                 },
                 responseType: 'json'
             });
@@ -76,6 +88,120 @@ module.exports = class resumeService {
             }
         } catch (error) {
             logger.writeLog('error', `services/resumeService/listPerRecruit: ${error}`);
+        }
+    } 
+
+    static async remove(token, seq) {
+        try {
+            var apiURL = `${process.env.APIHOST}/api/resume/remove`;
+
+            const {body} = await got.post(apiURL, {
+                headers: {
+                    'contentType': 'application/json',
+                    'User-Agent': 'DEVICE-AGENT',
+                    'userAgent': 'DEVICE-AGENT',
+                    'Authorization': token
+                }, json: {
+                    seq: seq,
+                    key: secretKey
+                },
+                responseType: 'json'
+            });
+            if (body.result === 'success') {
+                return body.data;
+            } else {
+                //실패
+                logger.writeLog('error', `services/resumeService/remove: ${body.result}`);           
+                return null;
+            }
+        } catch (error) {
+            logger.writeLog('error', `services/resumeService/remove: ${error}`);
+        }
+    } 
+
+    static async certificate(token, seq) {
+        try {
+            var apiURL = `${process.env.APIHOST}/api/resume/certificate`;
+
+            const {body} = await got.post(apiURL, {
+                headers: {
+                    'contentType': 'application/json',
+                    'User-Agent': 'DEVICE-AGENT',
+                    'userAgent': 'DEVICE-AGENT',
+                    'Authorization': token
+                }, json: {
+                    seq: seq,
+                    key: secretKey
+                },
+                responseType: 'json'
+            });
+            if (body.result === 'success') {
+                return body.data;
+            } else {
+                //실패
+                logger.writeLog('error', `services/resumeService/remove: ${body.result}`);           
+                return null;
+            }
+        } catch (error) {
+            logger.writeLog('error', `services/resumeService/remove: ${error}`);
+        }
+    } 
+
+    static async clearCertificate(token, seq) {
+        try {
+            var apiURL = `${process.env.APIHOST}/api/resume/clearCertificate`;
+
+            const {body} = await got.post(apiURL, {
+                headers: {
+                    'contentType': 'application/json',
+                    'User-Agent': 'DEVICE-AGENT',
+                    'userAgent': 'DEVICE-AGENT',
+                    'Authorization': token
+                }, json: {
+                    seq: seq,
+                    key: secretKey
+                },
+                responseType: 'json'
+            });
+            if (body.result === 'success') {
+                return body.data;
+            } else {
+                //실패
+                logger.writeLog('error', `services/resumeService/remove: ${body.result}`);           
+                return null;
+            }
+        } catch (error) {
+            logger.writeLog('error', `services/resumeService/remove: ${error}`);
+        }
+    } 
+
+
+    static async listCareer(token, seq) {
+        try {
+
+            var apiURL = `${process.env.APIHOST}/api/resume/listCareer`;
+
+            const {body} = await got.post(apiURL, {
+                headers: {
+                    'contentType': 'application/json',
+                    'User-Agent': 'DEVICE-AGENT',
+                    'userAgent': 'DEVICE-AGENT',
+                    'Authorization': token
+                }, json : {
+                    resumeSeq: seq,
+                    key: secretKey
+                },
+                responseType: 'json'
+            });
+            if (body.result === 'success') {
+                return body.data;
+            } else {
+                //실패
+                logger.writeLog('error', `services/resumeService/listCareer: ${body.result}`);           
+                return null;
+            }
+        } catch (error) {
+            logger.writeLog('error', `services/resumeService/listCareer: ${error}`);
         }
     }  
 }

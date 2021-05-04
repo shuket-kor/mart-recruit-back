@@ -108,9 +108,6 @@
         } else {
             createPager('recruit-page', totalCount, rowCount, page, 5, `/recruit/list?regions=${regions}&name=${name}`);
         }
-        $("#name").keypress(function(e) {
-            if (e.keyCode == 13 && $(this).val().length > 0) search();
-        });
         regions.forEach(item => {
             $('input:checkbox[id="workingRegion_' + item + '"]').prop("checked", true);
         });
