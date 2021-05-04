@@ -1,17 +1,20 @@
 const logger = require('../config/logger.js');
 const got = require('got');
+const secretKey = require('../config/secretKey').secretKey;
 
 module.exports = class martService {
     static async get(token, seq) {
         try {
-            var apiURL = `${process.env.APIHOST}/api/mart/get?seq=${seq}`;
+            var apiURL = `${process.env.APIHOST}/api/mart/get`;
 
-            const {body} = await got.get(apiURL, {
+            const {body} = await got.post(apiURL, {
                 headers: {
                     'contentType': 'application/json',
                     'User-Agent': 'DEVICE-AGENT',
                     'userAgent': 'DEVICE-AGENT',
                     'Authorization': token
+                }, json : {
+                    seq: seq
                 },
                 responseType: 'json'
             });
@@ -48,6 +51,7 @@ module.exports = class martService {
                     HRONAME: HRONAME,
                     HROCONTACT: HROCONTACT,
                     HRORANK: HRORANK,
+                    key: secretKey
                 },
                 responseType: 'json'
             });
@@ -75,7 +79,8 @@ module.exports = class martService {
                     'Authorization': token
                 }, json: {
                     SEQ: SEQ,
-                    LOGOFILE: LOGOFILE
+                    LOGOFILE: LOGOFILE,
+                    key: secretKey
                 },
                 responseType: 'json'
             });
@@ -91,9 +96,9 @@ module.exports = class martService {
         }
     }  
 
-    static async remove(token, SEQ, page) {
+    static async remove(token, seq, page) {
         try {
-            var apiURL = `${process.env.APIHOST}/api/mart/remove?seq=${SEQ}`;
+            var apiURL = `${process.env.APIHOST}/api/mart/remove`;
 
             const {body} = await got.get(apiURL, {
                 headers: {
@@ -101,6 +106,9 @@ module.exports = class martService {
                     'User-Agent': 'DEVICE-AGENT',
                     'userAgent': 'DEVICE-AGENT',
                     'Authorization': token
+                }, json : {
+                    seq: seq,
+                    key: secretKey
                 },
                 responseType: 'json'
             });
@@ -120,14 +128,18 @@ module.exports = class martService {
         try {
             name = (name) ? name : '';
 
-            var apiURL = `${process.env.APIHOST}/api/mart/list?name=${name}&page=${page}&rowCount=${rowCount}`;
+            var apiURL = `${process.env.APIHOST}/api/mart/list`;
 
-            const {body} = await got.get(apiURL, {
+            const {body} = await got.post(apiURL, {
                 headers: {
                     'contentType': 'application/json',
                     'User-Agent': 'DEVICE-AGENT',
                     'userAgent': 'DEVICE-AGENT',
                     'Authorization': token
+                }, json : {
+                    name: name,
+                    page: page,
+                    rowCount: rowCount
                 },
                 responseType: 'json'
             });

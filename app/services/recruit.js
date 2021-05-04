@@ -5,14 +5,17 @@ const secretKey = require('../config/secretKey').secretKey;
 module.exports = class recruitService {
     static async get(token, seq) {
         try {
-            var apiURL = `${process.env.APIHOST}/api/recruit/get?seq=${seq}&key=${secretKey}`;
+            var apiURL = `${process.env.APIHOST}/api/recruit/get`;
 
-            const {body} = await got.get(apiURL, {
+            const {body} = await got.post(apiURL, {
                 headers: {
                     'contentType': 'application/json',
                     'User-Agent': 'DEVICE-AGENT',
                     'userAgent': 'DEVICE-AGENT',
                     'Authorization': token
+                }, json: {
+                    seq: seq,
+                    key: secretKey
                 },
                 responseType: 'json'
             });
@@ -30,14 +33,17 @@ module.exports = class recruitService {
 
     static async remove(token, seq) {
         try {
-            var apiURL = `${process.env.APIHOST}/api/recruit/remove?seq=${seq}&key=${secretKey}`;
+            var apiURL = `${process.env.APIHOST}/api/recruit/remove`;
 
-            const {body} = await got.get(apiURL, {
+            const {body} = await got.post(apiURL, {
                 headers: {
                     'contentType': 'application/json',
                     'User-Agent': 'DEVICE-AGENT',
                     'userAgent': 'DEVICE-AGENT',
                     'Authorization': token
+                }, json: {
+                    seq: seq,
+                    key: secretKey
                 },
                 responseType: 'json'
             });
@@ -57,14 +63,20 @@ module.exports = class recruitService {
         try {
             name = (name) ? name : '';
 
-            var apiURL = `${process.env.APIHOST}/api/recruit/listForAdmin?regions=${regions}&name=${name}&page=${page}&rowCount=${rowCount}&key=${secretKey}`;
+            var apiURL = `${process.env.APIHOST}/api/recruit/listForAdmin`;
 
-            const {body} = await got.get(apiURL, {
+            const {body} = await got.post(apiURL, {
                 headers: {
                     'contentType': 'application/json',
                     'User-Agent': 'DEVICE-AGENT',
                     'userAgent': 'DEVICE-AGENT',
                     'Authorization': token
+                }, json: {
+                    regions: regions,
+                    name: name,
+                    page: page,
+                    rowCount: rowCount,
+                    key: secretKey
                 },
                 responseType: 'json'
             });

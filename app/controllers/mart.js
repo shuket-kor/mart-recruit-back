@@ -60,10 +60,10 @@ module.exports = {
             mediaPath: req.app.get('mediaPath'),
             unreadNoticeCount: 0,
             searchName: req.query.name,
-            totalCount: returnData.totalCount,
+            totalCount: (returnData) ? returnData.totalCount : 0,
             rowCount: rowCount,
             page: currentPage,
-            list: returnData.list,
+            list: (returnData) ? returnData.list : null,
             message: message
           });
     },

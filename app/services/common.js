@@ -6,7 +6,7 @@ module.exports = class commonService {
         try {
             var apiURL = `${process.env.APIHOST}/api/workingRegion/list`;
 
-            const {body} = await got.get(apiURL, {responseType: 'json'});
+            const {body} = await got.post(apiURL, {responseType: 'json'});
             if (body.result === 'success') {
                 return body.data;
             } else {
