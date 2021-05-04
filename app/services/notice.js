@@ -32,7 +32,7 @@ module.exports = class noticeService {
     }
 
     // 공지사항 추가 리스트
-    static async create(body, SUBJECT, CONTENT) {
+    static async create(userSeq, SUBJECT, CONTENT) {
         try {
             
             var apiURL = "";
@@ -44,7 +44,7 @@ module.exports = class noticeService {
             //var {body} = await got.post(apiURL + "?page=" + page + "&offset=" + rowCount, { responseType: 'json' });
             var {body} = await got.post(apiURL, {
                 json : {
-                   
+                    USER_SEQ: userSeq,
                     SUBJECT: SUBJECT,
                     CONTENT: CONTENT
                 },
@@ -127,7 +127,7 @@ module.exports = class noticeService {
     }
 
     // 공지사항 삭제하기
-    static async remove(seq) {
+    /*static async remove(seq) {
         try {
             
             var apiURL = "";
@@ -151,7 +151,7 @@ module.exports = class noticeService {
             logger.writeLog('error', `servies/noticeServies/list 확인2 : ${error}`);
             return null;
         }
-    }
+    }*/
 
 
 

@@ -26,12 +26,11 @@ module.exports = {
 
     // 공지사항 추가
     async noticeCreate(req, res, next) {
-        const body = req.body;
-        const SUBJECT = req.body.SUBJECT;
-        const
-        const CONTENT = req.body.CONTENT;
+        const userSeq = req.userSeq;
+        const SUBJECT = req.body.subject;      
+        const CONTENT = req.body.content;
         
-        const createData = await noticeService.create(body, SUBJECT, CONTENT);
+        const createData = await noticeService.create(userSeq, SUBJECT, CONTENT);
         /*res.json({
             result: (createData != null) ? 'success' : 'fail',
             data: createData
@@ -69,7 +68,7 @@ module.exports = {
     },
 
     // 공지사항 삭제
-    async noticeDelete(req, res, next){
+    /*async noticeDelete(req, res, next){
         const seq = req.query.seq;
         
         const deleteData = await noticeService.remove(seq);
@@ -78,7 +77,7 @@ module.exports = {
             result: (deleteData == null) ? 'fail' : 'success',
             data: deleteData
         }); 
-    }
+    }*/
 
  
 
