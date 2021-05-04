@@ -1,4 +1,3 @@
-const { response } = require('express');
 const moment = require('moment');
 const commonService = require('../services/common.js');
 const martService = require('../services/mart.js');
@@ -16,9 +15,6 @@ module.exports = {
         const recruitInfo = (seq) ? await recruitService.get(req.cookies.xToken, seq) : null;
         const resumeList = (recruitInfo) ? await resumeService.listPerRecruit(req.cookies.xToken, seq) : null;
         const martInfo = (recruitInfo) ? await martService.get(req.cookies.xToken, recruitInfo.MART_SEQ) : null;
-        // console.log(martInfo);
-        // console.log(recruitInfo);
-        // console.log(resumeList);
         res.render('recruitView', { 
             layout: 'layouts/default',
             moment: moment,
@@ -71,10 +67,10 @@ module.exports = {
             regionList: regionList,
             regions: regions,
             name: name,
-            totalCount: returnData.totalCount,
+            totalCount: (returnData) ? returnData.totalCount : 0,
             rowCount: rowCount,
             page: currentPage,
-            list: returnData.list
+            list: (returnData) ? returnData.list : null
           });
     }
 }

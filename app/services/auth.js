@@ -42,7 +42,7 @@ module.exports = class authService {
                     'Authorization': req.cookies.xToken
                 },
                 json: {
-                    secretKey: secretKey,
+                    key: secretKey,
                 },
                 responseType: "json",
             });
