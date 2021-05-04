@@ -62,22 +62,28 @@
                         <table class="table table-hover" style="background-color: #eee">
                             <div class="panel">
                                 <div class="panel-body">
-                                        <div class="col-lg-4">
-                                            <ul class="nav nav-tabs navtab-custom">
-                                                <li class='tab'>
-                                                    <a href="/user/list?usertype=A">관리자 관리</a>
-                                                </li>
-                                                <li class='tab'>
-                                                    <a href="/user/list?usertype=U" >유저 관리</a>
-                                                </li>
-                                                <li class='tab'>
-                                                    <a href="/user/list?usertype=M" >마트유저 관리</a>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                    <div class="col-lg-4">
+                                        <ul class="nav nav-tabs navtab-custom">
+                                            <li class="tab <%=(userType == 'A') ? 'active' : '' %>">
+                                                <a href="/user/list?usertype=A" >관리자 관리</a>
+                                            </li>
+                                            <li class="tab <%=(userType == 'U') ? 'active' : '' %>">
+                                                <a href="/user/list?usertype=U" >유저 관리</a>
+                                            </li>
+                                            <li class="tab <%=(userType == 'M') ? 'active' : '' %>">
+                                                <a href="/user/list?usertype=M" >마트유저 관리</a>
+                                            </li>
+                                        </ul>
                                     </div>
+                                    <button type="button" class="btn btn-primary waves-effect waves-light m-l-10 btn-md pull-right" id="addUser" onclick="createUser()">사용자 추가 <i class="fa fa-plus"></i></button>
                                 </div>
+                            </div>
                             <tr style="background-color: #fff">
+                                <td>
+                                    <font size="2pt"
+                                        ><strong><center>아이디</center></strong></font
+                                    >
+                                </td>
                                 <td>
                                     <font size="2pt"
                                         ><strong><center>번호</center></strong></font
@@ -86,11 +92,6 @@
                                 <td>
                                     <font size="2pt"
                                         ><strong><center>구분</center></strong></font
-                                    >
-                                </td>
-                                <td>
-                                    <font size="2pt"
-                                        ><strong><center>아이디</center></strong></font
                                     >
                                 </td>
                                 <td>
@@ -116,10 +117,18 @@
                             </tr>
                             <% if(list){list.forEach(item => { %>
                             <tr>
-                                <td><center><%= item.SEQ %></center></td>
-                                <td><center><%= item.USERTYPE %></center></td>
                                 <td><center><%= item.LOGINID %></center></td>
-                                <td><center><%= item.ACTIVE %></center></td>
+                                <td><center><%= item.SEQ %></center></td>
+                                <td><center>
+                                <% if(item.USERTYPE == 'A'){%>
+                                    관리자
+                                <% }else if(item.USERTYPE  == 'U'){%>
+                                    사용자
+                                <% }else{ %>
+                                    마트사용자
+                                <% }%>
+                            </center></td>
+                                <td><center><%= item.ACTIVE == 'Y' ? '활성' : '' %></center></td>
                                 <td><center><%= moment(item.CREATED).format('YYYY-MM-DD hh:mm:ss') %></center></td>
                                 <td><center><%= moment(item.MODIFIED).format('YYYY-MM-DD hh:mm:ss') %></center></td>
                                 <td class="actions">
@@ -156,7 +165,7 @@
                 <h4 class="modal-title" id="userEditModal-Title"></h4>
             </div>
             <div class="modal-body">
-                <div class="row">
+                <div class="row" style="display: none;">
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="name" class="control-label">#</label>
@@ -175,16 +184,16 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="name" class="control-label">구분</label>
-                            <input type="text" class="form-control" id="edit-usertype" placeholder="'U' OR 'M'" />
+                            <label for="address" class="control-label">아이디</label>
+                            <input type="text" class="form-control" id="edit-loginid" placeholder="LOGIN ID" />
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="address" class="control-label">아이디</label>
-                            <input type="text" class="form-control" id="edit-loginid" placeholder="LOGIN ID" />
+                            <label for="name" class="control-label">구분</label>
+                            <input type="text" class="form-control" id="edit-usertype" placeholder="'U' OR 'M'" />
                         </div>
                     </div>
                 </div>
@@ -305,9 +314,9 @@
             .success(function(json){
                 if (json.result == "success") {
                     $("#edit-userseq").val(json.data.SEQ);
-                    $("#edit-usertype").val(json.data.USERTYPE);
+                    // $("#edit-usertype").val(json.data.USERTYPE);
                     $("#edit-loginid").val(json.data.LOGINID);
-                    $("#edit-active").val(json.data.ACTIVE);
+                    // $("#edit-active").val(json.data.ACTIVE);
                     $("#edit-password").val(json.data.PWD);
                     $('#userEditModal').modal();
                 }
