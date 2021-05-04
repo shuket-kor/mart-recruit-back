@@ -22,29 +22,50 @@
                 <div class="row">
                     <label class="col-md-2 col-form-label" for="simpleinput">지역</label>
                     <div class="col-md-10">
-                <% if (regionList) {
-                    regionList.forEach(region => {%>
-                    <div class="m-r-10 pull-left"> 
-                        <input id="region_<%=region.SEQ %>" type="checkbox" class="m-r-5" <%=(region.SEQ == 18) ? 'checked' : '' %>> <%=region.NAME %>
-                    </div>
-                <%}) 
-                } %>
+                    <% 
+                        if (regionList) {
+                        regionList.forEach(region => {%>
+                        <div class="m-r-10 pull-left"> 
+                            <input name="workingRegion" value="<%=region.SEQ %>" id="workingRegion_<%=region.SEQ %>" type="checkbox" class="workingRegion m-r-5"> <%=region.NAME %>
+                        </div>
+                        <%}) 
+                    } %>   
                     </div>
                 </div>
                 <div class="m-b-10 m-t-10 row">
-                    <label class="col-md-2 col-form-label" for="simpleinput">인증여부</label>
+                    <label class="col-md-2 col-form-label" for="simpleinput">이름</label>
                     <div class="col-md-10">
-                        <select class="form-control" id="examClassList">                           
-                            <option value="378" selected="">전체</option>                       
-                            <option value="379">인증 완료</option>
-                            <option value="379">인증 대기</option>
-                            <option value="379">자료 없음</option>
+                        <input type="text" id="name" class="form-control" placeholder="검색할 이력서 상의 이름 전체 또는 일부를 입력하세요" value="<%=name %>">
+                    </div>
+                </div>
+                <div class="m-b-10 m-t-10 row">
+                    <label class="col-md-2 col-form-label" for="jobKinds">직종</label>
+                    <div class="col-md-10">
+                        <% 
+                        if (jobKindList) {
+                            jobKindList.forEach(jobKind => {%>
+                        <div class="m-r-10 pull-left"> 
+                            <input name="jobKind" value="<%=jobKind.SEQ %>" id="jobKind_<%=jobKind.SEQ %>" type="checkbox" class="jobKind m-r-5"> <%=jobKind.NAME %>
+                        </div>
+                        <%}) 
+                    } %>   
+                    </div>
+                </div>
+                <div class="m-b-10 m-t-10 row">
+                    <label class="col-md-2 col-form-label" for="certificate">인증여부</label>
+                    <div class="col-md-10">
+                        <select class="form-control" id="certificate">                           
+                            <option value="" selected="">전체</option>                       
+                            <option value="Y">인증</option>
+                            <option value="N">미인증</option>
+                            <option value="W">미인증 (인증 파일 있음)</option>
                         </select>
                     </div>
                 </div>
                 <div class="m-b-10 m-t-10 row">
                     <div class="col-md-10 col-md-offset-2">
-                        <button type="button" class="btn btn-inverse waves-effect waves-light btn-md" id="addNew">검색 <i class="fa fa-search"></i></button>        
+                        <button type="button" class="btn btn-inverse waves-effect waves-light btn-md" id="button-search">검색 <i class="fa fa-search"></i></button>        
+                        <button type="button" class="btn btn-default waves-effect waves-light btn-md" id="button-search-reset">조건 리셋 <i class="fa fa-search"></i></button>        
                     </div>
                 </div>
             </div>
@@ -57,33 +78,39 @@
                         <tr>
                             <th>이름</th>
                             <th>연락처</th>
-                            <th>경력</th>
+                            <th>나이</th>
+                            <th>성별</th>
                             <th>희망지역</th>
                             <th>직종</th>
-                            <th>인증</th>                            
+                            <th>인증</th>                  
+                            <th></th>
                             <th>수정일</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>                       
+                        <% if (list) {
+                            list.forEach(item => { %> 
                         <tr class="gradeA">
-                            <td><% %></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td><a href='#' onclick="javascript:viewResume(<%=item.SEQ %>);"><%=item.NAME %></a></td>
+                            <td><%=item.CONTACT %></td>
+                            <td><%=item.BIRTHYEAR %> (<%=(item.BIRTHYEAR) ? ((new Date()).getFullYear() - item.BIRTHYEAR) : ''%>)</td>
+                            <td><%=item.GENDER %></td>
+                            <td><%=item.WORKREGION_NAME %></td>
+                            <td><%=item.JOBKIND_NAME %></td>
+                            <td><% if (item.CERTIFICATE == 'Y') {%><i class='fa fa-check text-success'></i> <%} else {%> <%}%></td>
+                            <td><% if (item.CAREERCERTIFICATE) {%><a href='<%=hostName %>/api/files/get/<%=item.CAREERCERTIFICATE %>' target="_blank"><i class="fa fa-file-text-o"></i></a> <% } %></td>
+                            <td><%=moment(item.MODIFIED).format('YYYY-MM-DD hh:mm:ss') %></td>
                             <td class="actions">
-                                <a href="#" class="on-default edit-row" onclick="javascript:certificateResume(76);"><i class="fa fa-pencil"></i></a>
-                                <a href="#" class="on-default remove-row" onclick="javascript:removeResume(76);"><i class="fa fa-trash-o"></i></a>
+                                <a href="#" class="on-default edit-row" onclick="javascript:viewResume(<%=item.SEQ %>);"><i class="fa fa-pencil"></i></a>
                             </td>
                         </tr>                                                                 
+                        <%})
+                    } %>
                     </tbody>
                 </table>
                 <div class="row" style="text-align: center;">
-                    <ul class="pagination pagination-split" id="users-page"></ul>
+                    <ul class="pagination pagination-split" id="resume-page"></ul>
                 </div>
             </div>
         </div>
@@ -92,3 +119,70 @@
 </div>
 
 <%- contentFor('script') %>
+<script>
+let totalCount = <%=totalCount %>; 
+let page = <%=page %>;
+let rowCount = <%=rowCount %>;
+let regions = [<%=regions %>];
+let name = '<%=name %>';
+let jobKinds = [<%=jobKinds %>];
+let certificate = '<%=certificate %>';
+
+    $(document).ready(function() {
+        // 페이저 만들기
+        if (totalCount <= rowCount) {
+            $('#resume-page').hide();
+        } else {
+            createPager('resume-page', totalCount, rowCount, page, 5, `/resume/list?regions=${regions}&name=${name}&certificate=${certificate}&jobKinds=${jobKinds}`);
+        }
+        regions.forEach(item => {
+            $('input:checkbox[id="workingRegion_' + item + '"]').prop("checked", true);
+        });
+        jobKinds.forEach(item => {
+            $('input:checkbox[id="jobKind_' + item + '"]').prop("checked", true);
+        });
+        $("#name").keypress(function(e) {
+            if (e.keyCode == 13 && $(this).val().length > 0) search();
+        });
+        $("#certificate").val(certificate);
+        $("#button-search").click(function() { search(); })
+        $("#button-search-reset").click(function() {
+            $('input:checkbox[name="workingRegion"]').prop("checked", false);
+            $('input:checkbox[name="jobKind"]').prop("checked", false);
+            $('#certificate').val('');
+            $('#name').val('');
+        })
+    });
+
+    function getRegions() {
+        var checkRegion = "";
+        $('input:checkbox[name="workingRegion"]').each(function() {
+            if(this.checked){
+                checkRegion += this.value + ","; 
+            }
+        });
+        if (checkRegion.length > 0) checkRegion = checkRegion.substring(0, checkRegion.length - 1);
+        return checkRegion;
+    }
+
+    function getJobKinds() {
+        var checkJobKind = "";
+        $('input:checkbox[name="jobKind"]').each(function() {
+            if(this.checked){
+                checkJobKind += this.value + ","; 
+            }
+        });
+        if (checkJobKind.length > 0) checkJobKind = checkJobKind.substring(0, checkJobKind.length - 1);
+        return checkJobKind;
+    }
+
+    function search() {
+        let regions = getRegions();
+        let jobKinds = getJobKinds();
+        self.location = `/resume/list?regions=${regions}&name=${$('#name').val()}&jobKinds=${jobKinds}&certificate=${$('#certificate').val()}`;
+    }
+
+    function viewResume(seq) {
+        self.location = `/resume/get?seq=${seq}&regions=${regions}&name=${name}&jobKinds=${jobKinds}&certificate=${certificate}&page=${page}`;
+    }
+</script>

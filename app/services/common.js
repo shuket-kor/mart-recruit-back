@@ -20,4 +20,21 @@ module.exports = class commonService {
         }
     }  
 
+    static async getJobKind() {
+        try {
+            var apiURL = `${process.env.APIHOST}/api/jobKind/list`;
+
+            const {body} = await got.post(apiURL, {responseType: 'json'});
+            if (body.result === 'success') {
+                return body.data;
+            } else {
+                //실패
+                logger.writeLog('error', `services/commonService/getJobKind: ${body.result}`);           
+                return body.data;
+            }
+        } catch (error) {
+            logger.writeLog('error', `services/commonService/getJobKind: ${error}`);
+            return null;
+        }
+    }  
 }

@@ -26,10 +26,8 @@ app.use('/', express.static(path.join(__dirname, '/')));
 
 app.set('baseTitle', '마트협회구인구직');
 if (process.env.NODE_ENV == 'develope') {
-  app.set('mediaPath', 'http://localhost:3000/pdsData/media');
   process.env.APIHOST = 'http://localhost:3000';
 } else {
-  app.set('mediaPath', 'http://192.168.1.28:3000/pdsData/media');
   process.env.APIHOST = 'http://localhost:3000';
 }
 
