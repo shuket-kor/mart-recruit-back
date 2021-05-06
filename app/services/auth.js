@@ -14,11 +14,10 @@ module.exports = class authService {
                 },
                 responseType: "json",
             });
-
             if (body.result === "success") {
                 logger.writeLog('info', `services/authService/authorizatoin: ${userId}`);
                 // 인증에 성공하면 data에 담겨온 토큰을 리턴
-                return body.token;
+                return body.data.token;
             } else {
                 //실패
                 logger.writeLog("error", `services/authService/authorizatoin: login fail - ${userId}`);
