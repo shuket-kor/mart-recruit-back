@@ -25,6 +25,7 @@ module.exports = {
         const currentPage = (req.query.page) ? req.query.page : 1;
         const returnData = await userService.list(secretKey, token, userType, userLoginId, currentPage, rowCount);
         console.log("유저타입은 ? ? ? ? " + userType)
+        console.log(returnData);
         res.render("userlist", {
             layout: "layouts/default",
             title: "유저 관리",

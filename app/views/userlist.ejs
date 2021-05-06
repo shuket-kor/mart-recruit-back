@@ -192,25 +192,37 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="name" class="control-label">구분</label>
-                            <input type="text" class="form-control" id="edit-usertype" placeholder="'U' OR 'M'" />
+                            <!-- <label for="edit-usertype" class="control-label">구분</label>
+                            <input type="text" class="form-control" id="edit-usertype" placeholder="'U' OR 'M'" /> -->
+                            <label for="edit-usertype" class="control-label">구분</label>
+                            <select class="form-control" id="edit-usertype">
+                                <option value="" selected="">선택하세요.</option>
+                                <option value="A">관리자</option>
+                                <option value="U">유저</option>
+                                <option value="M">마트유저</option>
+                            </select>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="address" class="control-label">활성상태</label>
-                            <input type="text" class="form-control" id="edit-active" placeholder="'Y' OR 'N'" />
+                            <label for="edit-active" class="control-label">활성상태</label>
+                            <select class="form-control" id="edit-active">
+                                <option value="" selected="">선택하세요.</option>
+                                <option value="Y">활성 상태</option>
+                                <option value="N">비활성 상태</option>
+                            </select>
                         </div>
                     </div>
                 </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-info waves-effect waves-light" id="button-actionSave">저장</button>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">닫기</button>
-                <button type="button" class="btn btn-info waves-effect waves-light" id="button-actionSave">저장</button>
-            </div>
+
         </div>
     </div>
 </div>
@@ -228,8 +240,13 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="name" class="control-label">구분</label>
-                            <input type="text" class="form-control" id="create-usertype" placeholder="'U' OR 'M'" />
+                            <label for="create-usertype" class="control-label">구분</label>
+                            <select class="form-control" id="create-usertype">                           
+                                <option value="" selected="">선택하세요.</option>                       
+                                <option value="A">관리자</option>
+                                <option value="U">유저</option>
+                                <option value="M">마트 유저</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -252,17 +269,22 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="address" class="control-label">활성상태</label>
-                            <input type="text" class="form-control" id="create-active" placeholder="'Y' OR 'N'" />
+                            <label for="create-active" class="control-label">활성상태</label>
+                            <select class="form-control" id="create-active">                           
+                                <option value="" selected="">선택하세요.</option>                       
+                                <option value="Y">활성 상태</option>
+                                <option value="N">비활성 상태</option>
+                            </select>
                         </div>
                     </div>
                 </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-info waves-effect waves-light" id="button-actionCreate">저장</button>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">닫기</button>
-                <button type="button" class="btn btn-info waves-effect waves-light" id="button-actionCreate">저장</button>
-            </div>
+            
         </div>
     </div>
 </div>
@@ -330,22 +352,32 @@
         };
         function saveEditUser() {
             var userseq = $("#USERSEQ").val();
-            doPostCallSync("/user/update/"+userseq, {
-                userseq: $("#edit-userseq").val(),
-                usertype: $("#edit-usertype").val(),
-                loginid: $("#edit-loginid").val(),
-                active: $("#edit-active").val(),
-                password: $("#edit-password").val()
-            })
-            .success(function(json){
-                if (json.result == "success"){
-                    location.reload();
+                if($("#edit-loginid").val() == null){
+                    alert("아이디 값이 비어있습니다.");
                 }
-            })
-            .fail(function(sender, message, details){
-                alert("유저 업데이트 오류 발생..");
-                return false;
-            });        
+                else if($("#edit-usertype").val() == ''){
+                    alert("유저 타입을 선택해 주세요.");
+                }
+                else if($("#edit-active").val() == ''){
+                    alert("활성 상태를 선택해 주세요.");
+                }else{
+                    doPostCallSync("/user/update/"+userseq, {
+                        userseq: $("#edit-userseq").val(),
+                        usertype: $("#edit-usertype").val(),
+                        loginid: $("#edit-loginid").val(),
+                        active: $("#edit-active").val(),
+                        password: $("#edit-password").val()
+                    })
+                    .success(function(json){
+                        if (json.result == "success"){
+                            location.reload();
+                        }
+                    })
+                    .fail(function(sender, message, details){
+                        alert("유저 업데이트 오류 발생..");
+                        return false;
+                    });
+                }
         };
         
         // 유저 생성
@@ -355,21 +387,32 @@
             $('#userCreateModal').modal();
         };
         function saveCreateUser(){
-            doPostCallSync("/user/create", {
-                usertype: $("#create-usertype").val(),
-                loginid: $("#create-loginid").val(),
-                active: $("#create-active").val(),
-                password: $("#create-password").val()
-            })
-            .success(function(json){
-                if (json.result == "success"){
-                    location.reload();
-                }
-            })
-            .fail(function(sender, message, details){
-                alert("유저 생성 오류 발생..");
-                return false;
-            });  
+            if($("#create-usertype").val() == ''){
+                alert('유저 타입을 선택해 주세요.');
+            }else if($("#create-loginid").val() == ''){
+                alert('유저 아이디를 입력해 주세요.');
+            }else if($("#create-active").val() == ''){
+                alert('유저 활성상태를 선택해 주세요.');
+            }else if($("#create-password").val() == ''){
+                alert('페스워드를 입력해 주세요.');
+            }else{
+                doPostCallSync("/user/create", {
+                    usertype: $("#create-usertype").val(),
+                    loginid: $("#create-loginid").val(),
+                    active: $("#create-active").val(),
+                    password: $("#create-password").val()
+                })
+                .success(function(json){
+                    if (json.result == "success"){
+                        location.reload();
+                    }
+                })
+                .fail(function(sender, message, details){
+                    alert("유저 생성 오류 발생..");
+                    return false;
+                });  
+            };
+            
         };
         
 </script>
