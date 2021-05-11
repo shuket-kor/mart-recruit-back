@@ -1,4 +1,5 @@
 <%- contentFor('css') %>
+<link href="/plugins/summernote-0.8.18-dist/summernote.min.css" rel="stylesheet" />
 
 <%- contentFor('content') %>
 <div class="content">
@@ -29,26 +30,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!--  data-toggle="modal" data-target="#noticeViewModal" style="cursor: pointer;" -->
+                       
                         <% list.forEach(item => { %> 
                             
                                 <tr>
                                     <td></td>
-                                    <td data-toggle="modal" data-target="#noticeViewModal" style="cursor: pointer;"><a href="javascript:void(0);" onclick="getModalData('<%=item.SEQ%>', 'dt');" id="getMethod"><%=item.SUBJECT %></a></td><!-- 모달버튼 -->
+                                    <td data-toggle="modal" data-target="#noticeViewModal" style="cursor: pointer;" onclick="getModalData('<%=item.SEQ%>', 'dt');"><a href="javascript:void(0);" onclick="getModalData('<%=item.SEQ%>', 'dt');" id="getMethod"><%=item.SUBJECT %></a></td><!-- 모달버튼 -->
                                     <td><%=item.USER_SEQ %></td>
-                                    <td><%=item.CREATED %></td>
-                                    <td><%=item.MODIFIED %></td>
+                                    <td><%= moment(item.CREATED).format('YYYY-MM-DD hh:mm:ss') %></td>
+                                    <td><%= moment(item.MODIFIED).format('YYYY-MM-DD hh:mm:ss') %></td>
                                     <td class="actions">
                                         <a href="javascript:void(0);" onclick="getModalData('<%=item.SEQ %>', 'md');" class="on-default edit-row" id="updata-button" ><i class="fa fa-pencil" data-toggle="modal" data-target="#noticeEditModal"></i></a>
-                                        <a href="#" class="on-default remove-row" onclick="javascript:removeNotice('<%=item.SEQ %>');"  ><i class="fa fa-trash-o"></i></a>
+                                        <a href="#" class="on-default remove-row" onclick="javascript:removeNotice(<%=item.SEQ %>);"  ><i class="fa fa-trash-o"></i></a>
                                     </td>
                                 </tr>
                             
                             <%}) %> 
                     </tbody>
                 </table>
+                <!-- 페이지 만들기 -->
                 <div class="row" style="text-align: center;">
-                    <ul class="pagination pagination-split" id="mart-page"></ul>
+                    <ul class="pagination pagination-split" id="notice-page"></ul>
                 </div>
             </div>
         </div><!--panel-->
@@ -75,7 +77,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <label for="content" class="control-label" >공지사항 내용</label>
-                            <textarea type="text" class="form-control" name="content" placeholder="내용을 입력하세요"></textarea>
+                            <textarea type="text" class="form-control content-text create-content" id="content" name="content" placeholder="내용을 입력하세요"></textarea>
                         </div>
                     </div>
                 </div>
@@ -104,20 +106,20 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <p>제목</p>
-                                    <p id="dt-subject"></p>
+                                    <p id="dt-subject" style="padding: 10px 0;"></p>
                                 </div>
                             </div>
                         </div>
                     
                         <div class="row">
                             <div class="col-md-12">
-                                <p>내용</p>
-                                <p id="dt-content"></p>
+                                <label for="dt-content" class="control-label" >공지사항 내용</label>
+                                <div class=" view-content dt-content" id="dt-content" name="dt-content" style="padding: 20px 0;"></div>
                             </div>
                         </div>
                     </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">닫기</button>
+                            <button type="button" class="btn btn-default waves-effect" id="btn_close" data-dismiss="modal">닫기</button>
                         </div>
                     </form>
                     
@@ -149,7 +151,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="content" class="control-label" >공지사항 내용</label>
-                                    <textarea type="text" class="form-control" name="mdContent" id="mdContent" placeholder="내용을 입력하세요"></textarea>
+                                    <textarea type="text" class="form-control " name="mdContent" id="mdContent" placeholder="내용을 입력하세요"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -174,33 +176,84 @@
     var rowCount = <%= rowCount %>;   
 
     $(document).ready(function() {
+
         // 페이저 만들기
         if (totalCount <= rowCount) {
-            $('#mart-page').hide();
+            $('#notice-page').hide();
         } else {
-            createPager('mart-page', totalCount, rowCount, page, 5, `/notice/list?`);
+            createPager('notice-page', totalCount, rowCount, page, 5, `/notice/list?`);
 
         }
         
+        // summernote 적용
+        $('.content-text').summernote({
+            height: 350,                 // set editor height
+            dialogsInBody: true,
+            minHeight: null,             // set minimum height of editor
+            maxHeight: null,             // set maximum height of editor
+            focus: false,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+            ],
+            callbacks: {
+                onImageUpload: function(files) {
+                
+                    var form_data = new FormData();
+                    
+                    form_data.append("noticeImage", files[0]);
+                    $.ajax({
+                        url: host_name + '/notice/create',  
+                        type: 'POST',
+                        dataType: "json",
+                        data: form_data,
+                        async: false,
+                        success:function(json){
+                            if (json.result == "success") {
+                                $('.content-text').summernote('insertImage', "localhost:8080/notice/" + json.data.filename, "filename");
+                            }
+                        },
+                        cache: false,
+                        contentType: false,
+                        processData: false
+                    }); 
+
+
+                }
+            }
+        });
+        
+        
+        // summernote 내용을 넣을 때
+        $('#content').summernote('insertText', <%=list.CONTENT %>);
         
     });
 
 
     // get 자세히 보기 모달
     function getModalData(seq, type) {
-        console.log(seq);
-        console.log(type);
+        
         $("#subject").text();
         $.get(`/notice/view?seq=${seq}`, function(res) {
             var data = res.data;
            
+            
             if (type == 'dt') {
                 $("#dt-subject").text(data.SUBJECT);
-                $("#dt-content").text(data.CONTENT); 
+                $("#dt-content").html(data.CONTENT); 
+                
             }else if(type == 'md'){
                 $("#mdSeq").val(seq);
                 $("#mdSubject").val(data.SUBJECT);
-                $("#mdContent").val(data.CONTENT);
+                
+                $('#mdContent').summernote('destroy');
+                $('#mdContent').summernote('enable', $('#mdContent').val(data.CONTENT));
+                
             }
             
         });  
@@ -208,20 +261,18 @@
     }
 
    
-
+    
     // 공지사항 삭제
-    
-
-
-    
-
-    
-    
-
-
-    
+    function removeNotice(seq) {
+       if (confirm('정말 공지사항을 삭제하시겠습니까?'))
+       {
+        self.location = `/notice/remove?seq=${seq}`;
+       }
+       return false;
+    }
     
     
 
 
 </script>
+<script src="/plugins/summernote-0.8.18-dist/summernote.min.js"></script>

@@ -4,7 +4,7 @@ const got = require('got');
 module.exports = class noticeService {
 
     // 공지사항 리스트
-    static async list(page, rowCount) {
+    static async list(seq, page, rowCount) {
         try {
             
             var apiURL = "";
@@ -13,26 +13,27 @@ module.exports = class noticeService {
             } else {
                 apiURL = 'http://localhost:3000/api/notice/list';
             }
-            var {body} = await got.get(apiURL + "?page=" + page + "&offset=" + rowCount, { responseType: 'json' });
-            //var {body} = await got.get(apiURL, {responseType: 'json'});
+            const {body} = await got.post(apiURL + "?page=" + page + "&offset=" + rowCount, { json : {
+                SEQ:seq
+                },
+                responseType: 'json'});
     
             if (body.result == 'success'){
-                console.log('response.result === success 확인');
-                //console.log(body.data);
+                console.log('response.result === success ');
                 return body.data;
             }else {
                 console.log('response.result !== success');
-                logger.writeLog('error', `services/noticeServies/list 확인1 :  ${error}`);
+                logger.writeLog('error', `services/noticeServies/list  :  ${error}`);
                 return null;
             }
         } catch (error) {
-            logger.writeLog('error', `servies/noticeServies/list 확인2 : ${error}`);
+            logger.writeLog('error', `servies/noticeServies/list  : ${error}`);
             return null;
         }
     }
 
     // 공지사항 추가 리스트
-    static async create(userSeq, SUBJECT, CONTENT) {
+    static async create(userSeq, subject, content) {
         try {
             
             var apiURL = "";
@@ -41,32 +42,30 @@ module.exports = class noticeService {
             } else {
                 apiURL = 'http://localhost:3000/api/notice/create';
             }
-            //var {body} = await got.post(apiURL + "?page=" + page + "&offset=" + rowCount, { responseType: 'json' });
-            var {body} = await got.post(apiURL, {
+            const {body} = await got.post(apiURL, {
                 json : {
                     USER_SEQ: userSeq,
-                    SUBJECT: SUBJECT,
-                    CONTENT: CONTENT
+                    SUBJECT: subject,
+                    CONTENT: content
                 },
                 responseType: 'json'});
     
             if (body.result == 'success'){
-                console.log('response.result === success 확인');
-                //console.log(body.data);
+                console.log('response.result === success');
                 return body.data;
             }else {
                 console.log('response.result !== success');
-                logger.writeLog('error', `services/noticeServies/list 확인1 :  ${error}`);
+                logger.writeLog('error', `services/noticeServies/list :  ${error}`);
                 return null;
             }
         } catch (error) {
-            logger.writeLog('error', `servies/noticeServies/list 확인2 : ${error}`);
+            logger.writeLog('error', `servies/noticeServies/list  : ${error}`);
             return null;
         }
     }
 
     // 공지사항 자세히 보기
-    static async view(seq) {
+    static async view(userSeq, seq) {
         try {
             
             var apiURL = "";
@@ -75,25 +74,28 @@ module.exports = class noticeService {
             } else {
                 apiURL = 'http://localhost:3000/api/notice/view';
             }
-            var {body} = await got.get(apiURL + "?seq=" + seq , { responseType: 'json' });
+            const {body} = await got.post(apiURL + "?seq=" + seq , { json : {
+                USER_SEQ: userSeq,
+                SEQ:seq
+                },
+                responseType: 'json'});
     
             if (body.result == 'success'){
-                console.log('response.result === success 확인1111');
-                //console.log(body.data);
+                console.log('response.result === success ');
                 return body.data;
             }else {
                 console.log('response.result !== success');
-                logger.writeLog('error', `services/noticeServies/list 확인1111111 :  ${error}`);
+                logger.writeLog('error', `services/noticeServies/list :  ${error}`);
                 return null;
             }
         } catch (error) {
-            logger.writeLog('error', `servies/noticeServies/list 확인22222 : ${error}`);
+            logger.writeLog('error', `servies/noticeServies/list  : ${error}`);
             return null;
         }
     }
 
     // 공지사항 수정하기
-    static async update(seq, SUBJECT, CONTENT) {
+    static async update(userSeq, seq, subject, content) {
         try {
             
             var apiURL = "";
@@ -102,32 +104,32 @@ module.exports = class noticeService {
             } else {
                 apiURL = 'http://localhost:3000/api/notice/update';
             }
-            //var {body} = await got.post(apiURL + "?page=" + page + "&offset=" + rowCount, { responseType: 'json' });
+            
             const {body} = await got.post(apiURL, {
                 json : {
+                    USER_SEQ: userSeq,
                     SEQ:seq,
-                    SUBJECT: SUBJECT,
-                    CONTENT: CONTENT
+                    SUBJECT: subject,
+                    CONTENT: content
                 },
                 responseType: 'json'});
     
             if (body.result == 'success'){
-                console.log('response.result === success 확인');
-                //console.log(body.data);
+                console.log('response.result === success ');
                 return body.data;
             }else {
                 console.log('response.result !== success');
-                logger.writeLog('error', `services/noticeServies/list 확인1 :  ${error}`);
+                logger.writeLog('error', `services/noticeServies/list  :  ${error}`);
                 return null;
             }
         } catch (error) {
-            logger.writeLog('error', `servies/noticeServies/list 확인2 : ${error}`);
+            logger.writeLog('error', `servies/noticeServies/list  : ${error}`);
             return null;
         }
     }
 
     // 공지사항 삭제하기
-    /*static async remove(seq) {
+    static async remove(userSeq, seq) {
         try {
             
             var apiURL = "";
@@ -136,22 +138,26 @@ module.exports = class noticeService {
             } else {
                 apiURL = 'http://localhost:3000/api/notice/remove';
             }
-            var {body} = await got.get(apiURL + "?seq=" + seq , { responseType: 'json' });
+            const {body} = await got.post(apiURL , { 
+                json:{
+                    SEQ: seq,
+                    USER_SEQ:userSeq
+                },
+                responseType: 'json'});
     
             if (body.result == 'success'){
-                console.log('response.result === success 확인');
-                console.log(body.data);
+                console.log('response.result === success ');
                 return body.data;
             }else {
                 console.log('response.result !== success');
-                logger.writeLog('error', `services/noticeServies/list 확인1 :  ${error}`);
+                logger.writeLog('error', `services/noticeServies/list  :  ${error}`);
                 return null;
             }
         } catch (error) {
-            logger.writeLog('error', `servies/noticeServies/list 확인2 : ${error}`);
+            logger.writeLog('error', `servies/noticeServies/list  : ${error}`);
             return null;
         }
-    }*/
+    }
 
 
 
