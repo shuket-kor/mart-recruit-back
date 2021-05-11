@@ -172,7 +172,6 @@ module.exports = class userService {
     // 유저 삭제
     static async remove(secretKey, token, userseq) {
         try {
-            
             var apiURL = "";
             if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/remove/"+ userseq;
             else apiURL = `http://localhost:3000/api/users/remove/` + userseq;
@@ -190,17 +189,16 @@ module.exports = class userService {
                 },
                 responseType: "json"
             });
-            console.log(body);
             if (body.result === "success") {
                 console.log("body.result === success");
                 return body.data;
             } else {
                 //실패
-                logger.writeLog("error", `services/removeUserService/delete: ${body.result}`);
+                logger.writeLog("error", `BACK - services/remove: ${body.result}`);
                 return body;
             }
         } catch (error) {
-            logger.writeLog("error", `services/removeService/delete: ${error}`);
+            logger.writeLog("error", `BACK - services/remove: ${error}`);
         }   
     }
 };

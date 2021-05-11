@@ -84,7 +84,7 @@
                                         ><strong><center>아이디</center></strong></font
                                     >
                                 </td>
-                                <td>
+                                <td style="display: none;">
                                     <font size="2pt"
                                         ><strong><center>번호</center></strong></font
                                     >
@@ -94,7 +94,7 @@
                                         ><strong><center>구분</center></strong></font
                                     >
                                 </td>
-                                <td>
+                                <td style="display: none;">
                                     <font size="2pt"
                                         ><strong><center>활성상태</center></strong></font
                                     >
@@ -118,7 +118,8 @@
                             <% if(list){list.forEach(item => { %>
                             <tr>
                                 <td><center><%= item.LOGINID %></center></td>
-                                <td><center><%= item.SEQ %></center></td>
+                                <td style="display: none;"><center><%= item.SEQ %></center></td>
+                                
                                 <td><center>
                                 <% if(item.USERTYPE == 'A'){%>
                                     관리자
@@ -127,8 +128,8 @@
                                 <% }else{ %>
                                     마트사용자
                                 <% }%>
-                            </center></td>
-                                <td><center><%= item.ACTIVE == 'Y' ? '활성' : '' %></center></td>
+                                </center></td>
+                                <td style="display: none;"><center><%= item.ACTIVE == 'Y' ? '활성' : '' %></center></td>
                                 <td><center><%= moment(item.CREATED).format('YYYY-MM-DD hh:mm:ss') %></center></td>
                                 <td><center><%= moment(item.MODIFIED).format('YYYY-MM-DD hh:mm:ss') %></center></td>
                                 <td class="actions">
@@ -192,8 +193,6 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <!-- <label for="edit-usertype" class="control-label">구분</label>
-                            <input type="text" class="form-control" id="edit-usertype" placeholder="'U' OR 'M'" /> -->
                             <label for="edit-usertype" class="control-label">구분</label>
                             <select class="form-control" id="edit-usertype">
                                 <option value="" selected="">선택하세요.</option>
@@ -204,7 +203,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="edit-active" class="control-label">활성상태</label>
@@ -215,7 +214,7 @@
                             </select>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">닫기</button>
@@ -323,15 +322,28 @@
         
         // 유저 삭제
         function removeUser(userseq) {
-            console.log(userseq);
-            self.location = `/user/remove/`+userseq;
+            if (confirm("유저를 삭제하시겠습니까? (이 작업은 되돌릴 수 없습니다.)")){
+                doPostCallSync("/user/remove/"+userseq, {
+                        userseq: userseq
+                    })
+                    .success(function(json){
+                        // alert(JSON.stringify(json));
+                        if (json.result == "success"){
+                            location.reload();
+                        }
+                    })
+                    .fail(function(sender, message, details){
+                        alert("유저 삭제 오류 발생..");
+                        return false;
+                    });
+            }
         };
 
         // 유저 수정
         function editUser(userseq) {
             $('#userEditModal-Title').html("유저 정보 변경");
             $("#saveType").val("edit");
-
+            alert("유저수정의 SEQ " + userseq)
             doGetCallSync("/user/get/" + userseq)
             .success(function(json){
                 if (json.result == "success") {
@@ -365,7 +377,8 @@
                         userseq: $("#edit-userseq").val(),
                         usertype: $("#edit-usertype").val(),
                         loginid: $("#edit-loginid").val(),
-                        active: $("#edit-active").val(),
+                        // active: $("#edit-active").val(),
+                        active: "Y",
                         password: $("#edit-password").val()
                     })
                     .success(function(json){
@@ -386,6 +399,7 @@
             $("#createType").val("edit");
             $('#userCreateModal').modal();
         };
+        
         function saveCreateUser(){
             if($("#create-usertype").val() == ''){
                 alert('유저 타입을 선택해 주세요.');

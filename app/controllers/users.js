@@ -24,19 +24,17 @@ module.exports = {
         const userType = (req.query.usertype) ? req.query.usertype : "A";
         const currentPage = (req.query.page) ? req.query.page : 1;
         const returnData = await userService.list(secretKey, token, userType, userLoginId, currentPage, rowCount);
-        console.log("유저타입은 ? ? ? ? " + userType)
-        console.log(returnData);
         res.render("userlist", {
             layout: "layouts/default",
             title: "유저 관리",
             hostName: req.app.get("host_name"),
             mediaPath: req.app.get("mediaPath"),
             unreadNoticeCount: 0,
-            list: returnData.data,
+            list: returnData.data.list,
             moment: moment,
             searchId: userLoginId,
             userType: userType,
-            totalCount: returnData.totalCount,
+            totalCount: returnData.data.totalCount,
             rowCount: rowCount,
             page: currentPage,
         });
@@ -45,7 +43,6 @@ module.exports = {
     // 유저 한명 조회
     async get(req, res, next) {
         let userSEQ = req.params.userseq;
-        console.log(userSEQ);
         const returnData = await userService.get(secretKey, req.cookies.xToken, userSEQ);
         res.json({
             result: (returnData == null) ? 'fail' : 'success',
@@ -75,22 +72,24 @@ module.exports = {
         let usertype = req.body.usertype;
         let token = req.cookies.xToken;
         let password = req.body.password;
-        // console.log("백오피스 컨트롤러 토큰 ? ? "+token);
         let userUpdate = await userService.update(secretKey, token, userseq, password,  active, loginid, usertype);
         res.json({
             result: (userUpdate == null) ? 'fail' : 'success',
             data: userUpdate.data
         });
-        res.redirect('/user/list')
+        // res.redirect('/user/list')
     },
 
     // 유저 삭제
     async remove(req, res, next) {
-        let userseq = req.params.userseq;
+        let userseq = req.body.userseq;
         let token = req.cookies.xToken;
-        let userDelete = await userService.remove(secretKey, token, userseq);
-
-        res.redirect('/user/list')
+        let userRemove = await userService.remove(secretKey, token, userseq);
+        res.json({
+            result: (userRemove == null) ? 'fail' : 'success',
+            data: userRemove.data
+        });
+        // res.redirect('/user/list')
 
     },
 };
