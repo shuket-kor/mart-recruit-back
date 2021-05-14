@@ -63,7 +63,15 @@ module.exports = {
             data: userCreate
         });
     },
-
+    // 아이디 중복체크
+    async checkid(req, res, next){
+        let userId = req.body.loginid
+        let userCheckId = await userService.checkid(userId);
+        res.json({
+            result: (userCheckId == null) ? 'fail' : 'success',
+            data: userCheckId
+        });
+    },
     // // 유저 수정
     async update(req, res, next) {
         let userseq = req.body.userseq;
@@ -72,6 +80,7 @@ module.exports = {
         let usertype = req.body.usertype;
         let token = req.cookies.xToken;
         let password = req.body.password;
+
         let userUpdate = await userService.update(secretKey, token, userseq, password,  active, loginid, usertype);
         res.json({
             result: (userUpdate == null) ? 'fail' : 'success',

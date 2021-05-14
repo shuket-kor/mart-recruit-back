@@ -132,7 +132,31 @@ module.exports = class userService {
             logger.writeLog("error", `back catch - services/userService/create: ${error}`);
         }
     }
+    // 
+    static async checkid(userId) {
+        try {
+            var apiURL = "";
+            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/checkid";
+            else apiURL = `http://localhost:3000/api/users/checkid`;
 
+            const {body} = await got.post(apiURL, {
+                json: {
+                    userId: userId
+                },
+                responseType: "json",
+            });
+            console.log(body)
+            if (body.result === "success") {
+                return body.data;
+            } else {
+                //실패
+                logger.writeLog("error", `services/create: `);
+                return body.data;
+            }
+        } catch (error) {
+            logger.writeLog("error", `services/create: ${error}`);
+        }
+    }
     // 유저 수정
     static async update(secretKey, token, userseq, password, active, loginid, usertype) {
         try {
