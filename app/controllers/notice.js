@@ -1,20 +1,23 @@
 const noticeService = require('../services/notice.js');
 const moment = require('moment');
+const http = require('http-errors');
 const rowCount = 5;
 
 module.exports = {
     // 공지사항 리스트 갖고오기
     async list(req, res, next) {
 
-        const seq = req.query.seq;
+        //const seq = req.query.seq;
         const currntPage = (req.query.page) ? req.query.page : 1;
 
-        const noticeData = await noticeService.list(seq, currntPage, rowCount);
-        
+        const noticeData = await noticeService.list(currntPage, rowCount);
+        //console.log(noticeData);
         res.render('noticeList', {
             layout: 'layouts/default',
             moment:moment,
-            totalCount: noticeData.totalCount,
+            //totalCount: noticeData.totalCount,
+            // noticedata.list = null totalcont=0 ,
+            totalCount: (noticeData.list) ? noticeData.totalCount : 0,
             userSeq: req.userSeq,
             rowCount: rowCount,
             title : req.app.get('baseTitle') + ' 공지사항 관리',
@@ -23,6 +26,7 @@ module.exports = {
             unreadNoticeCount:0,
             page: currntPage,
             list: noticeData.list
+            //list: (noticeData) ? noticeData.list :0
         });
     },
 
@@ -59,10 +63,11 @@ module.exports = {
         const subject = req.body.mdSubject;
         const content = req.body.mdContent;
         const seq = req.body.mdSeq;
-        
+    
         const updateData = await noticeService.update(userSeq, seq, subject, content);
 
         res.redirect('list');
+        
 
     },
 
