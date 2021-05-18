@@ -184,7 +184,7 @@
 <script>
     $(document).ready(function() {
         $("#button-list").click(function() {
-            self.location = "list?regions=<%=regions %>&name=<%=name %>&page=<%=page %>";
+            self.location = "list?regions=<%=regions %>&name=<%=name %>&page=<%=page %>&active=<%=active %>";
         })
         $("#button-close").click(function() {
             if (confirm("게시중인 공고를 중단하시겠습니까? 중단된 공고는 다시 게시할 수 없습니다. 이 작업은 되돌릴 수 없습니다."))
@@ -193,7 +193,7 @@
                     doGetCallSync(`/recruit/remove?seq=${<%=recruitInfo.SEQ %>}`)
                     .success(function(json){
                         if (json.result == "success") 
-                            self.location = "list?regions=<%=regions %>&name=<%=name %>&page=<%=page %>";
+                            self.location = "list?regions=<%=regions %>&name=<%=name %>&page=<%=page %>&active=<%=active %>";
                         else
                             alert("공고를 중단하는 도중에 오류가 발생했습니다.");
                     })

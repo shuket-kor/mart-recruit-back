@@ -59,7 +59,7 @@ module.exports = class recruitService {
         }
     } 
 
-    static async list(token, regions, name, page, rowCount) {
+    static async list(token, regions, name, active, page, rowCount) {
         try {
             name = (name) ? name : '';
 
@@ -74,6 +74,7 @@ module.exports = class recruitService {
                 }, json: {
                     regions: regions,
                     name: name,
+                    active: active,
                     page: page,
                     rowCount: rowCount,
                     key: secretKey

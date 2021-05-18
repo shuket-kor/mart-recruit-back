@@ -3,7 +3,7 @@ const commonService = require('../services/common.js');
 const martService = require('../services/mart.js');
 const recruitService = require('../services/recruit.js');
 const resumeService = require('../services/resume.js');
-const rowCount = 5;
+const rowCount = 20;
 
 module.exports = {
     async get(req, res, next) {
@@ -11,7 +11,8 @@ module.exports = {
         const currentPage = (req.query.page) ? req.query.page : 1;
         const regions = (req.query.regions) ? req.query.regions : '';
         const name = (req.query.name) ? req.query.name : '';
-       
+        const active = (req.query.active) ? req.query.active : '';
+
         const recruitInfo = (seq) ? await recruitService.get(req.cookies.xToken, seq) : null;
         const resumeList = (recruitInfo) ? await resumeService.listPerRecruit(req.cookies.xToken, seq) : null;
         const martInfo = (recruitInfo) ? await martService.get(req.cookies.xToken, recruitInfo.MART_SEQ) : null;
@@ -23,6 +24,7 @@ module.exports = {
             unreadNoticeCount: 0,
             regions: regions,
             name: name,
+            active: active,
             page: currentPage,
             martInfo: martInfo,
             recruitInfo: recruitInfo,
@@ -52,10 +54,11 @@ module.exports = {
         const currentPage = (req.query.page) ? req.query.page : 1;
         const regions = (req.query.regions) ? req.query.regions : '';
         const name = (req.query.name) ? req.query.name : '';
+        const active = (req.query.active) ? req.query.active : '';
 
         // 지역 리스트를 얻는다
         const regionList = await commonService.getWorkingRegion();       
-        const returnData = await recruitService.list(req.cookies.xToken, regions, name, currentPage, rowCount);
+        const returnData = await recruitService.list(req.cookies.xToken, regions, name, active, currentPage, rowCount);
         res.render('recruitList', { 
             layout: 'layouts/default',
             moment: moment,
@@ -65,6 +68,7 @@ module.exports = {
             regionList: regionList,
             regions: regions,
             name: name,
+            active: active,
             totalCount: (returnData) ? returnData.totalCount : 0,
             rowCount: rowCount,
             page: currentPage,

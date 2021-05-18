@@ -38,6 +38,16 @@
                     </div>
                 </div>
                 <div class="m-b-10 m-t-10 row">
+                    <label class="col-md-2 col-form-label" for="simpleinput">상태</label>
+                    <div class="col-md-10">
+                        <select class="form-control" id="active">                           
+                            <option value="" selected="">전체</option>                       
+                            <option value="Y">구인 중</option>
+                            <option value="N">마감</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="m-b-10 m-t-10 row">
                     <div class="col-md-10 col-md-offset-2">
                         <button type="button" class="btn btn-inverse waves-effect waves-light btn-md" id="button-search">검색 <i class="fa fa-search"></i></button>        
                         <button type="button" class="btn btn-default waves-effect waves-light btn-md" id="button-search-reset">조건 리셋 <i class="fa fa-search"></i></button>        
@@ -59,6 +69,7 @@
                             <th>희망지역</th>
                             <th>기간</th>
                             <th>지원자</th>
+                            <th>상태</th>
                             <th>수정일</th>
                             <th></th>
                         </tr>
@@ -73,8 +84,10 @@
                             <td><%=item.JOBRANK %></td>
                             <td><%=item.WORKINGTYPE_NAME %></td>
                             <td><%=item.WORKREGION_NAME %></td>
-                            <td><%=moment(item.STARTDATE).format('YYYY-MM-DD') %> ~ <%=moment(item.ENDDATE).format('YYYY-MM-DD') %></td>
+                            <td><%=moment(item.STARTDATE).format('YYYY-MM-DD') %> ~ 
+                                <%=(item.ENDDATE) ? moment(item.ENDDATE).format('YYYY-MM-DD') : '구인시' %></td>
                             <td><%=item.APPLYCOUNT %></td>
+                            <td><%=(item.ACTIVE == 'Y') ? '구인 중' : '마감' %></td>
                             <td><%= moment(item.MODIFIED).format('YYYY-MM-DD hh:mm:ss') %></td>
                             <td class="actions">
                                 <a href="#" class="text-danger" onclick="javascript:managePost(<%=item.SEQ %>);"><i class="fa fa-pencil fa-sm"></i></a>
@@ -100,13 +113,14 @@
     let rowCount = <%=rowCount %>;
     let regions = [<%=regions %>];
     let name = '<%=name %>';
+    let active = '<%=active %>';
 
     $(document).ready(function() {
         // 페이저 만들기
         if (totalCount <= rowCount) {
             $('#recruit-page').hide();
         } else {
-            createPager('recruit-page', totalCount, rowCount, page, 5, `/recruit/list?regions=${regions}&name=${name}`);
+            createPager('recruit-page', totalCount, rowCount, page, 5, `/recruit/list?regions=${regions}&name=${name}&active=${active}`);
         }
         regions.forEach(item => {
             $('input:checkbox[id="workingRegion_' + item + '"]').prop("checked", true);
@@ -114,6 +128,7 @@
         $("#name").keypress(function(e) {
             if (e.keyCode == 13 && $(this).val().length > 0) search();
         });
+        $("#active").val(active);
         $("#button-search").click(function() { search(); })
         $("#button-search-reset").click(function() {
             $('input:checkbox[name="workingRegion"]').prop("checked", false);
@@ -134,10 +149,10 @@
 
     function search() {
         let regions = getRegions();
-        self.location = `/recruit/list?regions=${regions}&name=${$('#name').val()}`;
+        self.location = `/recruit/list?regions=${regions}&name=${$('#name').val()}&active=${$("#active").val()}`;
     }
 
     function managePost(seq) {
-        self.location = `/recruit/get?seq=${seq}&regions=${regions}&name=${name}&page=${page}`;
+        self.location = `/recruit/get?seq=${seq}&regions=${regions}&name=${name}&active=${active}&page=${page}`;
     }
 </script>
