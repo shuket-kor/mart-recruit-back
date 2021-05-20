@@ -316,6 +316,8 @@
             $("#button-actionCreate").click(function() { saveCreateUser(); });
 
         });
+        var specialCheck = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+        var userIdCheck = RegExp(/^[A-Za-z0-9_\-]{4,15}$/);
         // 유저 검색
         function search(){
             self.location = `/user/list?usertype=${usertype}&loginid=${$("#searchid").val()}`
@@ -365,40 +367,63 @@
         };
         function saveEditUser() {
             var userseq = $("#USERSEQ").val();
-                if($("#edit-loginid").val() == ''){
-                    alert("아이디 값이 비어있습니다.");
-                }
-                else if($("#edit-usertype").val() == ''){
-                    alert("유저 타입을 선택해 주세요.");
-                }
-                else if($("#edit-active").val() == ''){
-                    alert("활성 상태를 선택해 주세요.");
-                }else{
-                    loginIdCheck()
-                    if(idcheckflag == true){
+            
+            
+            if ($("#edit-loginid").val() == null || $("#edit-loginid").val() == "") {
+                alert("아이디 입력은 필수입니다."); //아이디 빈칸 포함 안됨 }
+                $("#edit-loginid").focus();
+                return;
+            } else if ($("#edit-loginid").val().length > 15 || $("#edit-loginid").val().length < 4) {
+                alert("아이디는 4~15 글자로 맞추어주세요. ");
+                $("#edit-loginid").focus();
+                $("#edit-loginid").val("");
+                return;
+            } else if (specialCheck.test($("#edit-loginid").val())){
+                alert("아이디는 특수문자를 포함 할 수 없습니다.");
+                $("#edit-loginid").focus();
+                $("#edit-loginid").val("");
+                return;
+            } else if(checkSpace($("#edit-loginid").val())){
+                alert("아이디는 공백이 들어올 수 없습니다.")
+                $("#edit-loginid").focus();
+                $("#edit-loginid").val("");
+                return;
+            }else if(userIdCheck.test($("#edit-loginid").val())== false){
+                alert("아이디는 영어 대/소문자와 숫자, - _ 로 구성 가능합니다.");
+                $("#edit-loginid").focus();
+                $("#edit-loginid").val("");
+                return;
+            } else if($("#edit-usertype").val() == ''){
+                alert("유저 타입을 선택해 주세요.");
+                return;
+            } else if($("#edit-active").val() == ''){
+                alert("활성 상태를 선택해 주세요.");
+                return;
+            } else{
+                loginIdCheck()
+                if(idcheckflag == true){
 
-                        doPostCallSync("/user/update/"+userseq, {
-                            userseq: $("#edit-userseq").val(),
-                            usertype: $("#edit-usertype").val(),
-                            loginid: $("#edit-loginid").val(),
-                            // active: $("#edit-active").val(),
-                            active: "Y",
-                            password: $("#edit-password").val()
-                        })
-                        .success(function(json){
-                            if (json.result == "success"){
-                                location.reload();
-                            }
-                        })
-                        .fail(function(sender, message, details){
-                            alert("유저 업데이트 오류 발생..");
-                            return false;
-                        });
-                        }else{
-                            return;
+                    doPostCallSync("/user/update/"+userseq, {
+                        userseq: $("#edit-userseq").val(),
+                        usertype: $("#edit-usertype").val(),
+                        loginid: $("#edit-loginid").val(),
+                        active: "Y",
+                        password: $("#edit-password").val()
+                    })
+                    .success(function(json){
+                        if (json.result == "success"){
+                            location.reload();
                         }
-                    }
-                };
+                    })
+                    .fail(function(sender, message, details){
+                        alert("유저 업데이트 오류 발생..");
+                        return false;
+                    });
+                }else{
+                    return;
+                }
+            }
+        };
         
         // 유저 생성
         function createUser() {
@@ -411,12 +436,47 @@
         function saveCreateUser(){
             if($("#create-usertype").val() == ''){
                 alert('유저 타입을 선택해 주세요.');
-            }else if($("#create-loginid").val() == ''){
-                alert('유저 아이디를 입력해 주세요.');
+            }else if($("#create-loginid").val() == null || $("#create-loginid").val() == "") {
+                alert("아이디 입력은 필수입니다."); //아이디 빈칸 포함 안됨 }
+                $("#create-loginid").focus();
+                return;
+            } else if ($("#create-loginid").val().length > 15 || $("#create-loginid").val().length < 4) {
+                alert("아이디는 4~15 글자로 맞추어주세요. ");
+                $("#create-loginid").focus();
+                $("#create-loginid").val("");
+                return;
+            } else if (specialCheck.test($("#create-loginid").val())){
+                alert("아이디는 특수문자를 포함 할 수 없습니다.");
+                $("#create-loginid").focus();
+                $("#create-loginid").val("");
+                return;
+            }else if(userIdCheck.test($("#create-loginid").val())== false){
+                alert("아이디는 영어 대/소문자와 숫자, - _ 로 구성 가능합니다.");
+                $("#create-loginid").focus();
+                $("#create-loginid").val("");
+                return;
+            } else if(checkSpace($("#create-loginid").val())){
+                alert("아이디는 공백이 들어올 수 없습니다.")
+                $("#create-loginid").focus();
+                $("#create-loginid").val("");
+                return;
             }else if($("#create-active").val() == ''){
                 alert('유저 활성상태를 선택해 주세요.');
-            }else if($("#create-password").val() == ''){
-                alert('페스워드를 입력해 주세요.');
+                return;
+            }else if($("#create-password").val() == null || $("#create-password").val() == "") {
+                alert("페스워드 입력은 필수입니다."); //아이디 빈칸 포함 안됨 }
+                $("#create-password").focus();
+                return;
+            } else if ($("#create-password").val().length > 10 || $("#create-password").val().length < 4) {
+                alert("페스워드는 4~10 글자로 맞추어주세요.  ");
+                $("#create-password").focus();
+                $("#create-password").val("");
+                return;
+            } else if (checkSpace($("#create-password").val())) {
+                alert("페스워드는 공백이 들어올 수 없습니다.");
+                $("#create-password").focus();
+                $("#create-password").val("");
+                return;
             }else{
                 loginIdCheck()
                 if(idcheckflag == true){
@@ -440,11 +500,7 @@
         };
         function loginIdCheck(){
         let loginId = useridflag ? $("#edit-loginid").val() : $("#create-loginid").val();
-            if (loginId.length == 0) {
-                alert("아이디를 입력해주세요.");
-                return;
-            }
-            console.log(loginId);
+
             doPostCallSync("/user/checkid", {
                 loginid: loginId,
             })
@@ -454,11 +510,12 @@
                     if (json.data.tf == false) {
                         alert("중복되는 아이디입니다. 다른 아이디를 입력해 주세요.");
                         idcheckflag = false;
-                        location.reload();
+                        // location.reload();
+                        return false;
                     } else {
                         // alert("사용 가능한 아이디 입니다.");
                         idcheckflag = true;
-                        return;
+                        return true;
                     }
                 }
             })
@@ -466,4 +523,11 @@
                 alert("아이디 중복체크 오류...");
             });
         }
+        function checkSpace(str) {
+                if(str.search(/\s/) != -1) {
+                    return true; 
+                } else {
+                    return false; 
+                } 
+            }
 </script>

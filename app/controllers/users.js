@@ -19,10 +19,10 @@ module.exports = {
     // 유저 조회
     async list(req, res, next) {
         let token = req.cookies.xToken;
-        console.log(req.query.loginid);
         const userLoginId = req.query.loginid
         const userType = (req.query.usertype) ? req.query.usertype : "A";
         const currentPage = (req.query.page) ? req.query.page : 1;
+
         const returnData = await userService.list(secretKey, token, userType, userLoginId, currentPage, rowCount);
         res.render("userlist", {
             layout: "layouts/default",
