@@ -37,7 +37,7 @@ module.exports = class noticeService {
     }
 
     // 공지사항 추가 리스트
-    static async create(userSeq, subject, content) {
+    static async create(userSeq, SUBJECT, CONTENT) {
         try {
             
             var apiURL = "";
@@ -49,8 +49,8 @@ module.exports = class noticeService {
             const {body} = await got.post(apiURL, {
                 json : {
                     USER_SEQ: userSeq,
-                    SUBJECT: subject,
-                    CONTENT: content
+                    SUBJECT: SUBJECT,
+                    CONTENT: CONTENT
                 },
                 responseType: 'json'});
     
@@ -99,7 +99,7 @@ module.exports = class noticeService {
     }
 
     // 공지사항 수정하기
-    static async update(userSeq, seq, subject, content) {
+    static async update(userSeq, SEQ, SUBJECT, CONTENT) {
         try {
             
             var apiURL = "";
@@ -112,9 +112,9 @@ module.exports = class noticeService {
             const {body} = await got.post(apiURL, {
                 json : {
                     USER_SEQ: userSeq,
-                    SEQ:seq,
-                    SUBJECT: subject,
-                    CONTENT: content
+                    SEQ:SEQ,
+                    SUBJECT: SUBJECT,
+                    CONTENT: CONTENT
                 },
                 responseType: 'json'});
     
@@ -141,6 +141,37 @@ module.exports = class noticeService {
                 apiURL = 'http://localhost:3000/api/notice/remove';
             } else {
                 apiURL = 'http://localhost:3000/api/notice/remove';
+            }
+            const {body} = await got.post(apiURL + "?seq=" + seq , { 
+                json:{
+                    SEQ: seq,
+                    USER_SEQ:userSeq
+                },
+                responseType: 'json'});
+    
+            if (body.result == 'success'){
+                console.log('response.result === success ');
+                return body.data;
+            }else {
+                console.log('response.result !== success');
+                logger.writeLog('error', `services/noticeServies/list  :  ${error}`);
+                return null;
+            }
+        } catch (error) {
+            logger.writeLog('error', `servies/noticeServies/list  : ${error}`);
+            return null;
+        }
+    }
+
+    // 공지사항 겟
+    static async get(userSeq, seq) {
+        try {
+            
+            var apiURL = "";
+            if(process.env.NODE_ENV == "develope") {
+                apiURL = 'http://localhost:3000/api/notice/get';
+            } else {
+                apiURL = 'http://localhost:3000/api/notice/get';
             }
             const {body} = await got.post(apiURL , { 
                 json:{

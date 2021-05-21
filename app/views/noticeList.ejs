@@ -17,165 +17,121 @@
 
         <div class="panel">
             <div class="panel-body table-responsive">
-                <button type="button" class="btn btn-primary waves-effect waves-light m-l-10 btn-md pull-right" data-toggle="modal" data-target="#noticeCreateModal" id="addNew">공지사항 추가 <i class="fa fa-plus"></i></button>
+                <button type="button" class="btn btn-primary waves-effect waves-light m-l-10 btn-md pull-right" data-toggle="modal"  onclick="javascript:createNotice()" >공지사항 추가 <i class="fa fa-plus"></i></button>
                 <table class="table table-striped" id="datatable-editable">
                     <thead>
                         <tr>
-                            <th></th>
                             <th>제목</th>
-                            
                             <th>작성자</th>
                             <th>작성일</th>
                             <th>수정일</th>
                         </tr>
                     </thead>
                     <tbody>
-                       
                         <% if(list){
                         list.forEach(item => { %> 
-                            
                                 <tr>
-                                    <td></td>
-                                    <td data-toggle="modal" data-target="#noticeViewModal" style="cursor: pointer;" onclick="getModalData('<%=item.SEQ%>', 'dt');"><a href="javascript:void(0);" onclick="getModalData('<%=item.SEQ%>', 'dt');" id="getMethod" class="getMethod"><%=item.SUBJECT %></a></td><!-- 모달버튼 -->
+                                    <td data-toggle="modal" data-target="#noticeViewModal" style="cursor: pointer;" id="button-create" onclick="javascript:getModalData('<%=item.SEQ%>', 'dt');" ><a href="javascript:void(0);"  id="getMethod" class="getMethod"><%=item.SUBJECT %></a></td><!-- 모달버튼 -->
                                     <td><%=item.LOGINID %></td>
                                     <td><%= moment(item.CREATED).format('YYYY-MM-DD HH:mm:ss') %></td>
                                     <td><%= moment(item.MODIFIED).format('YYYY-MM-DD HH:mm:ss') %></td>
                                     <td class="actions">
-                                        <a href="javascript:void(0);" onclick="getModalData('<%=item.SEQ %>', 'md');" class="on-default edit-row" id="updata-button" ><i class="fa fa-pencil" data-toggle="modal" data-target="#noticeEditModal"></i></a>
-                                        <a href="#" class="on-default remove-row" onclick="javascript:removeNotice(<%=item.SEQ %>);"  ><i class="fa fa-trash-o"></i></a>
+                                        <a href="javascript:void(0);" onclick="javascript:editNotice(<%=item.SEQ %>);" class="on-default edit-row" id="updata-button" ><i class="fa fa-pencil" data-toggle="modal" ></i></a>
+                                        <a href="#" class="on-default remove-row" onclick="javascript:removeNotice(<%=item.SEQ %>);"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                 </tr>
-                            
-                            <%})  
-                        } %>
+                            <%})} %>
                     </tbody>
                 </table>
                 <!-- 페이지 만들기 -->
                 <div class="row" style="text-align: center;">
                     <ul class="pagination pagination-split" id="notice-page"></ul>
                 </div>
-            </div>
+            </div><!-- panel-body -->
         </div><!--panel-->
-    </div>
-        <!-- 생성 모달 -->
-        <div id="noticeCreateModal" class="modal fade" tabindex="-1" aria-labelledby="noticeCreateModal" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close close-clear" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="noticeCreateModal-Title">공지사항 추가</h4>
-                </div>
-                <form action="create" method="POST" id="createPost" name="createPost" onsubmit="return false;">
-                <div class="modal-body test1">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="subject" class="control-label" >제목</label>
-                                <input type="text" id="subject" class="form-control create-input title-cut" name="subject" placeholder="제목을 입력하세요.">
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label for="content" class="control-label" >공지사항 내용</label>
-                            <textarea type="text" class="form-control content-text content-cut" id="content" name="content" placeholder="내용을 입력하세요"></textarea>
-                        </div>
-                    </div>
-                    
-                </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default waves-effect close-clear" data-dismiss="modal">닫기</button>
-                        <button type="button"  class="btn btn-info waves-effect waves-light" onclick="noticeCreate()">저장</button>
-                    </div>
-                </form>
-              </div><!--modal-content-->
-            </div><!--modal-dialog-->
-        </div><!--noticeCreateModal 생성 모달 끝 -->
+    </div><!-- container -->
 
 
-        <!-- 자세히  모달 시작 -->
-        <div id="noticeViewModal" class="modal fade" tabindex="-1" aria-labelledby="noticeViewModal" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
+    <!-- 자세히  모달 시작 -->
+    <div id="noticeViewModal" class="modal fade" tabindex="-1" aria-labelledby="noticeViewModal" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title" id="noticeViewModal-Title">공지사항</h4>
-                </div>
-                
-                    <form>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <p>제목</p>
-                                    <p id="dt-subject" style="padding: 10px 0;"></p>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label for="dt-content" class="control-label" >공지사항 내용</label>
-                                <div class=" view-content dt-content" id="dt-content" name="dt-content" style="padding: 20px 0;"></div>
-                            </div>
-                        </div>
-                    </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default waves-effect" id="btn_close" data-dismiss="modal">닫기</button>
-                        </div>
-                    </form>
-                    
-              </div><!--modal-content-->
-            </div><!--modal-dialog-->
-        </div><!--noticeCreateModal 자세히 모달 끝 -->
-
-        <!-- 수정 모달 시작 -->
-        
-        <div id="noticeEditModal" class="modal fade" tabindex="-1" aria-labelledby="noticeEditModal" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="noticeEditModal-Title">공지사항 수정</h4>
-                </div>
-                    <form action="update" method="POST" id="editPost" name="editPost" onsubmit="return false;">
-                        <input type="hidden" name="mdSeq" id="mdSeq" value="">
+                </div><!--/.modal-header-->
+                    <div>
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="mdSubject" class="control-label">제목</label>
-                                        <input type="text" class="form-control title-cut" name="mdSubject" id="mdSubject" placeholder="제목을 입력하세요.">
+                                        <p>제목</p>
+                                        <p id="dt-subject" style="padding: 10px 0;"></p>
                                     </div>
                                 </div>
                             </div>
                         
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label for="mdContent" class="control-label" >공지사항 내용</label>
-                                    <textarea type="text"  class="form-control content-text content-edit" name="mdContent" id="mdContent" placeholder="내용을 입력하세요"></textarea>
+                                    <label for="dt-content" class="control-label" >공지사항 내용</label>
+                                    <div class=" view-content dt-content" id="dt-content" name="dt-content" style="padding: 20px 0;"></div>
+                                </div>
+                            </div>
+                        </div><!--/.modal-body-->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default waves-effect" id="btn_close" data-dismiss="modal">닫기</button>
+                            </div>
+                    </div>
+            </div><!--modal-content-->
+        </div><!--modal-dialog-->
+    </div><!--noticeCreateModal 자세히 모달 끝 -->
+
+    <!-- 수정 모달 시작 -->
+    <input type="hidden" id="createType" />
+    <input type="hidden" name="SEQ" id="SEQ" value="">
+    <div id="noticeModal" class="modal fade" tabindex="-1" aria-labelledby="noticeModal" role="dialog" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close close-clear" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="noticeModal-Title"></h4>
+            </div><!--/.modal-header-->
+                <div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="SUBJECT" class="control-label">제목</label>
+                                    <input type="text" class="form-control title-cut" name="SUBJECT" id="SUBJECT" placeholder="제목을 입력하세요.">
                                 </div>
                             </div>
                         </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">닫기</button>
-                                <button type="button"  class="btn btn-info waves-effect waves-light" onclick="noticeEdit()">수정 완료</button>
+                    
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="CONTENT" class="control-label" >공지사항 내용</label>
+                                <textarea type="text"  class="form-control content-text content-edit" name="CONTENT" id="CONTENT"></textarea>
                             </div>
-                    </form>
-              </div><!--modal-content-->
-            </div><!--modal-dialog-->
-        </div><!--noticeCreateModal 수정 모달 끝 -->
+                        </div>
+                    </div><!--/.modal-body-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect close-clear" data-dismiss="modal">닫기</button>
+                        <button type="button"  class="btn btn-info waves-effect waves-light" id="button-notice" onclick="noticeSubmit()" ></button> 
+                        <input type="hidden" id="modalType" value="" />
+                    </div><!--/."modal-footer-->
+                </div>
+            </div><!--modal-content-->
+        </div><!--modal-dialog-->
+    </div><!--noticeCreateModal 수정 모달 끝 -->
 
 
     
-</div>
+</div><!--/.content-->
 
 <%- contentFor('script') %>
 
 <script>
     var totalCount = <%= totalCount %>; 
-    //var totalCount = 0; 
     var page = <%= page %>;
     var rowCount = <%= rowCount %>;   
   
@@ -186,14 +142,10 @@
             $('#notice-page').hide();
         } else {
             createPager('notice-page', totalCount, rowCount, page, 5, `/notice/list?`);
-
         } 
         
-
-        
-        
         // summernote 적용
-       $('.content-text').summernote({
+       $('#CONTENT').summernote({
             height: 350,  
             lang: 'ko-KR',               
             dialogsInBody: true,
@@ -207,7 +159,6 @@
                 ['fontname', ['fontname']],
                 ['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
-                ['table', ['table']],
                 ['insert', ['link', 'picture', 'video']],
             ],
             callbacks: {
@@ -217,62 +168,39 @@
                     form_data.append("location", "notice");
                     form_data.append("uploadFile", files[0]);
                     $.ajax({
-                        url: hostName + '/api/files/uploadSingle',  
+                        url: hostName + '/api/files/uploadSingle',    
                         type: 'POST',
                         dataType: "json",
                         data: form_data,
                         async: false,
                         success:function(json){
                             if (json.result == "success") {
-                                $('.content-text').summernote('insertImage', "/PDSData/uploads/notice" + json.data.filename, "filename");
+                                $('#CONTENT').summernote('insertImage', hostName + "/PDSData/uploads/notice/" + json.data.filename, "filename");
                             }
                         },
                         cache: false,
                         contentType: false,
                         processData: false
                     }); 
-                    console.log(json.data);
-
-
                 }
             }
-        });
-        
-        // 섬머노트 테스트
-       /* $('.content-text').summernote({
-            height: 350,        
-            lang: 'ko-KR',         
-            dialogsInBody: true,
-            minHeight: 300,             
-            maxHeight: 400,          
-            placeholder:'내용을 입력하세요', 
-            
-            onImageUpload: function(files, editor, welEditable){
-                sendFile(files[0], editor, welEditable);
-            }
+        }); //summernote end
 
-        });
-        function sendFile(file, editor, welEditable){
-            var data = new FormData();
-            data.append('file', file);
-            $.ajax({
-                data: data,
-                type: 'POST',
-                url:'uploadImage',
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function(url){
-                    var image = $('<img>').attr('src', 'http://' + url);
-                    $('.content-text').summernote('insertNode', image[0]);
-                }
-            })
-        }*/
-
-        
-        
-        
     }); //end
+    // 수정, 추가 버튼 함수 호출
+    function noticeSubmit() {
+
+        var value = $('#modalType').val();
+        if(value === 'create'){
+            saveNotice();
+        } else if(value === 'edit'){
+            editSaveNotice();
+        } else {
+            alert('닫기를 클릭하신 후 \n 다시 실행하여 주세요.');
+            return false;
+        }
+        
+    } 
 
 
     // get 자세히 보기 모달
@@ -281,28 +209,153 @@
         $("#subject").text();
         $.get(`/notice/view?seq=${seq}`, function(res) {
             var data = res.data;
-           
+            
             if (type == 'dt') {
                 $("#dt-subject").text(data.SUBJECT);
                 $("#dt-content").html(data.CONTENT); 
-                
-            }else if(type == 'md'){
-                $("#mdSeq").val(seq);
-                $("#mdSubject").val(data.SUBJECT);
-                $('#mdContent').summernote('destroy');
-                $('#mdContent').summernote('enable', $('#mdContent').val(data.CONTENT));
             }
         });  
 
-    } // getModalData end
+    } 
 
+
+    // 공지사항추가 버튼 onclick
+    function createNotice(){
+        $('#noticeModal-Title').html('공지사항 추가');
+        $('#button-notice').html('작성 완료');
+        $('#modalType').val('create');
+        $('#noticeModal').modal();
+    }
+
+    // 생성 모달
+    function saveNotice(){
+
+        var SUBJECT = $('#SUBJECT').val();
+        var CONTENT = $('#CONTENT').val();
+        var subejctLength = 50;
+        var contantLength = 1968;
+        var subjectTrim = $.trim(SUBJECT);
+
+        $('#SUBJECT').val(subjectTrim);
+
+        // 데이터 NULL 이면 등록 막기
+        if(SUBJECT == '' || SUBJECT == null){
+            alert('제목을 입력하여 주세요.');
+            return $('#SUBJECT').focus();
+
+        }else if(CONTENT == '' || CONTENT == null || CONTENT == '<p><br></p>'){
+            alert('내용을 입력하여 주세요');
+            return false;
+        }
+ 
+        // 제목 글자수 초과 경고
+        if(SUBJECT.length > subejctLength){
+            alert('제목 창에 입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+subejctLength+' 자 미만입니다.');
+            return false;
+        }
+        // 내용 글자수 초과 경고창
+        if(CONTENT.length > contantLength){
+            alert('입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+contantLength+' 자 미만입니다.');
+            return false;
+        }
+
+        
+        // POST CREATE
+        doPostCallSync('/notice/create', {
+            SEQ: $('#SEQ').val(),
+            SUBJECT: $('#SUBJECT').val(),
+            CONTENT: $('#CONTENT').val(),
+        })
+        .success(function(json){
+            if (json.result == "success") location.reload();
+        })
+    } //saveNotice end.
+
+
+    // 수정 onclick modal GET
+    function editNotice(seq) {
+
+        $('#noticeModal-Title').html('공지사항 수정');
+        $('#button-notice').html('수정 완료');
+        $('#modalType').val('edit');
+
+        doGetCallSync(`/notice/get?seq=${seq}`)
+        .success(function(json){
+            if (json.result == 'success') {
+                $('#SEQ').val(json.data.SEQ);
+                $('#SUBJECT').val(json.data.SUBJECT);
+                $('#CONTENT').summernote('code', json.data.CONTENT);
+
+                $('#noticeModal').modal();
+            }
+        })
+        .fail(function(sender, message, details){
+            alert('공지사항을 수정하는 도중에 오류가 발생하였습니다.');
+            return false;
+        });
+
+    } // editNotice end .
+
+    // 수정 모달 update
+    function editSaveNotice() {
+
+        var SUBJECT = $('#SUBJECT').val();
+        var CONTENT = $('#CONTENT').val();
+        var subjectLength = 50;
+        var contantLength = 1968;
+        var subject = $.trim($('#SUBJECT').val());
+
+        $('#SUBJECT').val(subject);
+
+        if(SUBJECT == '' || SUBJECT == null ){
+            alert('제목을 입력하여 주세요.');
+            return $('#SUBJECT').focus();
+
+        }else if(CONTENT == '' || CONTENT == null || CONTENT == '<p><br></p>'){
+            alert('내용을 입력하여 주세요');
+            return false;
+        }
+        
+        // 제목 글자수 초과 경고
+        if(SUBJECT.length > subjectLength){
+            alert('제목 창에 입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+subjectLength+' 자 미만입니다.');
+            return false;
+        }
+        // 내용 글자수 초과 경고창
+        if(CONTENT.length > contantLength){
+            alert('입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+contantLength+' 자 미만입니다.');
+            return false;
+        }
+
+        // DO POST UPDATE
+        doPostCallSync('/notice/update', {
+            SEQ: $('#SEQ').val(),
+            SUBJECT: $('#SUBJECT').val(),
+            CONTENT: $('#CONTENT').val(),
+            USER_SEQ: $('#USER_SEQ').val(),
+            CREATED: $('#CREATED').val(),
+            MODIFIED: $('#MODIFIED').val(),
+        })
+        .success(function(json){
+            if (json.result == "success") location.reload();
+        })
+        .fail(function(sender, message, details){
+            alert("공지사항을 수정하는 도중에 .");
+            return false;
+        });
+        
+    } // editSaveNotice end .
 
     // 생성모달 -  닫기, X 버튼 클릭시 내용 리셋
     $('.close-clear').click(function() {
-        $('.create-input').val('');
-        $('#content').summernote('reset');
+        $('#SUBJECT').val('');
+        $('#CONTENT').summernote('reset');
+        $('#modalType').val('');
+        $('#button-notice').html('');
+        $('#noticeModal-Title').html('');
+        //modaltype notice-title notice-button reset ******* 모달에 들어가는 공동 데이터
     });
-   
+
     
     // 리스트 - 공지사항 삭제
     function removeNotice(seq) {
@@ -313,7 +366,7 @@
 
     
     // 리스트 - 제목 텍스트 자르기
-    $('.getMethod').each(function(){
+    $('#getMethod').each(function(){
         if($(this).text().length >= 20 ){
             $(this).text($(this).text().substring(0, 20) + ' ...');
         }
@@ -331,97 +384,9 @@
         })
     
     
-    // 생성 모달 버튼
-    function noticeCreate() {
+    
 
-        // 등록 버튼
-        var f = document.createPost;
-
-        // 앞뒤 공백 제거
-        var subject = $.trim($('#subject').val());
-        $('#subject').val(subject);
-        
-        // 내용 뒷 공백 제거
-        /*var recontent = $('#content').val().replace(/\s+$/, '');
-        $('#content').val(recontent);*/
-
-        // 데이터가 NULL 이면 등록안되게 막기
-        var subject = $('#subject').val();
-        var content = $('#content').val();
-
-        console.log('확인 : ' + content);
-
-        if(subject == '' || subject == null){
-            alert('제목을 입력하여 주세요.');
-            return $('#subject').focus();
-
-        }else if(content == '' || content == null){
-            alert('내용을 입력하여 주세요');
-            return false;
-        }
-        // 제목 맥시멈 글자수 체크
-        var contentLength = 50;
-        // 제목 글자수 초과 경고
-        if($('#subject').val().length > contentLength){
-            alert('제목 창에 입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+contentLength+' 자 미만입니다.');
-            return false;
-        }
-
-        //내용 맥시멈 글자수 체크1968
-        var contant_length = 1968;
-        // 내용 글자수 초과 경고창
-        if($('#content').val().length > contant_length){
-            alert('입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+contant_length+' 자 미만입니다.');
-            return false;
-        }
-
-        //f.submit();
-    }
-
-    // 수정버튼
-    function noticeEdit(){
-        
-        var f = document.editPost;
-
-        // 앞뒤 공백 제거
-        var subject = $.trim($('#mdSubject').val());
-        $('#mdSubject').val(subject);
-
-        
-        
-        // 데이터가 NULL 이면 등록안되게 막기
-        var mdSubject = $('#mdSubject').val();
-        var mdContent = $('#mdContent').val();
-
-
-        if(mdSubject == '' || mdSubject == null ){
-            alert('제목을 입력하여 주세요.');
-            return $('#mdSubject').focus();
-
-        }else if(mdContent == '' || mdContent == null || mdContent == '<p><br></p>'){
-            alert('내용을 입력하여 주세요');
-            return false;
-        }
-        console.log('확인 : ' + mdContent);
-
-        // 제목 맥시멈 글자수 체크
-        var contentLength = 50;
-        // 제목 글자수 초과 경고
-        if($('#mdSubject').val().length > contentLength){
-            alert('제목 창에 입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+contentLength+' 자 미만입니다.');
-            return false;
-        }
-
-        var contant_length = 1968;
-        // 내용 글자수 초과 경고창
-        if($('#mdContent').val().length > contant_length){
-            alert('입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+contant_length+' 자 미만입니다.');
-            return false;
-        }
-        
-
-        f.submit();
-    }
+    
     
 
 

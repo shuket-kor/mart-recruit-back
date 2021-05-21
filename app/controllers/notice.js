@@ -1,6 +1,7 @@
 const noticeService = require('../services/notice.js');
 const moment = require('moment');
 const http = require('http-errors');
+const { get } = require('../services/mart.js');
 const rowCount = 5;
 
 module.exports = {
@@ -21,7 +22,7 @@ module.exports = {
             userSeq: req.userSeq,
             rowCount: rowCount,
             title : req.app.get('baseTitle') + ' 공지사항 관리',
-            hostName: req.app.get('apiHost'),
+            hostName: process.env.APIHOST,
             mediaPath: req.app.get('mediaPath'),
             unreadNoticeCount:0,
             page: currntPage,
@@ -34,12 +35,17 @@ module.exports = {
     async create(req, res, next) {
 
         const userSeq = req.userSeq;
-        const subject = req.body.subject;      
-        const content = req.body.content;
+        const SUBJECT = req.body.SUBJECT;      
+        const CONTENT = req.body.CONTENT;
+        console.log(SUBJECT);
+        console.log(CONTENT);
         
-        const createData = await noticeService.create(userSeq, subject, content);
+        const createData = await noticeService.create(userSeq, SUBJECT, CONTENT);
         
-        res.redirect('/notice/list');
+        res.json({
+            result: (createData == null) ? 'fail' : 'success',
+            data: createData
+        });
         
     },
 
@@ -60,13 +66,16 @@ module.exports = {
     async update(req, res, next) {
 
         const userSeq = req.userSeq;
-        const subject = req.body.mdSubject;
-        const content = req.body.mdContent;
-        const seq = req.body.mdSeq;
-    
-        const updateData = await noticeService.update(userSeq, seq, subject, content);
+        const SEQ = req.body.SEQ;
+        const SUBJECT = req.body.SUBJECT;
+        const CONTENT = req.body.CONTENT;
+        
+        const updateData = await noticeService.update(userSeq, SEQ, SUBJECT, CONTENT);
 
-        res.redirect('list');
+        res.json({
+            result: (updateData == null) ? 'fail' : 'success',
+            data: updateData
+        });
         
 
     },
@@ -79,6 +88,18 @@ module.exports = {
         const deleteData = await noticeService.remove(userSeq, seq);
         
         res.redirect('list');
+    },
+
+    // 공지사항 겟
+    async get(req, res, next) {
+        const userSeq = req.userSeq;
+        const seq = req.query.seq;
+        
+        const returnData = await noticeService.get(userSeq, seq);
+        res.json({
+            result: (returnData == null) ? 'fail' : 'success',
+            data: returnData
+        });
     }
 
 
