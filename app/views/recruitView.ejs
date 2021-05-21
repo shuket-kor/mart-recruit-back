@@ -92,6 +92,7 @@
                                         <thead>
                                             <tr>
                                                 <th>이름</th>
+                                                <th></th>
                                                 <th>연락처</th>
                                                 <th>주소</th>
                                                 <th>지역</th>
@@ -106,6 +107,7 @@
                                             <tr class="gradeA widget-bg-color-icon">
                                                 <td><%=item.NAME %></td>
                                                 <td><% if (item.PHOTO) {%><img src='<%=hostName %>/api/files/get/<%=item.PHOTO %>' class='bg-icon'><% } %></td>
+                                                <td><%=item.CONTACT %></td>
                                                 <td>(<%=item.POSTCODE %>) <%=item.ADDRESS %> <%=item.ADDRESSEXTRA %></td>
                                                 <td><%=item.WORKREGION_NAME %></td>
                                                 <td><%=item.JOBKIND_NAME %></td>

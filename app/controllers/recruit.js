@@ -14,7 +14,7 @@ module.exports = {
         const active = (req.query.active) ? req.query.active : '';
 
         const recruitInfo = (seq) ? await recruitService.get(req.cookies.xToken, seq) : null;
-        const resumeList = (recruitInfo) ? await resumeService.listPerRecruit(req.cookies.xToken, seq) : null;
+        const resumeList = (recruitInfo) ? await resumeService.listForRecruit(req.cookies.xToken, seq) : null;
         const martInfo = (recruitInfo) ? await martService.get(req.cookies.xToken, recruitInfo.MART_SEQ) : null;
         res.render('recruitView', { 
             layout: 'layouts/default',

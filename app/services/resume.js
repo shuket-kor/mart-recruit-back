@@ -64,9 +64,9 @@ module.exports = class resumeService {
         }
     }  
  
-    static async listPerRecruit(token, recruitSeq) {
+    static async listForRecruit(token, recruitSeq) {
         try {
-            var apiURL = `${process.env.APIHOST}/api/resume/listPerRecruit`;
+            var apiURL = `${process.env.APIHOST}/api/resume/listForRecruit`;
 
             const {body} = await got.post(apiURL, {
                 headers: {
@@ -83,11 +83,11 @@ module.exports = class resumeService {
                 return body.data;
             } else {
                 //실패
-                logger.writeLog('error', `services/resumeService/listPerRecruit: ${body.result}`);           
+                logger.writeLog('error', `services/resumeService/listForRecruit: ${body.result}`);           
                 return null;
             }
         } catch (error) {
-            logger.writeLog('error', `services/resumeService/listPerRecruit: ${error}`);
+            logger.writeLog('error', `services/resumeService/listForRecruit: ${error}`);
         }
     } 
 
