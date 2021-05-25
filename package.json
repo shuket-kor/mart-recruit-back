@@ -12,6 +12,7 @@
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "express-ejs-layouts": "^2.5.0",
+    "express-validator": "^6.11.1",
     "got": "^11.8.2",
     "http-errors": "~1.6.3",
     "moment": "^2.29.1",

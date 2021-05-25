@@ -99,6 +99,7 @@ module.exports = class noticeService {
     }
 
     // 공지사항 수정하기
+    
     static async update(userSeq, SEQ, SUBJECT, CONTENT) {
         try {
             

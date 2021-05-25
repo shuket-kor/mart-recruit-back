@@ -17,7 +17,7 @@
 
         <div class="panel">
             <div class="panel-body table-responsive">
-                <button type="button" class="btn btn-primary waves-effect waves-light m-l-10 btn-md pull-right" data-toggle="modal"  onclick="javascript:createNotice()" >공지사항 추가 <i class="fa fa-plus"></i></button>
+                <button type="button" class="btn btn-primary waves-effect waves-light m-l-10 btn-md pull-right" id="create-button" data-toggle="modal"  onclick="javascript:createNotice()" >공지사항 추가 <i class="fa fa-plus"></i></button>
                 <table class="table table-striped" id="datatable-editable">
                     <thead>
                         <tr>
@@ -89,8 +89,8 @@
     <!-- 수정 모달 시작 -->
     <input type="hidden" id="createType" />
     <input type="hidden" name="SEQ" id="SEQ" value="">
-    <div id="noticeModal" class="modal fade" tabindex="-1" aria-labelledby="noticeModal" role="dialog" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-lg">
+    <div id="noticeModal" class="modal fade" tabindex="-1" aria-labelledby="noticeModal" role="dialog" aria-hidden="true" style="display: none; overflow-y: auto;">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close close-clear" data-dismiss="modal" aria-hidden="true">×</button>
@@ -110,13 +110,13 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <label for="CONTENT" class="control-label" >공지사항 내용</label>
-                                <textarea type="text"  class="form-control content-text content-edit" name="CONTENT" id="CONTENT"></textarea>
+                                <textarea type="text"  class="form-control content-text content-edit" name="CONTENT" id="CONTENT" ></textarea>
                             </div>
                         </div>
                     </div><!--/.modal-body-->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default waves-effect close-clear" data-dismiss="modal">닫기</button>
-                        <button type="button"  class="btn btn-info waves-effect waves-light" id="button-notice" onclick="noticeSubmit()" ></button> 
+                        <button type="button"  class="btn btn-info waves-effect waves-light" id="button-notice" onclick="javascript:noticeSubmit()" ></button> 
                         <input type="hidden" id="modalType" value="" />
                     </div><!--/."modal-footer-->
                 </div>
@@ -129,7 +129,6 @@
 </div><!--/.content-->
 
 <%- contentFor('script') %>
-
 <script>
     var totalCount = <%= totalCount %>; 
     var page = <%= page %>;
@@ -162,6 +161,9 @@
                 ['insert', ['link', 'picture', 'video']],
             ],
             callbacks: {
+                onKeyup: function(e) {
+                    console.log('키이벤트', e.keyCode);
+                },
                 onImageUpload: function(files) {
                 
                     var form_data = new FormData();
@@ -187,9 +189,9 @@
         }); //summernote end
 
     }); //end
+
     // 수정, 추가 버튼 함수 호출
     function noticeSubmit() {
-
         var value = $('#modalType').val();
         if(value === 'create'){
             saveNotice();
@@ -214,7 +216,16 @@
                 $("#dt-subject").text(data.SUBJECT);
                 $("#dt-content").html(data.CONTENT); 
             }
-        });  
+        })
+        .success(function(json){
+            if (json.result == "success") {
+                return true;
+            }
+        })
+        .fail(function(sender, message, details){
+            alert('공지사항 정보를 가져오는 도중에 오류가 발생하였습니다.');
+            return false;
+        })
 
     } 
 
@@ -226,39 +237,33 @@
         $('#modalType').val('create');
         $('#noticeModal').modal();
     }
-
     // 생성 모달
     function saveNotice(){
-
         var SUBJECT = $('#SUBJECT').val();
         var CONTENT = $('#CONTENT').val();
         var subejctLength = 50;
         var contantLength = 1968;
-        var subjectTrim = $.trim(SUBJECT);
+        var SUBJECT = $.trim(SUBJECT);
 
-        $('#SUBJECT').val(subjectTrim);
-
-        // 데이터 NULL 이면 등록 막기
-        if(SUBJECT == '' || SUBJECT == null){
+        $('#SUBJECT').val(SUBJECT);
+        // 공백일때 경고
+        if(SUBJECT == '' || SUBJECT == null ){
             alert('제목을 입력하여 주세요.');
             return $('#SUBJECT').focus();
 
         }else if(CONTENT == '' || CONTENT == null || CONTENT == '<p><br></p>'){
             alert('내용을 입력하여 주세요');
             return false;
-        }
- 
-        // 제목 글자수 초과 경고
-        if(SUBJECT.length > subejctLength){
-            alert('제목 창에 입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+subejctLength+' 자 미만입니다.');
+
+        } else if(SUBJECT.length > subjectLength){
+            alert('제목 창에 입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+subjectLength+' 자 미만입니다.');
+            $('#SUBJECT').focus();
             return false;
-        }
-        // 내용 글자수 초과 경고창
-        if(CONTENT.length > contantLength){
+
+        } else if(CONTENT.length > contantLength){
             alert('입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+contantLength+' 자 미만입니다.');
             return false;
         }
-
         
         // POST CREATE
         doPostCallSync('/notice/create', {
@@ -266,9 +271,20 @@
             SUBJECT: $('#SUBJECT').val(),
             CONTENT: $('#CONTENT').val(),
         })
-        .success(function(json){
-            if (json.result == "success") location.reload();
+        .done(function(json){
+            
+            if (json.result == "success") {
+                location.reload();
+            } else if(json.result == 'fail') {
+                return false;
+            } else {
+                return false;
+            }
         })
+        .fail(function(json){
+            alert('공지사항 추가하는 도중에 오류가 발생하였습니다.');
+            return false;
+        });
     } //saveNotice end.
 
 
@@ -290,7 +306,7 @@
             }
         })
         .fail(function(sender, message, details){
-            alert('공지사항을 수정하는 도중에 오류가 발생하였습니다.');
+            alert('공지사항 정보를 가져오는 도중에 오류가 발생하였습니다.');
             return false;
         });
 
@@ -303,10 +319,10 @@
         var CONTENT = $('#CONTENT').val();
         var subjectLength = 50;
         var contantLength = 1968;
-        var subject = $.trim($('#SUBJECT').val());
+        var SUBJECT = $.trim(SUBJECT);
 
-        $('#SUBJECT').val(subject);
-
+        $('#SUBJECT').val(SUBJECT);
+        // 공백일때 경고
         if(SUBJECT == '' || SUBJECT == null ){
             alert('제목을 입력하여 주세요.');
             return $('#SUBJECT').focus();
@@ -314,18 +330,17 @@
         }else if(CONTENT == '' || CONTENT == null || CONTENT == '<p><br></p>'){
             alert('내용을 입력하여 주세요');
             return false;
-        }
-        
-        // 제목 글자수 초과 경고
-        if(SUBJECT.length > subjectLength){
+
+        } else if(SUBJECT.length > subjectLength){
             alert('제목 창에 입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+subjectLength+' 자 미만입니다.');
+            $('#SUBJECT').focus();
             return false;
-        }
-        // 내용 글자수 초과 경고창
-        if(CONTENT.length > contantLength){
+
+        } else if(CONTENT.length > contantLength){
             alert('입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+contantLength+' 자 미만입니다.');
             return false;
         }
+
 
         // DO POST UPDATE
         doPostCallSync('/notice/update', {
@@ -336,11 +351,18 @@
             CREATED: $('#CREATED').val(),
             MODIFIED: $('#MODIFIED').val(),
         })
-        .success(function(json){
-            if (json.result == "success") location.reload();
+        //.success(function(json){
+        .done(function(json){    
+            if (json.result == "success") {
+                location.reload();
+            } else if(json.result == 'fail') {
+                return false;
+            } else {
+                return false;
+            }
         })
-        .fail(function(sender, message, details){
-            alert("공지사항을 수정하는 도중에 .");
+        .fail(function(json){
+            alert("공지사항을 수정하는 도중에 오류가 발생하였습니다.");
             return false;
         });
         
@@ -353,15 +375,32 @@
         $('#modalType').val('');
         $('#button-notice').html('');
         $('#noticeModal-Title').html('');
-        //modaltype notice-title notice-button reset ******* 모달에 들어가는 공동 데이터
+    });
+    // 공지사항 추가+ 리셋 하기
+    $('#create-button').click(function() {
+        $('#SUBJECT').val('');
+        $('#CONTENT').summernote('reset');
     });
 
-    
+
     // 리스트 - 공지사항 삭제
     function removeNotice(seq) {
-       if (confirm('정말 공지사항을 삭제하시겠습니까?')){
-        self.location = `/notice/remove?seq=${seq}`;
-       } return false;
+        if (confirm('정말 공지사항을 삭제하시겠습니까?')){
+            doGetCallSync(`/notice/remove?seq=${seq}`)
+            .success(function(json){
+                if(json.result == 'success'){
+                    alert('공지 사항이 삭제되었습니다.');
+                    location.reload();
+                } else {
+                    alert('delete fail')
+                    return false;
+                } 
+            })
+            .fail(function(json){
+                alert('공지사항을 삭제하는 도중에 오류가 발생하였습니다.');
+                return false;
+            });
+        }
     }
 
     
@@ -381,7 +420,8 @@
                 $(this).val($(this).val().substring(0, contentLength));
                 
             }
-        })
+     });
+    
     
     
     

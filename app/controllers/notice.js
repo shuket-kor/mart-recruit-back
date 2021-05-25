@@ -2,6 +2,7 @@ const noticeService = require('../services/notice.js');
 const moment = require('moment');
 const http = require('http-errors');
 const { get } = require('../services/mart.js');
+const { check, validationResult } = require('express-validator');
 const rowCount = 5;
 
 module.exports = {
@@ -34,15 +35,38 @@ module.exports = {
     // 공지사항 추가
     async create(req, res, next) {
 
+        await check('SUBJECT')
+            .isLength({  max: 50 })
+            .withMessage('제목 창에 입력 하실 수 있는 글자수는 최대 50 자 입니다.')
+            .trim()
+            .notEmpty()
+            .withMessage('제목을 입력하여 주세요')
+            .run(req);
+        await check('CONTENT')
+            .isLength({  max: 1968 })
+            .withMessage('내용 창에 입력 하실 수 있는 글자수는 최대 1970 자 입니다.')
+            .notEmpty()
+            .withMessage('내용을 입력하여 주세요')
+            .custom( (value) => '<p><br></p>' !== value )
+            .withMessage('내용을 입력하여 주세요')
+            .run(req);
+
+        const result = validationResult(req);
+        if (!result.isEmpty()) {
+            res.json({
+                errors: result.array(),
+            });
+            return;
+        }
         const userSeq = req.userSeq;
         const SUBJECT = req.body.SUBJECT;      
         const CONTENT = req.body.CONTENT;
-        console.log(SUBJECT);
-        console.log(CONTENT);
         
         const createData = await noticeService.create(userSeq, SUBJECT, CONTENT);
         
+        
         res.json({
+            
             result: (createData == null) ? 'fail' : 'success',
             data: createData
         });
@@ -64,30 +88,59 @@ module.exports = {
 
     // 공지사항 수정
     async update(req, res, next) {
-
+        //res.status(403);
+        await check('SUBJECT')
+            .isLength({  max: 50 })
+            .withMessage('제목 창에 입력 하실 수 있는 글자수는 최대 50 자 입니다.')
+            .trim()
+            .notEmpty()
+            .withMessage('제목을 입력하여 주세요')
+            .run(req);
+        await check('CONTENT')
+            .isLength({  max: 1968 })
+            .withMessage('내용 창에 입력 하실 수 있는 글자수는 최대 1970 자 입니다.')
+            .notEmpty()
+            .withMessage('내용을 입력하여 주세요')
+            .custom( (value) => '<p><br></p>' !== value )
+            .withMessage('내용을 입력하여 주세요')
+            .run(req);
+        
+        const result = validationResult(req);
+        if (!result.isEmpty()) {
+            res.json({
+                errors: result.array()
+            });
+            return;
+        }
         const userSeq = req.userSeq;
         const SEQ = req.body.SEQ;
         const SUBJECT = req.body.SUBJECT;
         const CONTENT = req.body.CONTENT;
-        
-        const updateData = await noticeService.update(userSeq, SEQ, SUBJECT, CONTENT);
 
+        const updateData = await noticeService.update(userSeq, SEQ, SUBJECT, CONTENT);  
+        
         res.json({
             result: (updateData == null) ? 'fail' : 'success',
             data: updateData
         });
+
         
 
     },
 
+
+
     // 공지사항 삭제
     async remove(req, res, next){
-         const userSeq = req.userSeq;
+        const userSeq = req.userSeq;
         const seq = req.query.seq;
         
         const deleteData = await noticeService.remove(userSeq, seq);
         
-        res.redirect('list');
+        res.json({
+            result: (deleteData == null) ? 'fail' : 'success',
+            data: deleteData
+        });
     },
 
     // 공지사항 겟
