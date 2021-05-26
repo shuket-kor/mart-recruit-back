@@ -58,11 +58,12 @@ module.exports = {
             });
             return;
         }
+
         const userSeq = req.userSeq;
-        const SUBJECT = req.body.SUBJECT;      
-        const CONTENT = req.body.CONTENT;
+        const subject = req.body.SUBJECT;      
+        const content = req.body.CONTENT;
         
-        const createData = await noticeService.create(userSeq, SUBJECT, CONTENT);
+        const createData = await noticeService.create(userSeq, subject, content);
         
         
         res.json({
@@ -88,7 +89,7 @@ module.exports = {
 
     // 공지사항 수정
     async update(req, res, next) {
-        //res.status(403);
+        
         await check('SUBJECT')
             .isLength({  max: 50 })
             .withMessage('제목 창에 입력 하실 수 있는 글자수는 최대 50 자 입니다.')
@@ -112,12 +113,13 @@ module.exports = {
             });
             return;
         }
-        const userSeq = req.userSeq;
-        const SEQ = req.body.SEQ;
-        const SUBJECT = req.body.SUBJECT;
-        const CONTENT = req.body.CONTENT;
 
-        const updateData = await noticeService.update(userSeq, SEQ, SUBJECT, CONTENT);  
+        const userSeq = req.userSeq;
+        const seq = req.body.SEQ;
+        const subject = req.body.SUBJECT;
+        const content = req.body.CONTENT;
+
+        const updateData = await noticeService.update(userSeq, seq, subject, content);  
         
         res.json({
             result: (updateData == null) ? 'fail' : 'success',

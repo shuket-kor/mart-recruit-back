@@ -65,7 +65,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <p>제목</p>
+                                        <label class="control-label">제목</label>
                                         <p id="dt-subject" style="padding: 10px 0;"></p>
                                     </div>
                                 </div>
@@ -100,9 +100,9 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="form-group">
+                                <div class="form-group"></div>
                                     <label for="SUBJECT" class="control-label">제목</label>
-                                    <input type="text" class="form-control title-cut" name="SUBJECT" id="SUBJECT" placeholder="제목을 입력하세요.">
+                                    <input type="text" class="form-control title-cut" name="SUBJECT" id="SUBJECT" placeholder="제목을 입력하세요." autofocus>
                                 </div>
                             </div>
                         </div>
@@ -161,9 +161,6 @@
                 ['insert', ['link', 'picture', 'video']],
             ],
             callbacks: {
-                onKeyup: function(e) {
-                    console.log('키이벤트', e.keyCode);
-                },
                 onImageUpload: function(files) {
                 
                     var form_data = new FormData();
@@ -217,7 +214,7 @@
                 $("#dt-content").html(data.CONTENT); 
             }
         })
-        .success(function(json){
+        .done(function(json){
             if (json.result == "success") {
                 return true;
             }
@@ -236,13 +233,15 @@
         $('#button-notice').html('작성 완료');
         $('#modalType').val('create');
         $('#noticeModal').modal();
+        
+        
     }
     // 생성 모달
     function saveNotice(){
         var SUBJECT = $('#SUBJECT').val();
         var CONTENT = $('#CONTENT').val();
-        var subejctLength = 50;
-        var contantLength = 1968;
+        var subjectLength = 50;
+        var contentLength = 1968;
         var SUBJECT = $.trim(SUBJECT);
 
         $('#SUBJECT').val(SUBJECT);
@@ -260,8 +259,8 @@
             $('#SUBJECT').focus();
             return false;
 
-        } else if(CONTENT.length > contantLength){
-            alert('입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+contantLength+' 자 미만입니다.');
+        } else if(CONTENT.length > contentLength){
+            alert('입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+contentLength+' 자 미만입니다.');
             return false;
         }
         
@@ -274,10 +273,13 @@
         .done(function(json){
             
             if (json.result == "success") {
+                 alert('success' + JSON.stringify(json))
                 location.reload();
             } else if(json.result == 'fail') {
+                console.log('fail' + JSON.stringify(json))
                 return false;
             } else {
+                console.log('error' + JSON.stringify(json))
                 return false;
             }
         })
@@ -294,14 +296,15 @@
         $('#noticeModal-Title').html('공지사항 수정');
         $('#button-notice').html('수정 완료');
         $('#modalType').val('edit');
+        
 
         doGetCallSync(`/notice/get?seq=${seq}`)
-        .success(function(json){
+        .done(function(json){
             if (json.result == 'success') {
                 $('#SEQ').val(json.data.SEQ);
                 $('#SUBJECT').val(json.data.SUBJECT);
                 $('#CONTENT').summernote('code', json.data.CONTENT);
-
+                
                 $('#noticeModal').modal();
             }
         })
@@ -318,7 +321,7 @@
         var SUBJECT = $('#SUBJECT').val();
         var CONTENT = $('#CONTENT').val();
         var subjectLength = 50;
-        var contantLength = 1968;
+        var contentLength = 1968;
         var SUBJECT = $.trim(SUBJECT);
 
         $('#SUBJECT').val(SUBJECT);
@@ -336,8 +339,8 @@
             $('#SUBJECT').focus();
             return false;
 
-        } else if(CONTENT.length > contantLength){
-            alert('입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+contantLength+' 자 미만입니다.');
+        } else if(CONTENT.length > contentLength){
+            alert('입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+contentLength+' 자 미만입니다.');
             return false;
         }
 
@@ -354,10 +357,14 @@
         //.success(function(json){
         .done(function(json){    
             if (json.result == "success") {
+                alert('success' + JSON.stringify(json))
                 location.reload();
             } else if(json.result == 'fail') {
+                console.log('fail' + JSON.stringify(json))
                 return false;
             } else {
+                console.log('error' + JSON.stringify(json))
+                alert('error' + JSON.stringify(json))
                 return false;
             }
         })
@@ -387,7 +394,7 @@
     function removeNotice(seq) {
         if (confirm('정말 공지사항을 삭제하시겠습니까?')){
             doGetCallSync(`/notice/remove?seq=${seq}`)
-            .success(function(json){
+            .done(function(json){
                 if(json.result == 'success'){
                     alert('공지 사항이 삭제되었습니다.');
                     location.reload();
@@ -413,14 +420,14 @@
 
 
     // 생성, 수정 모달 - 제목  글자수 초과할 시 경고
-    var contentLength = 50;
-    $('.title-cut').on('keyup', function() {
-            if($(this).val().length > contentLength) {
-                alert('입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+contentLength+' 자 미만입니다.');
-                $(this).val($(this).val().substring(0, contentLength));
+    // var contentLength = 50;
+    // $('.title-cut').on('keyup', function() {
+    //         if($(this).val().length > contentLength) {
+    //             alert('입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+contentLength+' 자 미만입니다.');
+    //             $(this).val($(this).val().substring(0, contentLength));
                 
-            }
-     });
+    //         }
+    //  });
     
     
     
