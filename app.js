@@ -28,7 +28,7 @@ app.set('baseTitle', '마트협회구인구직');
 if (process.env.NODE_ENV == 'develope') {
   process.env.APIHOST = 'http://localhost:3000';
 } else {
-  process.env.APIHOST = 'http://localhost:3000';
+  process.env.APIHOST = 'http://3.37.14.220:3000';
 }
 
 app.use('/', require('./routes/index'));
