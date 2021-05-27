@@ -37,7 +37,7 @@ module.exports = class noticeService {
     }
 
     // 공지사항 추가 리스트
-    static async create(userSeq, SUBJECT, CONTENT) {
+    static async create(userSeq, subject, content) {
         try {
             
             var apiURL = "";
@@ -49,8 +49,8 @@ module.exports = class noticeService {
             const {body} = await got.post(apiURL, {
                 json : {
                     USER_SEQ: userSeq,
-                    SUBJECT: SUBJECT,
-                    CONTENT: CONTENT
+                    SUBJECT: subject,
+                    CONTENT: content
                 },
                 responseType: 'json'});
     
@@ -99,7 +99,8 @@ module.exports = class noticeService {
     }
 
     // 공지사항 수정하기
-    static async update(userSeq, SEQ, SUBJECT, CONTENT) {
+    
+    static async update(userSeq, seq, subject, content) {
         try {
             
             var apiURL = "";
@@ -112,9 +113,9 @@ module.exports = class noticeService {
             const {body} = await got.post(apiURL, {
                 json : {
                     USER_SEQ: userSeq,
-                    SEQ:SEQ,
-                    SUBJECT: SUBJECT,
-                    CONTENT: CONTENT
+                    SEQ:seq,
+                    SUBJECT: subject,
+                    CONTENT: content
                 },
                 responseType: 'json'});
     

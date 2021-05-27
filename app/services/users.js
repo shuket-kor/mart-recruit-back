@@ -38,10 +38,7 @@ module.exports = class userService {
     // 유저 한명조회
     static async get(secretKey, token, seq) {
         try {
-            var apiURL = "";
-            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/get/"+seq;
-            else apiURL = `http://localhost:3000/api/users/get/`+seq;
-            console.log(token);
+            var apiURL = `${process.env.APIHOST}/api/users/get`;
             const { body } = await got.post(apiURL, {
                 headers: {
                     'contentType': 'application/json',
@@ -50,7 +47,8 @@ module.exports = class userService {
                     'Authorization': token
                 },
                 json: {
-                    key:secretKey
+                    key:secretKey,
+                    seq: seq
                 },
                 responseType: 'json'
             });

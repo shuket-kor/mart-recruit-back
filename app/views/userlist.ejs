@@ -40,108 +40,83 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="tab-content">
-                    <div class="tab-pane active">
-                        <!-- 관리자 사용자 추가 버튼 -->
-                                <!-- 관리자 검색 -->
-                        <!-- <div class="panel">
-                            <div class="panel-body">
-                                
-                                <button type="button" class="btn btn-primary waves-effect waves-light m-l-10 btn-md pull-right" id="addUser" onclick="createUser()">사용자 추가 <i class="fa fa-plus"></i></button>
-                                <div class="input-group">
-                                    <input type="text" id="searchid" name="example-input1-group2" class="form-control" placeholder="Search" value="<%= searchId %>"><span class="input-group-btn">
-                                        <button type="button" class="btn waves-effect waves-light btn-primary" id="btnSearch"><i class="fa fa-search"></i></button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- 관리자 리스트 테이블 -->
 
-                        <table class="table table-hover" style="background-color: #eee">
-                            <div class="panel">
-                                <div class="panel-body">
-                                    <div class="col-lg-4">
-                                        <ul class="nav nav-tabs navtab-custom">
-                                            <li class="tab <%=(userType == 'A') ? 'active' : '' %>">
-                                                <a href="/user/list?usertype=A" >관리자 관리</a>
-                                            </li>
-                                            <li class="tab <%=(userType == 'U') ? 'active' : '' %>">
-                                                <a href="/user/list?usertype=U" >유저 관리</a>
-                                            </li>
-                                            <li class="tab <%=(userType == 'M') ? 'active' : '' %>">
-                                                <a href="/user/list?usertype=M" >마트유저 관리</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <button type="button" class="btn btn-primary waves-effect waves-light m-l-10 btn-md pull-right" id="addUser" onclick="createUser()">사용자 추가 <i class="fa fa-plus"></i></button>
-                                </div>
-                            </div>
-                            <tr style="background-color: #fff">
-                                <td>
-                                    <font size="2pt"
-                                        ><strong><center>아이디</center></strong></font
-                                    >
-                                </td>
-                                <td style="display: none;">
-                                    <font size="2pt"
-                                        ><strong><center>번호</center></strong></font
-                                    >
-                                </td>
-                                <td>
-                                    <font size="2pt"
-                                        ><strong><center>구분</center></strong></font
-                                    >
-                                </td>
-                                <td style="display: none;">
-                                    <font size="2pt"
-                                        ><strong><center>활성상태</center></strong></font
-                                    >
-                                </td>
-                                <td>
-                                    <font size="2pt"
-                                        ><strong><center>생성일</center></strong></font
-                                    >
-                                </td>
-                                <td>
-                                    <font size="2pt"
-                                        ><strong><center>수정일</center></strong></font
-                                    >
-                                </td>
-                                <td>
-                                    <font size="2pt"
-                                        ><strong><center>ETC</center></strong></font
-                                    >
-                                </td>
-                            </tr>
-                            <% if(list){list.forEach(item => { %>
-                            <tr>
-                                <td><center><%= item.LOGINID %></center></td>
-                                <td style="display: none;"><center><%= item.SEQ %></center></td>
-                                
-                                <td><center>
-                                <% if(item.USERTYPE == 'A'){%>
-                                    관리자
-                                <% }else if(item.USERTYPE  == 'U'){%>
-                                    사용자
-                                <% }else{ %>
-                                    마트사용자
-                                <% }%>
-                                </center></td>
-                                <td style="display: none;"><center><%= item.ACTIVE == 'Y' ? '활성' : '' %></center></td>
-                                <td><center><%= moment(item.CREATED).format('YYYY-MM-DD hh:mm:ss') %></center></td>
-                                <td><center><%= moment(item.MODIFIED).format('YYYY-MM-DD hh:mm:ss') %></center></td>
-                                <td class="actions">
-                                    <center>
-                                        <a href="#" class="on-default edit-row" onclick="javascript:editUser(<%=item.SEQ %>);"><i class="fa fa-pencil"></i></a>
-                                        <a href="#" class="on-default remove-row" onclick="javascript:removeUser(<%=item.SEQ %>);"><i class="fa fa-trash-o"></i></a>
-                                    </center>
-                                </td>
-                            </tr>
-                            <% })} %>
+        <div class="panel">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-10 m-b-20">
+                        <ul class="nav nav-tabs navtab-custom">
+                            <li class="tab <%=(userType == 'A') ? 'active' : '' %>">
+                                <a href="/user/list?usertype=A" >관리자 관리</a>
+                            </li>
+                            <li class="tab <%=(userType == 'U') ? 'active' : '' %>">
+                                <a href="/user/list?usertype=U" >유저 관리</a>
+                            </li>
+                            <li class="tab <%=(userType == 'M') ? 'active' : '' %>">
+                                <a href="/user/list?usertype=M" >마트유저 관리</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-primary waves-effect waves-light m-l-10 btn-md pull-right" id="addUser" onclick="createUser()">사용자 추가 <i class="fa fa-plus"></i></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr class="text-center">
+                                    <td>
+                                        <strong>아이디</strong>
+                                    </td>
+                                    <td class="hide">
+                                        <strong>번호</strong>
+                                    </td>
+                                    <td>
+                                        <strong>구분</strong>
+                                    </td>
+                                    <td class="hide">
+                                        <strong>활성상태</strong>
+                                    </td>
+                                    <td>
+                                        <strong>생성일</strong>
+                                    </td>
+                                    <td>
+                                        <strong>수정일</strong>
+                                    </td>
+                                    <td>
+                                        <strong>ETC</strong>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if(list){list.forEach(item => { %>
+                                <tr>
+                                    <td><%= item.LOGINID %></td>
+                                    <td style="display: none;"><%= item.SEQ %></td>
+                                    
+                                    <td>
+                                    <% if(item.USERTYPE == 'A'){%>
+                                        관리자
+                                    <% }else if(item.USERTYPE  == 'U'){%>
+                                        사용자
+                                    <% }else{ %>
+                                        마트사용자
+                                    <% }%>
+                                    </td>
+                                    <td style="display: none;"><%= item.ACTIVE == 'Y' ? '활성' : '' %></td>
+                                    <td><%= moment(item.CREATED).format('YYYY-MM-DD hh:mm:ss') %></td>
+                                    <td><%= moment(item.MODIFIED).format('YYYY-MM-DD hh:mm:ss') %></td>
+                                    <td class="actions">
+                                        
+                                            <a href="#" class="on-default edit-row" onclick="javascript:editUser(<%=item.SEQ %>);"><i class="fa fa-pencil"></i></a>
+                                            <a href="#" class="on-default remove-row" onclick="javascript:removeUser(<%=item.SEQ %>);"><i class="fa fa-trash-o"></i></a>
+                                        
+                                    </td>
+                                </tr>
+                                <% })} %>
+                            </tbody>
                         </table>
-                        <!-- 유저 페이지네이션 -->
                         <div class="row">
                             <div class="row" style="text-align: center">
                                 <ul class="pagination pagination-split" id="users-page"></ul>
@@ -151,6 +126,7 @@
                 </div>
             </div>
         </div>
+
     </div>
     <!-- end container -->
 </div>
@@ -354,6 +330,7 @@
                     $("#edit-loginid").val(json.data.LOGINID);
                     // $("#edit-active").val(json.data.ACTIVE);
                     $("#edit-password").val(json.data.PWD);
+                    $("#edit-usertype").val(json.data.USERTYPE);
                     $('#userEditModal').modal();
                 }
             })
