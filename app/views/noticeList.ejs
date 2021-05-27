@@ -273,13 +273,13 @@
         .done(function(json){
             
             if (json.result == "success") {
-                 alert('success' + JSON.stringify(json))
+                 
                 location.reload();
             } else if(json.result == 'fail') {
-                console.log('fail' + JSON.stringify(json))
+                
                 return false;
             } else {
-                console.log('error' + JSON.stringify(json))
+                
                 return false;
             }
         })
@@ -357,14 +357,13 @@
         //.success(function(json){
         .done(function(json){    
             if (json.result == "success") {
-                alert('success' + JSON.stringify(json))
+                
                 location.reload();
             } else if(json.result == 'fail') {
-                console.log('fail' + JSON.stringify(json))
+                
                 return false;
             } else {
-                console.log('error' + JSON.stringify(json))
-                alert('error' + JSON.stringify(json))
+                
                 return false;
             }
         })
@@ -420,14 +419,14 @@
 
 
     // 생성, 수정 모달 - 제목  글자수 초과할 시 경고
-    // var contentLength = 50;
-    // $('.title-cut').on('keyup', function() {
-    //         if($(this).val().length > contentLength) {
-    //             alert('입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+contentLength+' 자 미만입니다.');
-    //             $(this).val($(this).val().substring(0, contentLength));
+    var contentLength = 50;
+    $('.title-cut').on('keyup', function() {
+            if($(this).val().length > contentLength) {
+                alert('입력 하실 수 있는 글자수를 초과하였습니다.\n최대로 입력 가능한 글자수는 '+contentLength+' 자 미만입니다.');
+                $(this).val($(this).val().substring(0, contentLength));
                 
-    //         }
-    //  });
+            }
+     });
     
     
     
