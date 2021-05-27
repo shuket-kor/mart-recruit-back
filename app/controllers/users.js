@@ -42,7 +42,8 @@ module.exports = {
 
     // 유저 한명 조회
     async get(req, res, next) {
-        let userSEQ = req.params.userseq;
+        let userSEQ = req.query.userseq;
+        console.log(userSEQ);
         const returnData = await userService.get(secretKey, req.cookies.xToken, userSEQ);
         res.json({
             result: (returnData == null) ? 'fail' : 'success',

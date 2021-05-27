@@ -291,7 +291,6 @@
 <%- contentFor('script') %>
 
 <script>
-        
         var totalCount =<%=totalCount %>;
         var page = <%=page %>;
         var rowCount = <%=rowCount %>;
@@ -326,7 +325,7 @@
         // 유저 삭제
         function removeUser(userseq) {
             if (confirm("유저를 삭제하시겠습니까? (이 작업은 되돌릴 수 없습니다.)")){
-                doPostCallSync("/user/remove/"+userseq, {
+                doPostCallSync("/user/remove/", {
                         userseq: userseq
                     })
                     .success(function(json){
@@ -347,7 +346,7 @@
             $('#userEditModal-Title').html("유저 정보 변경");
             $("#saveType").val("edit");
             useridflag = true;
-            doGetCallSync("/user/get/" + userseq)
+            doGetCallSync("/user/get?userseq="+userseq)
             .success(function(json){
                 if (json.result == "success") {
                     $("#edit-userseq").val(json.data.SEQ);
@@ -367,8 +366,6 @@
         };
         function saveEditUser() {
             var userseq = $("#USERSEQ").val();
-            
-            
             if ($("#edit-loginid").val() == null || $("#edit-loginid").val() == "") {
                 alert("아이디 입력은 필수입니다."); //아이디 빈칸 포함 안됨 }
                 $("#edit-loginid").focus();
