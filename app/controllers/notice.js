@@ -9,16 +9,13 @@ module.exports = {
     // 공지사항 리스트 갖고오기
     async list(req, res, next) {
 
-        //const seq = req.query.seq;
         const currntPage = (req.query.page) ? req.query.page : 1;
 
         const noticeData = await noticeService.list(currntPage, rowCount);
-        //console.log(noticeData);
+
         res.render('noticeList', {
             layout: 'layouts/default',
             moment:moment,
-            //totalCount: noticeData.totalCount,
-            // noticedata.list = null totalcont=0 ,
             totalCount: (noticeData.list) ? noticeData.totalCount : 0,
             userSeq: req.userSeq,
             rowCount: rowCount,
@@ -28,7 +25,7 @@ module.exports = {
             unreadNoticeCount:0,
             page: currntPage,
             list: noticeData.list
-            //list: (noticeData) ? noticeData.list :0
+
         });
     },
 
@@ -126,11 +123,7 @@ module.exports = {
             data: updateData
         });
 
-        
-
     },
-
-
 
     // 공지사항 삭제
     async remove(req, res, next){
