@@ -29,6 +29,31 @@ module.exports = class authService {
         }
     }
 
+    static async getUser(userId) {
+        try {
+            var apiURL = `${process.env.APIHOST}/api/users/getUser`;
+
+            const {body} = await got.post(apiURL, {
+                json: {
+                    userId: userId
+                },
+                responseType: "json",
+            });
+            if (body.result === "success") {
+                logger.writeLog('info', `services/authService/getUser: ${userId}`);
+                // 인증에 성공하면 data에 담겨온 토큰을 리턴
+                return body.data;
+            } else {
+                //실패
+                logger.writeLog("error", `services/authService/getUser: login fail - ${userId}`);
+                return null;
+            }
+        } catch (error) {
+            logger.writeLog("error", `services/authService/getUser: system error - ${error}`);
+            return null;
+        }
+    }
+    
     static async verify(req) {
         try {
             var apiURL = `${process.env.APIHOST}/api/auth`;
