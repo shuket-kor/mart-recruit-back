@@ -73,6 +73,7 @@ module.exports = class authService {
 
             if (body.result === "success") {
                 logger.writeLog('info', `services/authService/verify: ${body.data}`);
+                console.log(body.data);
                 // 인증에 성공하면 data에 담겨온 토큰을 리턴
                 return body.data;
             } else {

@@ -4,10 +4,10 @@ const { verify } = require('../app/controllers/auth.js');
 
 const { get, remove, list } = require('../app/controllers/recruit.js');
 
-router.get('/get', get);
+router.get('/get', verify, get);
 
 router.get('/remove', verify, remove);
 
-router.get('/list', list);
+router.get('/list', verify, list);
 
 module.exports = router;

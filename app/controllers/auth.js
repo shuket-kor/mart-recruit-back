@@ -37,9 +37,16 @@ module.exports = {
 
     async verify(req, res, next) {
       const userSeq = await authService.verify(req);
+      
       if (userSeq) {
+        req.userType = userSeq[2];
+        if(req.userType != 'A'){
+          res.cookie('xToken', {expires: 0});
+          res.redirect("/auth/login?result=3");
+        }
         // 사용자 정보를 얻어서 보관
         req.userSeq = userSeq[0];
+
         next();
       }        
       else

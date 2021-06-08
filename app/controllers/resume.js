@@ -97,7 +97,7 @@ module.exports = {
         // 직종 리스트를 얻는다
         const jobKindList = await commonService.getJobKind();
         const returnData = await resumeService.list(req.cookies.xToken, regions, name, jobKinds, certificate, currentPage, rowCount);
-        console.log(returnData.list);
+        
         res.render('resumeList', { 
             layout: 'layouts/default',
             moment: moment,
