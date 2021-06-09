@@ -1478,3 +1478,15 @@ pre {
     margin-top: 0px;
   }
 }
+
+em.required {
+  text-decoration: none;
+  font-size:8pt;
+  color:red;
+}
+
+.validate-message {
+  font-size: 80%;
+  color: red;
+  display: none;
+}
