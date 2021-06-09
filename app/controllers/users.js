@@ -42,9 +42,10 @@ module.exports = {
 
     // 유저 한명 조회
     async get(req, res, next) {
-        let userSEQ = req.query.userseq;
-        console.log(userSEQ);
-        const returnData = await userService.get(secretKey, req.cookies.xToken, userSEQ);
+        let seq = req.query.userseq;
+
+        const returnData = await userService.get(secretKey, req.cookies.xToken, seq);
+        // console.log(returnData);
         res.json({
             result: (returnData == null) ? 'fail' : 'success',
             data: returnData.data
@@ -95,7 +96,7 @@ module.exports = {
         let userseq = req.body.userseq;
         let token = req.cookies.xToken;
         let userRemove = await userService.remove(secretKey, token, userseq);
-        console.log()
+
         res.json({
             result: (userRemove == null) ? 'fail' : 'success',
             // data: userRemove.data

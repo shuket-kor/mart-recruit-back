@@ -340,7 +340,9 @@
             
         };
         function saveEditUser() {
-            var userseq = $("#USERSEQ").val();
+            var userseq = $("#edit-userseq").val();
+
+
             if ($("#edit-loginid").val() == null || $("#edit-loginid").val() == "") {
                 alert("아이디 입력은 필수입니다."); //아이디 빈칸 포함 안됨 }
                 $("#edit-loginid").focus();
@@ -372,9 +374,58 @@
                 alert("활성 상태를 선택해 주세요.");
                 return;
             } else{
-                loginIdCheck()
+                doGetCallSync("/user/get?userseq="+userseq)
+                .success(function(json){
+                    if (json.result == "success") {
+                        var loginIdOG = json.data.LOGINID;
+                        if(loginIdOG != $("#edit-loginid").val()){
+                            loginIdCheck()
+                            if(idcheckflag == true){
+                                doPostCallSync("/user/update", {
+                                    userseq: $("#edit-userseq").val(),
+                                    usertype: $("#edit-usertype").val(),
+                                    loginid: $("#edit-loginid").val(),
+                                    active: "Y",
+                                    password: $("#edit-password").val()
+                                })
+                                .success(function(json){
+                                    if (json.result == "success"){
+                                        location.reload();
+                                    }
+                                })
+                                .fail(function(sender, message, details){
+                                    alert("유저 업데이트 오류 발생..");
+                                    return false;
+                                });
+                            }else{
+                                return;
+                            }
+                        }else{
+                            doPostCallSync("/user/update", {
+                                    userseq: $("#edit-userseq").val(),
+                                    usertype: $("#edit-usertype").val(),
+                                    loginid: $("#edit-loginid").val(),
+                                    active: "Y",
+                                    password: $("#edit-password").val()
+                                })
+                                .success(function(json){
+                                    if (json.result == "success"){
+                                        location.reload();
+                                    }
+                                })
+                                .fail(function(sender, message, details){
+                                    alert("유저 업데이트 오류 발생..");
+                                    return false;
+                                });
+                        }
+                    }
+                })
+                .fail(function(sender, message, details){
+                    alert("유저정보를 가져오는 도중에 오류가 발생했습니다.");
+                    return false;
+                });
+                
                 if(idcheckflag == true){
-
                     doPostCallSync("/user/update", {
                         userseq: $("#edit-userseq").val(),
                         usertype: $("#edit-usertype").val(),
@@ -479,6 +530,8 @@
             .success(function (json) {
                 // 아이디 중복체크가 false 이면 가입이 불가능.
                 if (json.result == "success") {
+                    
+                    // alert(json.data);
                     if (json.data.tf == false) {
                         alert("중복되는 아이디입니다. 다른 아이디를 입력해 주세요.");
                         idcheckflag = false;
