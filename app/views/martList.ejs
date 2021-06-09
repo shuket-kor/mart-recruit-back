@@ -91,16 +91,16 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="name" class="control-label">마트명</label>
-                                <input type="text" class="form-control" id="NAME" placeholder="마트명">
+                                <label for="name" class="control-label">마트명 <em class="required">필수</em></label> 
+                                <input type="text" class="form-control" id="NAME" name="NAME" placeholder="마트명" required><span class="validate-message" for="NAME">마트명이 입력되지 않았습니다</span>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-9">
                             <div class="form-group">
-                                <label for="address" class="control-label">사업자등록번호</label>
-                                <input type="text" class="form-control" id="REGNO" placeholder="사업자등록번호">
+                                <label for="address" class="control-label">사업자등록번호 <em class="required">필수</em></label>
+                                <input type="text" class="form-control" id="REGNO" name="REGNO" placeholder="사업자등록번호" required><span class="validate-message" for="REGNO">사업자등록번호가 입력되지 않았습니다</span>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -254,17 +254,26 @@
     }
 
     function saveMart() {
+        let invalidate = 0;
+
+        // 텍스트 박스 validate
+        if (!validateText()) invalidate++;
+        if (invalidate > 0) {
+            $("#" + $($('.validate-message:visible')[0]).attr("for"))[0].focus();
+            return;
+        }
+
         doPostCallSync("/mart/update", {
             SEQ: $("#SEQ").val(),
-            NAME: $("#NAME").val(),
-            REGNO: $("#REGNO").val(),
+            NAME: $("#NAME").val().trim(),
+            REGNO: $("#REGNO").val().trim(),
             POSTCODE: $("#POSTCODE").val(),
             ADDRESS: $("#ADDRESS").val(),
-            ADDRESSEXTRA: $("#ADDRESSEXTRA").val(),
-            CONTACT: $("#CONTACT").val(),
-            HRONAME: $("#HRONAME").val(),
-            HROCONTACT: $("#HROCONTACT").val(),
-            HRORANK: $("#HRORANK").val(),
+            ADDRESSEXTRA: $("#ADDRESSEXTRA").val().trim(),
+            CONTACT: $("#CONTACT").val().trim(),
+            HRONAME: $("#HRONAME").val().trim(),
+            HROCONTACT: $("#HROCONTACT").val().trim(),
+            HRORANK: $("#HRORANK").val().trim(),
         })
         .success(function(json){
             if (json.result == "success") location.reload();
@@ -336,6 +345,8 @@
                 contentType: false,
                 processData: false
             }); 
+        } else {
+            alert("등록된 이미지가 없습니다.");
         }
 
         // location.reload()

@@ -14,6 +14,7 @@ module.exports = class resumeService {
                     'userAgent': 'DEVICE-AGENT',
                     'Authorization': token
                 }, json : {
+                    key: secretKey,
                     seq: seq
                 },
                 responseType: 'json'
@@ -75,6 +76,7 @@ module.exports = class resumeService {
                     'userAgent': 'DEVICE-AGENT',
                     'Authorization': token
                 }, json : {
+                    key: secretKey,
                     recruitSeq: recruitSeq
                 },
                 responseType: 'json'

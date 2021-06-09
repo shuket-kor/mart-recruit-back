@@ -100,7 +100,7 @@ module.exports = class martService {
         try {
             var apiURL = `${process.env.APIHOST}/api/mart/remove`;
 
-            const {body} = await got.get(apiURL, {
+            const {body} = await got.post(apiURL, {
                 headers: {
                     'contentType': 'application/json',
                     'User-Agent': 'DEVICE-AGENT',
