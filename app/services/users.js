@@ -70,9 +70,7 @@ module.exports = class userService {
             
             userLoginId = (userLoginId) ? userLoginId : '';
             userType = (userType) ? userType : 'A';
-            var apiURL = "";
-            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/list";
-            else apiURL = `http://localhost:3000/api/users/list`;
+            var apiURL = `${process.env.APIHOST}/api/users/list`;
             const { body } = await got.post(apiURL, {
                 headers: {
                     'contentType': 'application/json',
@@ -105,10 +103,8 @@ module.exports = class userService {
     // 유저 생성
     static async userCreate( password, active, loginid, usertype) {
         try {
-            var apiURL = "";
             loginid = (loginid) ? loginid : '';
-            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/create";
-            else apiURL = `http://localhost:3000/api/users/create`;
+            var apiURL = `${process.env.APIHOST}/api/users/create`;
             const {body} = await got.post(apiURL, {
                 json: {
                     active: active,
@@ -133,9 +129,7 @@ module.exports = class userService {
     // 
     static async checkid(userId) {
         try {
-            var apiURL = "";
-            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/checkid";
-            else apiURL = `http://localhost:3000/api/users/checkid`;
+            var apiURL = `${process.env.APIHOST}/api/users/checkid`;
 
             const {body} = await got.post(apiURL, {
                 json: {
@@ -158,11 +152,9 @@ module.exports = class userService {
     // 유저 수정
     static async update(secretKey, token, userseq, password, active, loginid, usertype) {
         try {
-            var apiURL = "";
-            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/update/"+userseq;
-            else apiURL = `http://localhost:3000/api/users/update/`+userseq;
+            var apiURL = `${process.env.APIHOST}/api/users/update/`;
 
-            const {body} = await got.patch(apiURL, {
+            const {body} = await got.post(apiURL, {
                 headers: {
                     contentType: "application/json",
                     "User-Agent": "DEVICE-AGENT",
@@ -194,11 +186,9 @@ module.exports = class userService {
     // 유저 삭제
     static async remove(secretKey, token, userseq) {
         try {
-            var apiURL = "";
-            if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/remove/"+ userseq;
-            else apiURL = `http://localhost:3000/api/users/remove/` + userseq;
+            var apiURL = `${process.env.APIHOST}/api/users/remove/`;
             console.log(apiURL);
-            const {body} = await got.patch(apiURL, {
+            const {body} = await got.post(apiURL, {
                 headers: {
                     contentType: "application/json",
                     "User-Agent": "DEVICE-AGENT",

@@ -65,7 +65,7 @@
                     <div class="col-md-12 table-responsive">
                         <table class="table table-striped table-hover">
                             <thead>
-                                <tr class="text-center">
+                                <tr>
                                     <td>
                                         <strong>아이디</strong>
                                     </td>
@@ -105,13 +105,11 @@
                                     <% }%>
                                     </td>
                                     <td style="display: none;"><%= item.ACTIVE == 'Y' ? '활성' : '' %></td>
-                                    <td><%= moment(item.CREATED).format('YYYY-MM-DD hh:mm:ss') %></td>
-                                    <td><%= moment(item.MODIFIED).format('YYYY-MM-DD hh:mm:ss') %></td>
+                                    <td><%= moment(item.CREATED).format('YYYY-MM-DD HH:mm:ss') %></td>
+                                    <td><%= moment(item.MODIFIED).format('YYYY-MM-DD HH:mm:ss') %></td>
                                     <td class="actions">
-                                        
-                                            <a href="#" class="on-default edit-row" onclick="javascript:editUser(<%=item.SEQ %>);"><i class="fa fa-pencil"></i></a>
-                                            <a href="#" class="on-default remove-row" onclick="javascript:removeUser(<%=item.SEQ %>);"><i class="fa fa-trash-o"></i></a>
-                                        
+                                        <a href="#" class="on-default edit-row" onclick="javascript:editUser(<%=item.SEQ %>);"><i class="fa fa-pencil"></i></a>
+                                        <a href="#" class="on-default remove-row" onclick="javascript:removeUser(<%=item.SEQ %>);"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                 </tr>
                                 <% })} %>
@@ -301,7 +299,7 @@
         // 유저 삭제
         function removeUser(userseq) {
             if (confirm("유저를 삭제하시겠습니까? (이 작업은 되돌릴 수 없습니다.)")){
-                doPostCallSync("/user/remove/", {
+                doPostCallSync("/user/remove", {
                         userseq: userseq
                     })
                     .success(function(json){
@@ -377,7 +375,7 @@
                 loginIdCheck()
                 if(idcheckflag == true){
 
-                    doPostCallSync("/user/update/"+userseq, {
+                    doPostCallSync("/user/update", {
                         userseq: $("#edit-userseq").val(),
                         usertype: $("#edit-usertype").val(),
                         loginid: $("#edit-loginid").val(),

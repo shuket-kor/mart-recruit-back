@@ -6,11 +6,6 @@
     "auditLog": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\.8d80e6252b87df32ce43cd1ef87a32643427045d-audit.json",
     "files": [
         {
-            "date": 1619143110442,
-            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\error-2021-04-23.log",
-            "hash": "cf4fcc6daad8a96bd8c2389279395dd1"
-        },
-        {
             "date": 1619403237860,
             "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\error-2021-04-26.log",
             "hash": "3db516b471813ddf6c2d1eabe630a8af"
@@ -154,6 +149,11 @@
             "date": 1623111963114,
             "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\error-2021-06-08.log",
             "hash": "fba28c9e6c7ac785162c828cac2551d5"
+        },
+        {
+            "date": 1623202540886,
+            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\error-2021-06-09.log",
+            "hash": "446fe0f21bbe086c39ca57ce214f95cd"
         }
     ]
 }

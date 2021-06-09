@@ -85,7 +85,7 @@ module.exports = {
         let userUpdate = await userService.update(secretKey, token, userseq, password,  active, loginid, usertype);
         res.json({
             result: (userUpdate == null) ? 'fail' : 'success',
-            data: userUpdate.data
+            // data: userUpdate.data
         });
         // res.redirect('/user/list')
     },
@@ -95,9 +95,10 @@ module.exports = {
         let userseq = req.body.userseq;
         let token = req.cookies.xToken;
         let userRemove = await userService.remove(secretKey, token, userseq);
+        console.log()
         res.json({
             result: (userRemove == null) ? 'fail' : 'success',
-            data: userRemove.data
+            // data: userRemove.data
         });
         // res.redirect('/user/list')
 
