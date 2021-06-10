@@ -106,11 +106,28 @@ dateFormat = function (date) {
     return year + '-' + month + '-' + date;
 }
 
-$(".numberonly").on("keyup", function(){
+$(".numberonly").on("keyup", function(e){
     /* 48~57:일반 숫자키 코드, 96~105:숫자키패드 숫자키 코드 , 8 : backspace, 9 : tab ,46 : delete, 37 : 왼쪽방향키 , 39 : 오른쪽방향키 */
-    var keyID = event.which;
+    var keyID = e.which;
+alert(keyID);
 
     if ((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 9 || keyID == 46 || keyID == 37 || keyID == 39) {
+        // if (this.value > 100 || this.value < 0) {
+        //     //alert("0에서 100 사이의 값만 입력해주세요");
+        //     this.value = ''; //기존에 적혀있던 걸 다 지워준다.
+        // };
+    }
+    else {
+        //alert("숫자만 입력 가능합니다.");
+        this.value = this.value.replace(/[^0-9\.]/g, ''); //숫자를 제외한 문자를 지워준다.
+    }
+});
+
+$(".number-dash-only").on("keyup", function(e){
+    /* 48~57:일반 숫자키 코드, 96~105:숫자키패드 숫자키 코드 , 8 : backspace, 9 : tab ,46 : delete, 37 : 왼쪽방향키 , 39 : 오른쪽방향키 */
+    var keyID = e.which;
+
+    if ((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 9 || keyID == 46 || keyID == 37 || keyID == 39 || keyID == 189) {
         // if (this.value > 100 || this.value < 0) {
         //     //alert("0에서 100 사이의 값만 입력해주세요");
         //     this.value = ''; //기존에 적혀있던 걸 다 지워준다.
