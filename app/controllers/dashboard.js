@@ -5,8 +5,7 @@ module.exports = {
     async dashboard(req, res, next) {
 
         const returnData = await analyticsService.getDashboard(req.cookies.xToken);
-
-        console.log(returnData[0]);
+        
         res.render('dashboard', { 
             layout: 'layouts/default',
             title : '마트협회 구인구직 관리자',

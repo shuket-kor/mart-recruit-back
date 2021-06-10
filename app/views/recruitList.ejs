@@ -81,7 +81,7 @@
                             <td><%=item.NAME %></td>
                             <td><a href='#' onclick="javascript:managePost(<%=item.SEQ %>);"><%=item.SUBJECT %></a></td>
                             <td><%=item.JOBKIND_NAME %></td>
-                            <td><%=item.JOBRANK %></td>
+                            <td><%=item.JOBRANK.replace(/'/g, "") %></td>
                             <td><%=item.WORKINGTYPE_NAME %></td>
                             <td><%=item.WORKREGION_NAME %></td>
                             <td><%=moment(item.STARTDATE).format('YYYY-MM-DD') %> ~ 
