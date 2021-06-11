@@ -109,7 +109,6 @@ dateFormat = function (date) {
 $(".numberonly").on("keyup", function(e){
     /* 48~57:일반 숫자키 코드, 96~105:숫자키패드 숫자키 코드 , 8 : backspace, 9 : tab ,46 : delete, 37 : 왼쪽방향키 , 39 : 오른쪽방향키 */
     var keyID = e.which;
-alert(keyID);
 
     if ((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 9 || keyID == 46 || keyID == 37 || keyID == 39) {
         // if (this.value > 100 || this.value < 0) {

@@ -148,19 +148,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="row"">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="name" class="control-label">password</label>
-                            <input type="text" class="form-control" id="edit-password" />
-                        </div>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="address" class="control-label">아이디</label>
                             <input type="text" class="form-control" id="edit-loginid" placeholder="LOGIN ID" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row"">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="name" class="control-label">password</label>
+                            <input type="text" class="form-control" id="edit-password" />
                         </div>
                     </div>
                 </div>
@@ -227,7 +227,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="address" class="control-label">아이디</label>
-                            <input type="text" class="form-control" id="create-loginid" placeholder="LOGIN ID" />
+                            <input type="text" class="form-control" id="create-loginid" placeholder="아이디" />
                         </div>
                     </div>
                 </div>
@@ -235,29 +235,24 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="address" class="control-label">비밀번호</label>
-                            <input type="text" class="form-control" id="create-password" placeholder="PASSWORD" />
+                            <input type="text" class="form-control" id="create-password" placeholder="암호" />
                         </div>
                     </div>
                 </div>
                 <div id="martdiv">
-                    <div class="row" id="regNoDiv">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="create-regno" class="control-label">사업자 번호</label>
-                                <div class="form-group form-inline">
-                                    <input type="text" style="width: 140px;" class="form-control numberonly" name="bizno1" id="bizno1" name="bizno" maxlength="3" /> 
-                                    <input type="text" style="width: 100px;" class="form-control numberonly" name="bizno2" id="bizno2" name="bizno" maxlength="2" /> 
-                                    <input type="text" style="width: 200px;" class="form-control numberonly" name="bizno3" id="bizno3" name="bizno" maxlength="5" />
-                                </div>
-                                <input type="text" class="form-control" id="create-regno" placeholder="regno" style="display: none;"/>
-                            </div>
-                        </div>
-                    </div>
                     <div class="row" id="martNameDiv">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="create-martname" class="control-label">마트이름</label>
-                                <input type="text" class="form-control" id="create-martname" placeholder="MART NAME" />
+                                <input type="text" class="form-control" id="create-martname" placeholder="마트 이름" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="regNoDiv">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="create-regno" class="control-label">사업자 번호</label>
+                                <input type="text" class="form-control number-dash-only" name="create-regno" id="create-regno" maxlength="12" placeHolder="###-##-#####" /> 
                             </div>
                         </div>
                     </div>
@@ -364,7 +359,7 @@
                     // $("#edit-usertype").val(json.data.USERTYPE);
                     $("#edit-loginid").val(json.data.LOGINID);
                     // $("#edit-active").val(json.data.ACTIVE);
-                    $("#edit-password").val(json.data.PWD);
+                    // $("#edit-password").val(json.data.PWD);
                     $("#edit-usertype").val(json.data.USERTYPE);
                     $('#userEditModal').modal();
                 }

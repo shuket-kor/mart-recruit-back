@@ -58,8 +58,8 @@ module.exports = {
         let active = req.body.active;
         let usertype = req.body.usertype;
         let password = req.body.password;
-        let regno = (regno) ? req.body.regno : ""
-        let martname = (martname) ? req.body.martname : ""
+        let regno = (req.body.regno) ? req.body.regno : ""
+        let martname = (req.body.martname) ? req.body.martname : ""
 
         let userCreate = await userService.userCreate( password,  active, loginid, usertype, regno, martname);
         res.json({
