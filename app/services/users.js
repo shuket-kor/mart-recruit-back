@@ -101,7 +101,7 @@ module.exports = class userService {
     }
 
     // 유저 생성
-    static async userCreate( password, active, loginid, usertype) {
+    static async userCreate( password, active, loginid, usertype, regno, martname) {
         try {
             loginid = (loginid) ? loginid : '';
             var apiURL = `${process.env.APIHOST}/api/users/create`;
@@ -110,7 +110,9 @@ module.exports = class userService {
                     active: active,
                     userId: loginid,
                     userType: usertype,
-                    password:password
+                    password:password,
+                    bizNo: regno,
+                    martName: martname
                 },
                 responseType: "json",
             });

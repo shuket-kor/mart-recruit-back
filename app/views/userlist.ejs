@@ -239,6 +239,29 @@
                         </div>
                     </div>
                 </div>
+                <div id="martdiv">
+                    <div class="row" id="regNoDiv">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="create-regno" class="control-label">사업자 번호</label>
+                                <div class="form-group form-inline">
+                                    <input type="text" style="width: 140px;" class="form-control numberonly" name="bizno1" id="bizno1" name="bizno" maxlength="3" /> 
+                                    <input type="text" style="width: 100px;" class="form-control numberonly" name="bizno2" id="bizno2" name="bizno" maxlength="2" /> 
+                                    <input type="text" style="width: 200px;" class="form-control numberonly" name="bizno3" id="bizno3" name="bizno" maxlength="5" />
+                                </div>
+                                <input type="text" class="form-control" id="create-regno" placeholder="regno" style="display: none;"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="martNameDiv">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="create-martname" class="control-label">마트이름</label>
+                                <input type="text" class="form-control" id="create-martname" placeholder="MART NAME" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
@@ -272,6 +295,7 @@
         var useridflag 
         var idcheckflag
         $(document).ready(function() {
+            $("#martdiv").hide();
             // 페이지네이션 만들기
             if (totalCount <= rowCount) {
                 $('#users-page').hide();
@@ -283,11 +307,24 @@
             $("#btnSearch").click(function() { search(); })
 
             // 유저 수정 > 수정 완료 클릭시 saveEditUser함수 실행시킴
-            $("#button-actionSave").click(function() { saveEditUser(); });
+            $("#button-actionSave").click(function() { 
+                $("#create-regno").val($("#bizno1").val() + '-' + $("#bizno2").val() + '-' + $("#bizno3").val());
+                // alert($("#create-regno").val());
+                saveEditUser(); 
+            });
 
             // 유저생성 > 생성 완료 클릭 시 saveCreateUser함수 실행시킴
             $("#button-actionCreate").click(function() { saveCreateUser(); });
 
+        });
+        // 마트관리자 생성할때 사업자번호와 마트이름을 입력받는다.
+        $('#create-usertype').change(function() {
+            var state = $('#create-usertype option:selected').val();
+            if ( state == 'M' ) {
+                $('#martdiv').show();
+            } else {
+                $('#martdiv').hide();
+            }
         });
         var specialCheck = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
         var userIdCheck = RegExp(/^[A-Za-z0-9_\-]{4,15}$/);
@@ -300,18 +337,18 @@
         function removeUser(userseq) {
             if (confirm("유저를 삭제하시겠습니까? (이 작업은 되돌릴 수 없습니다.)")){
                 doPostCallSync("/user/remove", {
-                        userseq: userseq
-                    })
-                    .success(function(json){
-                        // alert(JSON.stringify(json));
-                        if (json.result == "success"){
-                            location.reload();
-                        }
-                    })
-                    .fail(function(sender, message, details){
-                        alert("유저 삭제 오류 발생..");
-                        return false;
-                    });
+                    userseq: userseq
+                })
+                .success(function(json){
+                    // alert(JSON.stringify(json));
+                    if (json.result == "success"){
+                        location.reload();
+                    }
+                })
+                .fail(function(sender, message, details){
+                    alert("유저 삭제 오류 발생..");
+                    return false;
+                });
             }
         };
 
@@ -457,6 +494,7 @@
         };
         
         function saveCreateUser(){
+            
             if($("#create-usertype").val() == ''){
                 alert('유저 타입을 선택해 주세요.');
             }else if($("#create-loginid").val() == null || $("#create-loginid").val() == "") {
@@ -503,21 +541,41 @@
             }else{
                 loginIdCheck()
                 if(idcheckflag == true){
-                    doPostCallSync("/user/create", {
-                        usertype: $("#create-usertype").val(),
-                        loginid: $("#create-loginid").val(),
-                        active: $("#create-active").val(),
-                        password: $("#create-password").val()
-                    })
-                    .success(function(json){
-                        if (json.result == "success"){
-                            location.reload();
-                        }
-                    })
-                    .fail(function(sender, message, details){
-                        alert("유저 생성 오류 발생..");
-                        return false;
-                    })
+                    if($("#create-usertype").val() == 'M'){
+                        doPostCallSync("/user/create", {
+                            usertype: $("#create-usertype").val(),
+                            loginid: $("#create-loginid").val(),
+                            active: $("#create-active").val(),
+                            password: $("#create-password").val(),
+                            regno : $("#create-regno").val(),
+                            martname : $("#create-martname").val()
+                        })
+                        .success(function(json){
+                            if (json.result == "success"){
+                                location.reload();
+                            }
+                        })
+                        .fail(function(sender, message, details){
+                            alert("유저 생성 오류 발생..");
+                            return false;
+                        })
+                    }else{
+                        doPostCallSync("/user/create", {
+                            usertype: $("#create-usertype").val(),
+                            loginid: $("#create-loginid").val(),
+                            active: $("#create-active").val(),
+                            password: $("#create-password").val()
+                        })
+                        .success(function(json){
+                            if (json.result == "success"){
+                                location.reload();
+                            }
+                        })
+                        .fail(function(sender, message, details){
+                            alert("유저 생성 오류 발생..");
+                            return false;
+                        })
+                    }
                 }
             }
         };
