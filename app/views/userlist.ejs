@@ -61,32 +61,18 @@
                         <button type="button" class="btn btn-primary waves-effect waves-light m-l-10 btn-md pull-right" id="addUser" onclick="createUser()">사용자 추가 <i class="fa fa-plus"></i></button>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12 table-responsive">
-                        <table class="table table-striped table-hover">
+                <!-- <div class="row"> -->
+                    <!-- <div class="col-md-12 table-responsive"> -->
+                        <table class="table table-striped" id="datatable-editable">
                             <thead>
                                 <tr>
-                                    <td>
-                                        <strong>아이디</strong>
-                                    </td>
-                                    <td class="hide">
-                                        <strong>번호</strong>
-                                    </td>
-                                    <td>
-                                        <strong>구분</strong>
-                                    </td>
-                                    <td class="hide">
-                                        <strong>활성상태</strong>
-                                    </td>
-                                    <td>
-                                        <strong>생성일</strong>
-                                    </td>
-                                    <td>
-                                        <strong>수정일</strong>
-                                    </td>
-                                    <td>
-                                        <strong>ETC</strong>
-                                    </td>
+                                    <td><strong>아이디</strong></td>
+                                    <td class="hide"><strong>번호</strong></td>
+                                    <td><strong>구분</strong></td>
+                                    <td class="hide"><strong>활성상태</strong></td>
+                                    <td><strong>생성일</strong></td>
+                                    <td><strong>수정일</strong></td>
+                                    <td><strong>ETC</strong></td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -121,8 +107,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                <!-- </div> -->
+            <!-- </div> -->
         </div>
 
     </div>
