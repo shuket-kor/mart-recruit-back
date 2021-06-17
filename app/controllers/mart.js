@@ -4,6 +4,7 @@ const rowCount = 5;
 
 module.exports = {
     
+    // 한개의 마트를 가져온다.
     async get(req, res, next) {
         let martSEQ = req.query.seq;
         
@@ -14,6 +15,7 @@ module.exports = {
         });
     },
 
+    // 마트정보를 업데이트한다.
     async update(req, res, next) {
         const SEQ = req.body.SEQ;
         const NAME = req.body.NAME;
@@ -33,6 +35,7 @@ module.exports = {
         });
     },
 
+    // 마트 로고 업데이트
     async updateLogo(req, res, next) {
         const SEQ = req.body.SEQ;
         const location = req.body.location;
@@ -45,7 +48,7 @@ module.exports = {
         });
     },
 
-
+    // 마트 리스트를 가져온다.
     async list(req, res, next) {
         const currentPage = (req.query.page) ? req.query.page : 1;
         const message = (req.query.message) ? req.query.message : 0;
@@ -67,6 +70,7 @@ module.exports = {
           });
     },
 
+    // 마트를 삭제한다.
     async remove(req, res, next) {
         let martSEQ = req.query.seq;
         let currentPage = req.query.page;

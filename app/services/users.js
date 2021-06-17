@@ -3,38 +3,6 @@ const got = require("got");
 
 
 module.exports = class userService {
-    // 유저 로그인
-    // static async login(body) {
-    //     try {
-    //         var apiURL = "";
-    //         if (process.env.NODE_ENV == "develope") apiURL = "http://localhost:3000/api/users/login";
-    //         else apiURL = `http://localhost:3000/api/users/login`;
-
-    //         const userData = await got.post(apiURL, {
-    //             json: {
-    //                 user_id: body.user_id,
-    //                 password: body.password,
-    //             },
-    //             responseType: "json",
-    //         });
-    //         console.log("userData 는 : " + userData.body);
-    //         console.log(JSON.stringify(userData.body));
-
-    //         if (userData.body.result === "success") {
-    //             console.log("userData.body.result === success");
-    //             // console.log(userData.body.data)
-    //             // console.log(userData.body.token)
-    //             return userData.body;
-    //         } else {
-    //             //실패
-    //             console.log("userData.body.result !== success");
-    //             logger.writeLog("error", `services/userService/login: ${body}`);
-    //             return userData.resultData;
-    //         }
-    //     } catch (error) {
-    //         logger.writeLog("error", `services/tokenService/login: ${error}`);
-    //     }
-    // }
     // 유저 한명조회
     static async get(secretKey, token, seq) {
         try {
@@ -151,6 +119,7 @@ module.exports = class userService {
             logger.writeLog("error", `services/create: ${error}`);
         }
     }
+    
     // 유저 수정
     static async update(secretKey, token, userseq, password, active, loginid, usertype) {
         try {

@@ -85,6 +85,7 @@ module.exports = {
         }
     },
 
+    // 이력서 리스트를 받아온다.
     async list(req, res, next) {
         const currentPage = (req.query.page) ? req.query.page : 1;
         const regions = (req.query.regions) ? req.query.regions : '';

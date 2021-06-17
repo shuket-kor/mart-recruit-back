@@ -6,6 +6,7 @@ const resumeService = require('../services/resume.js');
 const rowCount = 20;
 
 module.exports = {
+    // 공고 한개를 가져온다.
     async get(req, res, next) {
         const seq = (req.query.seq) ? req.query.seq : null;
         const currentPage = (req.query.page) ? req.query.page : 1;
@@ -13,8 +14,11 @@ module.exports = {
         const name = (req.query.name) ? req.query.name : '';
         const active = (req.query.active) ? req.query.active : '';
 
+        // 공고 정보
         const recruitInfo = (seq) ? await recruitService.get(req.cookies.xToken, seq) : null;
+        // 이력서 리스트
         const resumeList = (recruitInfo) ? await resumeService.listForRecruit(req.cookies.xToken, seq) : null;
+        // 마트 정보
         const martInfo = (recruitInfo) ? await martService.get(req.cookies.xToken, recruitInfo.MART_SEQ) : null;
         res.render('recruitView', { 
             layout: 'layouts/default',
@@ -32,6 +36,7 @@ module.exports = {
           });
     },
 
+    // 공고 삭제
     async remove(req, res, next) {
         const seq = (req.query.seq) ? req.query.seq : null;
        
@@ -50,6 +55,7 @@ module.exports = {
         }
     },
 
+    // 공고 리스트
     async list(req, res, next) {
         const currentPage = (req.query.page) ? req.query.page : 1;
         const regions = (req.query.regions) ? req.query.regions : '';
