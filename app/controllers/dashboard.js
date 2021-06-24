@@ -5,15 +5,15 @@ module.exports = {
     async dashboard(req, res, next) {
 
         const returnData = await analyticsService.getDashboard(req.cookies.xToken);
-        
-        res.render('dashboard', { 
+
+        res.render('dashboard', {
             layout: 'layouts/default',
-            title : '마트협회 구인구직 관리자',
+            title: '마트인 - 한국마트협회 관리자',
             hostName: process.env.APIHOST,
             unreadNoticeCount: 0,
             userSeq: req.userSeq,
             numeral: numeral,
-            dashboardData : returnData[0]
-          });
+            dashboardData: returnData[0]
+        });
     }
 }

@@ -19,7 +19,7 @@ module.exports = {
 
         res.render("userlist", {
             layout: "layouts/default",
-            title: "유저 관리",
+            title: "마트인 - 한국마트협회 유저 관리",
             hostName: req.app.get("host_name"),
             mediaPath: req.app.get("mediaPath"),
             unreadNoticeCount: 0,
@@ -39,7 +39,7 @@ module.exports = {
 
         // 유저 한명의 데이터를 받아온다.
         const returnData = await userService.get(secretKey, req.cookies.xToken, seq);
-        
+
         res.json({
             result: (returnData == null) ? 'fail' : 'success',
             data: returnData.data
@@ -56,7 +56,7 @@ module.exports = {
         let martname = (req.body.martname) ? req.body.martname : ""
 
         // 유저(구직자, 마트관리자) 생성
-        const userCreate = await userService.userCreate( password,  active, loginid, usertype, regno, martname);
+        const userCreate = await userService.userCreate(password, active, loginid, usertype, regno, martname);
 
         res.json({
             result: (userCreate == null) ? 'fail' : 'success',
@@ -64,9 +64,9 @@ module.exports = {
         });
     },
     // 아이디 중복체크
-    async checkid(req, res, next){
+    async checkid(req, res, next) {
         let userId = req.body.loginid
-        
+
         // 아이디 가 있는지 체크하고 결과를 true or false 로 반환함.
         let userCheckId = await userService.checkid(userId);
         res.json({
@@ -84,7 +84,7 @@ module.exports = {
         let password = req.body.password;
 
         // 유저 정보 업데이트
-        let userUpdate = await userService.update(secretKey, token, userseq, password,  active, loginid, usertype);
+        let userUpdate = await userService.update(secretKey, token, userseq, password, active, loginid, usertype);
 
         res.json({
             result: (userUpdate == null) ? 'fail' : 'success'
