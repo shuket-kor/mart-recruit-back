@@ -100,7 +100,7 @@
                             <td><%=item.JOBKIND_NAME %></td>
                             <td><% if (item.CERTIFICATE == 'Y') {%><i class='fa fa-check text-success'></i> <%} else {%> <%}%></td>
                             <td><% if (item.CAREERCERTIFICATE) {%><a href='<%=hostName %>/api/files/get/<%=item.CAREERCERTIFICATE %>' target="_blank"><i class="fa fa-file-text-o"></i></a> <% } %></td>
-                            <td><%=moment(item.MODIFIED).format('YYYY-MM-DD hh:mm:ss') %></td>
+                            <td><%=moment(item.MODIFIED).format('YYYY-MM-DD HH:mm:ss') %></td>
                             <td class="actions">
                                 <a href="#" class="on-default edit-row" onclick="javascript:viewResume(<%=item.SEQ %>);"><i class="fa fa-pencil"></i></a>
                             </td>

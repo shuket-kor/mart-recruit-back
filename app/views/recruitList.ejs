@@ -88,7 +88,7 @@
                                 <%=(item.ENDDATE) ? moment(item.ENDDATE).format('YYYY-MM-DD') : '구인시' %></td>
                             <td><%=item.APPLYCOUNT %></td>
                             <td><%=(item.ACTIVE == 'Y') ? '구인 중' : '마감' %></td>
-                            <td><%= moment(item.MODIFIED).format('YYYY-MM-DD hh:mm:ss') %></td>
+                            <td><%= moment(item.MODIFIED).format('YYYY-MM-DD HH:mm:ss') %></td>
                             <td class="actions">
                                 <a href="#" class="text-danger" onclick="javascript:managePost(<%=item.SEQ %>);"><i class="fa fa-pencil fa-sm"></i></a>
                             </td>

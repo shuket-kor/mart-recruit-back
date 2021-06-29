@@ -57,8 +57,8 @@
                             <td><%=item.REGNO %></td>
                             <td>(<%=item.POSTCODE %>) <%=item.ADDRESS %> <%=item.ADDRESSEXTRA %></td>
                             <td><%=item.CONTACT %></td>
-                            <td><%= moment(item.CREATED).format('YYYY-MM-DD hh:mm:ss') %></td>
-                            <td><%= moment(item.MODIFIED).format('YYYY-MM-DD hh:mm:ss') %></td>
+                            <td><%= moment(item.CREATED).format('YYYY-MM-DD HH:mm:ss') %></td>
+                            <td><%= moment(item.MODIFIED).format('YYYY-MM-DD HH:mm:ss') %></td>
                             <td class="actions">
                                 <a href="#" class="on-default edit-row" onclick="javascript:editMart(<%=item.SEQ %>);"><i class="fa fa-pencil fa-sm"></i></a>
                                 <a href="#" class="on-default edit-row" onclick='javascript:editMartImage(<%=item.SEQ %>);'><i class="fa fa-picture-o fa-sm"></i></a>
