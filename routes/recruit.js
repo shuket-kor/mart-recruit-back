@@ -8,6 +8,6 @@ router.get('/get', verify, get);
 
 router.get('/remove', verify, remove);
 
-router.get('/list', verify, list);
+router.get('/list',  list);
 
 module.exports = router;

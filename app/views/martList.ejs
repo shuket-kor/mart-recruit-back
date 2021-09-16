@@ -329,6 +329,7 @@
                     // 업로드가 성공했으면 정보를 업데이트
                     if (json.result == "success") {
                     logoImage = json.data.filename;
+                    console.log("logoImage ? ? : "+logoImage)
                     doPostCallSync("/mart/updatelogo", {
                         SEQ: $("#SEQ").val(),
                         location: 'martlogo',

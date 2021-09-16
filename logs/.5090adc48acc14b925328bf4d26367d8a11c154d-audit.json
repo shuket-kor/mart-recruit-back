@@ -6,91 +6,6 @@
     "auditLog": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\.5090adc48acc14b925328bf4d26367d8a11c154d-audit.json",
     "files": [
         {
-            "date": 1619740950499,
-            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-04-30.log",
-            "hash": "febc3d81d2dc9c6ab6bcae2189699e55"
-        },
-        {
-            "date": 1620019606730,
-            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-05-03.log",
-            "hash": "22412a2e45b1bd98f5a3946815a92cc9"
-        },
-        {
-            "date": 1620087248489,
-            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-05-04.log",
-            "hash": "b1b03208ee9ebb242692955273e5ee03"
-        },
-        {
-            "date": 1620263133476,
-            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-05-06.log",
-            "hash": "ad27fdba239e7419cdf4ff15f425976d"
-        },
-        {
-            "date": 1620345437105,
-            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-05-07.log",
-            "hash": "a8992ee3e4860c81af4080afad38a7c6"
-        },
-        {
-            "date": 1620606106315,
-            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-05-10.log",
-            "hash": "1e9695712eba06ec16aaf7c90020f84a"
-        },
-        {
-            "date": 1620719350084,
-            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-05-11.log",
-            "hash": "7dc7c9f4d9689ebd23cb067cbfe009e5"
-        },
-        {
-            "date": 1620795320940,
-            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-05-12.log",
-            "hash": "f407de6e014eb58c15e6495f8800d220"
-        },
-        {
-            "date": 1620866323096,
-            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-05-13.log",
-            "hash": "4260637b78b7711f5cc8c34b1d85d996"
-        },
-        {
-            "date": 1620950753632,
-            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-05-14.log",
-            "hash": "f1c184113004f0714bac3dc9d192bdfe"
-        },
-        {
-            "date": 1621210422576,
-            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-05-17.log",
-            "hash": "c5f2c35e2a8c2e25ca5b31d529c5e80b"
-        },
-        {
-            "date": 1621300726464,
-            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-05-18.log",
-            "hash": "719ce4c11130e07f35f3a404c369dc8c"
-        },
-        {
-            "date": 1621470282397,
-            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-05-20.log",
-            "hash": "9cf3fb187f65c55093cb436981f99188"
-        },
-        {
-            "date": 1621559661741,
-            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-05-21.log",
-            "hash": "e934feaba3709ef8b6548c5e077c0048"
-        },
-        {
-            "date": 1621821471199,
-            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-05-24.log",
-            "hash": "625ab15028ad542641a2a299aa7fa1b4"
-        },
-        {
-            "date": 1621901430070,
-            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-05-25.log",
-            "hash": "5b57b3b9f8dacf25db88c6790311d515"
-        },
-        {
-            "date": 1621990102753,
-            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-05-26.log",
-            "hash": "3c8481ecb2cd31c0751ef10e3d83bea5"
-        },
-        {
             "date": 1622074095271,
             "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-05-27.log",
             "hash": "42b6aeab90ed559fed8e4ac6fbd92302"
@@ -154,6 +69,91 @@
             "date": 1623812788417,
             "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-06-16.log",
             "hash": "a6e60d5af8d122518c895a4d117db243"
+        },
+        {
+            "date": 1628227008641,
+            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-08-06.log",
+            "hash": "e066ea72ab590f7f6e49b2aefe2a4676"
+        },
+        {
+            "date": 1628814012342,
+            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-08-13.log",
+            "hash": "182dfd76e9f99401b896fdcd08cb7025"
+        },
+        {
+            "date": 1629074802036,
+            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-08-16.log",
+            "hash": "cea03f4698ab1b90e804047b598f1ddc"
+        },
+        {
+            "date": 1629178856440,
+            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-08-17.log",
+            "hash": "40fcce79bcd0000e2e643037a084d633"
+        },
+        {
+            "date": 1629263368436,
+            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-08-18.log",
+            "hash": "82659f34f1d3983df6636bbf0c2d4e38"
+        },
+        {
+            "date": 1629333560201,
+            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-08-19.log",
+            "hash": "9fd39a8a7a4207c737e58e58def6b77a"
+        },
+        {
+            "date": 1629431244650,
+            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-08-20.log",
+            "hash": "ac6c1a59f348d54b9aad62f6b6c95a40"
+        },
+        {
+            "date": 1629678404585,
+            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-08-23.log",
+            "hash": "30877348c3b7de9ef0b2d0c0d553af7e"
+        },
+        {
+            "date": 1629763489560,
+            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-08-24.log",
+            "hash": "d000b53da7d32bfff58815b278f94818"
+        },
+        {
+            "date": 1629850933672,
+            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-08-25.log",
+            "hash": "2e15b64c9d8802500917c5108d50bbe3"
+        },
+        {
+            "date": 1629936368693,
+            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-08-26.log",
+            "hash": "cac1fa889fd5fdb4d7afbe148934a7e3"
+        },
+        {
+            "date": 1630022924064,
+            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-08-27.log",
+            "hash": "483011068106ab6534d4d013318d5b13"
+        },
+        {
+            "date": 1630284699099,
+            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-08-30.log",
+            "hash": "cda31b430c04428399d5b386740ebc7d"
+        },
+        {
+            "date": 1630386869745,
+            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-08-31.log",
+            "hash": "32ea102afc2bbd1e62a33f0b34be573f"
+        },
+        {
+            "date": 1630454956185,
+            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-09-01.log",
+            "hash": "00fe620dabb8d10801d4d0bfcd69e2af"
+        },
+        {
+            "date": 1630543569192,
+            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-09-02.log",
+            "hash": "495298bad3a7247bbb8e42e745141393"
+        },
+        {
+            "date": 1631781922874,
+            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\info-2021-09-16.log",
+            "hash": "6efb7490a5f984a9109911f5fa3eb641"
         }
     ]
 }
