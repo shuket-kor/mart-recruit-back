@@ -16,10 +16,12 @@ module.exports = {
 
         // 공고 정보
         const recruitInfo = (seq) ? await recruitService.get(req.cookies.xToken, seq) : null;
+        console.log(recruitInfo);
         // 이력서 리스트
         const resumeList = (recruitInfo) ? await resumeService.listForRecruit(req.cookies.xToken, seq) : null;
         // 마트 정보
         const martInfo = (recruitInfo) ? await martService.get(req.cookies.xToken, recruitInfo.MART_SEQ) : null;
+        console.log(martInfo);
         res.render('recruitView', { 
             layout: 'layouts/default',
             moment: moment,

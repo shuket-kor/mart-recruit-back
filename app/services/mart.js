@@ -14,7 +14,7 @@ module.exports = class martService {
                     'userAgent': 'DEVICE-AGENT',
                     'Authorization': token
                 }, json : {
-                    seq: seq
+                    SEQ: seq
                 },
                 responseType: 'json'
             });

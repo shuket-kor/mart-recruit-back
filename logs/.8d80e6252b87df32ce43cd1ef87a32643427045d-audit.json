@@ -6,16 +6,6 @@
     "auditLog": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\.8d80e6252b87df32ce43cd1ef87a32643427045d-audit.json",
     "files": [
         {
-            "date": 1622074095277,
-            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\error-2021-05-27.log",
-            "hash": "d46b5f15e4810fa03df218510c351883"
-        },
-        {
-            "date": 1622421448807,
-            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\error-2021-05-31.log",
-            "hash": "ecd0768e758b07c3da6efb078566846e"
-        },
-        {
             "date": 1622506093565,
             "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\error-2021-06-01.log",
             "hash": "65401c228d7b937cf2900483e4cc878a"
@@ -154,6 +144,16 @@
             "date": 1631781922882,
             "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\error-2021-09-16.log",
             "hash": "6074f8da2832244084674a596b15cf4b"
+        },
+        {
+            "date": 1632444457561,
+            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\error-2021-09-24.log",
+            "hash": "11d2b78a7dbd53af37ba44b3e08b7842"
+        },
+        {
+            "date": 1632708545588,
+            "name": "C:\\Users\\82102\\Documents\\Project\\mart-recruit-back\\logs\\error-2021-09-27.log",
+            "hash": "340c78332cc2c9791518db7cd81df791"
         }
     ]
 }
